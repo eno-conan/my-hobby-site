@@ -10,6 +10,7 @@ First, run the development server:
 [Card、省略を適用する](https://qiita.com/kazufoot21/items/b381f4b9c4f44fa97aee)
 [リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
 [Typograpyの資料](https://mui.com/material-ui/api/typography/)
+[動的フォーム](https://note.com/note_fumi/n/naa2d4f16133b)
 
 ```bash
 npm run dev

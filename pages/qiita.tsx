@@ -25,6 +25,7 @@ import { Stack } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
+import CommonHeadline from '../components/CommonHeadline';
 
 // デザイン適用
 const Item = styled(Paper)(({ theme }) => ({
@@ -70,9 +71,7 @@ const Qiita = (props: any) => {
                 <button>submit</button>
             </form> */}
             <Container maxWidth="sm">
-                <Box sx={{ color: 'primary.success', p: 2 }}>
-                    <h1>Qiitaで情報取集</h1>
-                </Box>
+                <CommonHeadline headLine='Qiitaで情報取集' />
                 <Grid2 container spacing={2}>
                     <Grid2 xs={6} alignItems="center">
                         <Box component="span" sx={{ p: 6 }}>

@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 
+// ページのタイトル（chromeタブの文言などを設定）
 const CommonMeta = ({ title = "Photo Application", description = "This is Photo Application!!!!" }) => {
     return (
         <Head>
