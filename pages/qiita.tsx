@@ -70,9 +70,9 @@ const Qiita = (props: any) => {
                 <button>submit</button>
             </form> */}
             <Container maxWidth="sm">
-                <div>
-                    <h3>Hello</h3>
-                </div>
+                <Box sx={{ color: 'primary.success', p: 2 }}>
+                    <h1>Qiitaで情報取集</h1>
+                </Box>
                 <Grid2 container spacing={2}>
                     <Grid2 xs={6} alignItems="center">
                         <Box component="span" sx={{ p: 6 }}>
@@ -113,7 +113,7 @@ const Qiita = (props: any) => {
                     </Grid2>
                 </Grid2>
                 <Divider />
-                <div>
+                <Box sx={{ pt: 2 }}>
                     {/* この部分のレイアウトは要検討 */}
                     <Grid container spacing={2}>
                         {
@@ -147,21 +147,7 @@ const Qiita = (props: any) => {
                             ))
                         }
                     </Grid>
-                </div>
-                {/* <div>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: { xs: "column", md: "row" }, // <-- 画面幅によって切り替える。
-                            alignItems: { xs: 'center', md: 'flex-start' }, // <-- 画面幅によって切り替える。
-                            color: "white",
-                            bgcolor: { xs: "darkred", md: "blue" },
-                        }}
-                    >
-                        <Box>1</Box>
-                        <Box>2</Box>
-                    </Box>
-                </div> */}
+                </Box>
             </Container>
         </>
     )

@@ -16,16 +16,6 @@ export async function getData(): Promise<IQiitaArticle[]> {
     const response = await fetch(getDataUrl);
     const jsonData = await response.json();
     // console.log(jsonData[0])
-    /*
-    [
-        console.log(jsonData[0].tags[0].name);
-        { name: 'AWS', versions: [] },
-        { name: 'Docker', versions: [] },
-        { name: 'container', versions: [] },
-        { name: 'コンテナ', versions: [] },
-        { name: 'finch', versions: [] }
-    ]
-    */
     return jsonData.map((art: any) => {
         return {
             url: art.url,

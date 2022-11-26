@@ -11,6 +11,10 @@ export const sampleArticles: IQiitaArticle[] = [
 
 export const tags = [
     {
+        value: '',
+        label: '',
+    },
+    {
         value: 'AWS',
         label: 'AWS',
     },
