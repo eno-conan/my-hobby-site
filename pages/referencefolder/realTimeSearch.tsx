@@ -30,7 +30,7 @@ const allMemberList = [
         food: "ハンバーガー"
     }
 ];
-const realTimeSearch = () => {
+const RealTimeSearch = () => {
     const [inputValue, setInputValue] = useState("");
     const [memberList, setMemberList] = useState<MemberList>(allMemberList);
 
@@ -75,4 +75,4 @@ const realTimeSearch = () => {
     );
 }
 
-export default realTimeSearch
+export default RealTimeSearch

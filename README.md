@@ -1,8 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
-
+--legacy-peer-deps
+https://mui.com/material-ui/icons/
 First, run the development server:
+[ESLintを無視(next.config.jsに記載)](https://nextjs.org/docs/api-reference/next.config.js/ignoring-eslint)
 [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
 [realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
 [Gridの使い方、V1,2の2種類あるらしい](https://weblion303.net/1236)
@@ -11,6 +13,10 @@ First, run the development server:
 [リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
 [Typograpyの資料](https://mui.com/material-ui/api/typography/)
 [動的フォーム](https://note.com/note_fumi/n/naa2d4f16133b)
+[SelectのときにdefaultValueを設定しないと表示されるエラー](https://stackoverflow.com/questions/60813040/materialui-select-set-value-is-always-out-of-range)
+
+
+[記録の一覧表示に使用できそう?](https://mui.com/material-ui/react-stack/)
 
 ```bash
 npm run dev
