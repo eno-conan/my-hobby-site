@@ -14,9 +14,17 @@ First, run the development server:
 [Typograpyの資料](https://mui.com/material-ui/api/typography/)
 [動的フォーム](https://note.com/note_fumi/n/naa2d4f16133b)
 [SelectのときにdefaultValueを設定しないと表示されるエラー](https://stackoverflow.com/questions/60813040/materialui-select-set-value-is-always-out-of-range)
-
-
 [記録の一覧表示に使用できそう?](https://mui.com/material-ui/react-stack/)
+[react-form-errorMessage表示](https://react-hook-form.com/api/useformstate/errormessage)
+
+### Zod
+[機能一通り紹介](https://zenn.dev/uttk/articles/bd264fa884e026#.parse())
+[Error Handling Basic](https://tech.every.tv/entry/2022/03/31/170000)
+
+### markdown
+[markdownの入力](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82)
+[職務経歴書：mdからpdfへ](https://zenn.dev/ryo_kawamata/articles/resume-on-github)
+
 
 ```bash
 npm run dev

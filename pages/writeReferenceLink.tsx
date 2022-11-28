@@ -22,7 +22,7 @@ const WriteReferenceLink = () => {
         <>
             {/* <CommonMeta title={"addLinks"} />
             <CommonDrawer /> */}
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
                 {/* <CommonHeadline headLine='参照リンク追加' /> */}
                 <h3>参照リンク追加</h3>
                 <form onSubmit={handleSubmit(handleClick)}>

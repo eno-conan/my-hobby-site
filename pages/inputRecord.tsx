@@ -5,10 +5,18 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import CommonHeadline from '../components/CommonHeadline'
 import Paper from '@mui/material/Paper';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import WriteReferenceLink from './writeReferenceLink';
 import { GetServerSideProps } from 'next';
 import { Stack } from '@mui/material';
+import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ErrorMessage } from '@hookform/error-message';
+import {
+    SubmitErrorHandler as SubmitErrorHandlerOriginal,
+    SubmitHandler as SubmitHandlerOriginal,
+    useForm,
+    UseFormRegisterReturn,
+} from "react-hook-form"
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -25,35 +33,84 @@ const GetRepos = async () => {
     return res!;
 }
 
+// 入力項目を設定
+const schema = z.object({
+    title: z.string().min(5),
+    description: z.string().max(3),
+})
+
+type FormValues = z.infer<typeof schema>
+const defaultValues: FormValues = { title: "", description: "" } as const
+
 const InputRecord = (props: any) => {
-    const [repos, setRepos] = useState(['']);
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm({
+        mode: 'onSubmit',
+        resolver: zodResolver(schema),
+        defaultValues: defaultValues,
+    });
+
+    // 入力した内容を表示してみる
+    const tmp = () => {
+        console.log(getValues());
+    }
+
+    const eachField = (content: any, label: any, variant: any, registerName: any, multiline: any, maxRows: any) => {
+        return (
+            <>
+                <Grid2 xs={6} md={6}>
+                    {content}
+                </Grid2>
+                <Grid2 xs={12} md={12}>
+                    <TextField
+                        id="outlined-basic"
+                        label={label}
+                        variant={variant}
+                        multiline={multiline}
+                        fullWidth
+                        maxRows={maxRows}
+                        {...register(registerName)}
+                    />
+                    <ErrorMessage errors={errors} name={registerName} />
+                </Grid2>
+            </>
+        );
+    }
 
     return (
         <div>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
                 <CommonHeadline headLine='記録追加' />
                 <Grid2 container spacing={2}>
-                    <Grid2 xs={6} md={6}>
+                    {eachField("Record Title(Character Limit:100)", "Record Title", "outlined", "title", false, 0)}
+                    {eachField("Description(Character Limit:300)", "Description", "outlined", "description", true, 5)}
+                    {/* <Grid2 xs={6} md={6}>
                         Record Title(Character Limit:100)
                     </Grid2>
                     <Grid2 xs={12} md={12}>
-                        <TextField id="outlined-basic" label="Record Title" variant="outlined" fullWidth />
-                    </Grid2>
-                    <Grid2 xs={6} md={6}>
+                        <TextField
+                            id="outlined-basic"
+                            label="Record Title"
+                            variant="outlined"
+                            fullWidth
+                            {...register("title")}
+                        />
+                        <ErrorMessage errors={errors} name="title" />
+                    </Grid2> */}
+                    {/* <Grid2 xs={6} md={6}>
                         Description(Character Limit:300)
                     </Grid2>
                     <Grid2 xs={12} md={12}>
                         <TextField
-                            id="outlined-multiline-flexible"
+                            id="outlined-basic"
                             label="Description"
                             multiline
                             maxRows={5}
                             fullWidth
-                        // value={value}
-                        // onChange={handleChange}
+                            {...register("description")}
                         />
-                    </Grid2>
-                    <Grid2 xs={8} md={8}>
+                        <ErrorMessage errors={errors} name="description" />
+                    </Grid2> */}
+                    <Grid2 xs={6} md={6}>
                         GithubRepository(Empty is Ok)
                     </Grid2>
                     <Grid2 xs={12} md={12}>
@@ -63,9 +120,6 @@ const InputRecord = (props: any) => {
                             label="Select GitHub Repository"
                             fullWidth
                             defaultValue=""
-                        // value={currency}
-                        // onChange={handleChange}
-                        // helperText="Please select searchTag"
                         >
                             {props.repos && props.repos.map((option: any) => (
                                 <MenuItem key={option.reponame} value={option.reponame}>
@@ -74,44 +128,32 @@ const InputRecord = (props: any) => {
                             ))}
                         </TextField>
                     </Grid2>
-                    <Grid2 xs={8} md={8}>
+                    {eachField("Detail(Character Limit:1000)", "Detail", "outlined", "description", true, 30)}
+                    {/* <Grid2 xs={6} md={6}>
                         Detail(Character Limit:1000)
                     </Grid2>
                     <Grid2 xs={12} md={12}>
                         <TextField
                             id="outlined-multiline-flexible"
-                            label="Description"
+                            label="detail"
                             multiline
                             maxRows={30}
                             fullWidth
                         // value={value}
                         // onChange={handleChange}
                         />
-                        {/* <TextareaAutosize
-                            maxRows={20}
-                            aria-label="maximum height"
-                            placeholder="詳細をここに入力してください"
-                            style={{ width: 500 }}
-                        /> */}
-                        {/* <MuiMarkdown>abc</MuiMarkdown> */}
-                        {/* <MuiThemeProvider>
-                            <MarkdownEditor
-                                title="Foo"
-                                code="# Fancy markdown editor!"
-                            />
-                        </MuiThemeProvider> */}
-                    </Grid2>
+                    </Grid2> */}
                 </Grid2>
                 <WriteReferenceLink />
                 <Divider />
                 <Stack direction="row" spacing={2} justifyContent="right">
-                    <Button color="secondary">Secondary</Button>
-                    <Button variant="contained" color="success">
+                    <Button color="secondary">Clearとか？</Button>
+                    <Button variant="contained" color="success" onClick={handleSubmit(d => tmp())}>
                         Success
                     </Button>
                 </Stack>
             </Container>
-        </div>
+        </div >
     )
 }
 

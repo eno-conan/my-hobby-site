@@ -9,7 +9,8 @@ import { z } from "zod"
 
 const schema = z.object({
   name: z.string().min(5),
-  email: z.string().email(),
+  // email: z.string().email(),
+  email: z.string().min(2),
 })
 type FormValues = z.infer<typeof schema>
 const defaultValues: FormValues = { name: "", email: "" } as const
