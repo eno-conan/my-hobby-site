@@ -10,8 +10,9 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-// 参照したリンクを追加する部分(後でComponent?に移動かな)
 const WriteReferenceLink = () => {
+    // 参照リンクに関するフォームルールを取得(実装中)
+    // const { register, handleSubmit, getValues, errors } = inputRecordForm();
     const { handleSubmit, control } = useForm();
     const { fields, append, remove } = useFieldArray({ control, name: 'todo' });
 
@@ -20,8 +21,7 @@ const WriteReferenceLink = () => {
     };
     return (
         <>
-            {/* <CommonMeta title={"addLinks"} />
-            <CommonDrawer /> */}
+            {/* <CommonDrawer /> */}
             <Container maxWidth="md">
                 {/* <CommonHeadline headLine='参照リンク追加' /> */}
                 <h3>参照リンク追加</h3>

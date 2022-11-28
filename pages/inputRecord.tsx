@@ -1,22 +1,16 @@
-import { Container, Divider, MenuItem, MuiThemeProvider, TextField } from '@material-ui/core'
-import Button from '@mui/material/Button';
-import React, { useState } from 'react'
-import Grid2 from '@mui/material/Unstable_Grid2';
-import CommonHeadline from '../components/CommonHeadline'
-import Paper from '@mui/material/Paper';
-import { experimentalStyled as styled } from '@mui/material/styles';
-import WriteReferenceLink from './writeReferenceLink';
 import { GetServerSideProps } from 'next';
+import { Container, Divider, MenuItem, TextField } from '@material-ui/core'
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import Grid2 from '@mui/material/Unstable_Grid2';
+import { experimentalStyled as styled } from '@mui/material/styles';
 import { Stack } from '@mui/material';
-import { z } from "zod"
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState } from 'react'
+import CommonHeadline from '../components/CommonHeadline'
+import WriteReferenceLink from './writeReferenceLink';
 import { ErrorMessage } from '@hookform/error-message';
-import {
-    SubmitErrorHandler as SubmitErrorHandlerOriginal,
-    SubmitHandler as SubmitHandlerOriginal,
-    useForm,
-    UseFormRegisterReturn,
-} from "react-hook-form"
+import inputRecordForm from '../hooks/inputRecordForm';
+import CommonMeta from '../components/CommonMeta';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,28 +27,14 @@ const GetRepos = async () => {
     return res!;
 }
 
-// 入力項目を設定
-const schema = z.object({
-    title: z.string().min(5),
-    description: z.string().max(3),
-})
-
-type FormValues = z.infer<typeof schema>
-const defaultValues: FormValues = { title: "", description: "" } as const
-
+// 記録追加
 const InputRecord = (props: any) => {
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm({
-        mode: 'onSubmit',
-        resolver: zodResolver(schema),
-        defaultValues: defaultValues,
-    });
 
-    // 入力した内容を表示してみる
-    const tmp = () => {
-        console.log(getValues());
-    }
+    // タイトル・概要・詳細に関するフォームルールを取得
+    const { register, handleSubmit, getValues, errors } = inputRecordForm();
 
-    const eachField = (content: any, label: any, variant: any, registerName: any, multiline: any, maxRows: any) => {
+    // 各入力項目の表示方法を設定
+    const eachField = (content: any, label: any, registerName: any, multiline: any, maxRows: any) => {
         return (
             <>
                 <Grid2 xs={6} md={6}>
@@ -64,7 +44,7 @@ const InputRecord = (props: any) => {
                     <TextField
                         id="outlined-basic"
                         label={label}
-                        variant={variant}
+                        variant="outlined"
                         multiline={multiline}
                         fullWidth
                         maxRows={maxRows}
@@ -76,15 +56,34 @@ const InputRecord = (props: any) => {
         );
     }
 
+    // 入力した内容を表示してみる
+    const tmp = () => {
+        const method = 'POST';
+        const headers = {
+            'Accept': 'application/json'
+        };
+        const sendInfo = {
+            title: getValues().title,
+            description: getValues().description,
+            detail: getValues().detail
+        };
+        const body = JSON.stringify(sendInfo);
+        fetch('http://localhost:3000/api/record', { method, headers, body })
+            .then((res) => res.json())
+            .then(console.log).catch(console.error);
+    }
+
     return (
         <div>
+            <CommonMeta title={"記録追加"} />
             <Container maxWidth="md">
                 <CommonHeadline headLine='記録追加' />
                 <Grid2 container spacing={2}>
-                    {eachField("Record Title(Character Limit:100)", "Record Title", "outlined", "title", false, 0)}
-                    {eachField("Description(Character Limit:300)", "Description", "outlined", "description", true, 5)}
+                    {/* 項目の一覧に関する配列使ったらもっとみやすくなるかも */}
+                    {eachField("Record Title (character limit:1-100)", "Record Title", "title", false, 0)}
+                    {eachField("Description (character limit:1-300)", "Description", "description", true, 5)}
                     <Grid2 xs={6} md={6}>
-                        GithubRepository(Empty is Ok)
+                        Github Repository(Empty is Ok)
                     </Grid2>
                     <Grid2 xs={12} md={12}>
                         <TextField
@@ -101,7 +100,7 @@ const InputRecord = (props: any) => {
                             ))}
                         </TextField>
                     </Grid2>
-                    {eachField("Detail(Character Limit:1000)", "Detail", "outlined", "description", true, 30)}
+                    {eachField("Detail (character limit:1-1000)", "Detail(write MarkDown...)", "detail", true, 30)}
                 </Grid2>
                 <WriteReferenceLink />
                 <Divider />
@@ -114,6 +113,7 @@ const InputRecord = (props: any) => {
             </Container>
         </div >
     )
+
 }
 
 export default InputRecord

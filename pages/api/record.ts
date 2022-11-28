@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 /**
- * Githubのリポジトリ一覧を取得するAPI
+ * 記録についてテーブルに追加などを行うAPI
  * 
- * [GET]/api/githubRepos
+ * [POST]/api/record
  * 
- * @returns 見つかったリポジトリ一覧
+ * @returns 実行結果
  */
 export async function getData(): Promise<any> {
     const targetUrl = 'https://api.github.com/user/repos';
@@ -34,6 +34,10 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    const data = await getData();
+    const body = req.body;
+    console.log(body)
+    // const method = req.method;
+    // const data = await getData();
+    const data = 'Hello World';
     res.status(200).json(data);
 }

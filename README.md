@@ -3,19 +3,22 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 --legacy-peer-deps
 https://mui.com/material-ui/icons/
-First, run the development server:
 [ESLintを無視(next.config.jsに記載)](https://nextjs.org/docs/api-reference/next.config.js/ignoring-eslint)
+[react-form-errorMessage表示](https://react-hook-form.com/api/useformstate/errormessage)
+
+### Material UI
 [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
-[realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
 [Gridの使い方、V1,2の2種類あるらしい](https://weblion303.net/1236)
 [Grid、marginやPaddingの使い型](https://smartdevpreneur.com/mui-grid-spacing-padding-and-margin-a-styling-guide/)
 [Card、省略を適用する](https://qiita.com/kazufoot21/items/b381f4b9c4f44fa97aee)
-[リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
 [Typograpyの資料](https://mui.com/material-ui/api/typography/)
 [動的フォーム](https://note.com/note_fumi/n/naa2d4f16133b)
 [SelectのときにdefaultValueを設定しないと表示されるエラー](https://stackoverflow.com/questions/60813040/materialui-select-set-value-is-always-out-of-range)
 [記録の一覧表示に使用できそう?](https://mui.com/material-ui/react-stack/)
-[react-form-errorMessage表示](https://react-hook-form.com/api/useformstate/errormessage)
+
+### POST
+[POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)
+[POSTデータ登録(axios)](https://qiita.com/kaikusakari/items/1da54c021c19a03df5b2)
 
 ### Zod
 [機能一通り紹介](https://zenn.dev/uttk/articles/bd264fa884e026#.parse())
@@ -25,6 +28,9 @@ First, run the development server:
 [markdownの入力](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82)
 [職務経歴書：mdからpdfへ](https://zenn.dev/ryo_kawamata/articles/resume-on-github)
 
+### others
+[realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
+[リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
 
 ```bash
 npm run dev
