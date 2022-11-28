@@ -83,33 +83,6 @@ const InputRecord = (props: any) => {
                 <Grid2 container spacing={2}>
                     {eachField("Record Title(Character Limit:100)", "Record Title", "outlined", "title", false, 0)}
                     {eachField("Description(Character Limit:300)", "Description", "outlined", "description", true, 5)}
-                    {/* <Grid2 xs={6} md={6}>
-                        Record Title(Character Limit:100)
-                    </Grid2>
-                    <Grid2 xs={12} md={12}>
-                        <TextField
-                            id="outlined-basic"
-                            label="Record Title"
-                            variant="outlined"
-                            fullWidth
-                            {...register("title")}
-                        />
-                        <ErrorMessage errors={errors} name="title" />
-                    </Grid2> */}
-                    {/* <Grid2 xs={6} md={6}>
-                        Description(Character Limit:300)
-                    </Grid2>
-                    <Grid2 xs={12} md={12}>
-                        <TextField
-                            id="outlined-basic"
-                            label="Description"
-                            multiline
-                            maxRows={5}
-                            fullWidth
-                            {...register("description")}
-                        />
-                        <ErrorMessage errors={errors} name="description" />
-                    </Grid2> */}
                     <Grid2 xs={6} md={6}>
                         GithubRepository(Empty is Ok)
                     </Grid2>
@@ -129,20 +102,6 @@ const InputRecord = (props: any) => {
                         </TextField>
                     </Grid2>
                     {eachField("Detail(Character Limit:1000)", "Detail", "outlined", "description", true, 30)}
-                    {/* <Grid2 xs={6} md={6}>
-                        Detail(Character Limit:1000)
-                    </Grid2>
-                    <Grid2 xs={12} md={12}>
-                        <TextField
-                            id="outlined-multiline-flexible"
-                            label="detail"
-                            multiline
-                            maxRows={30}
-                            fullWidth
-                        // value={value}
-                        // onChange={handleChange}
-                        />
-                    </Grid2> */}
                 </Grid2>
                 <WriteReferenceLink />
                 <Divider />
