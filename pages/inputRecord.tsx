@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { Container, Divider, MenuItem, TextField } from '@material-ui/core'
+import { Box, Container, Divider, MenuItem, TextField } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid2 from '@mui/material/Unstable_Grid2';
@@ -11,6 +11,8 @@ import WriteReferenceLink from './writeReferenceLink';
 import { ErrorMessage } from '@hookform/error-message';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,7 +33,8 @@ const GetRepos = async () => {
 const InputRecord = (props: any) => {
 
     // タイトル・概要・詳細に関するフォームルールを取得
-    const { register, handleSubmit, getValues, errors } = inputRecordForm();
+    // const { register, handleSubmit, getValues, errors } = inputRecordForm();
+    const { fields, append, remove, register, handleSubmit, getValues, errors } = inputRecordForm();
 
     // 各入力項目の表示方法を設定
     const eachField = (content: any, label: any, registerName: any, multiline: any, maxRows: any) => {
@@ -58,7 +61,6 @@ const InputRecord = (props: any) => {
 
     // 入力した内容を表示してみる
     const tmp = () => {
-        console.log('a')
         const method = 'POST';
         const headers = {
             'Accept': 'application/json'
@@ -66,7 +68,8 @@ const InputRecord = (props: any) => {
         const sendInfo = {
             title: getValues().title,
             description: getValues().description,
-            detail: getValues().detail
+            detail: getValues().detail,
+            reference: getValues().reference
         };
         const body = JSON.stringify(sendInfo);
         fetch('http://localhost:3000/api/record', { method, headers, body })
@@ -75,7 +78,7 @@ const InputRecord = (props: any) => {
     }
 
     return (
-        <div>
+        <>
             <CommonMeta title={"記録追加"} />
             <Container maxWidth="md">
                 <CommonHeadline headLine='記録追加' />
@@ -103,7 +106,44 @@ const InputRecord = (props: any) => {
                     </Grid2>
                     {eachField("Detail (character limit:1-1000)", "Detail(write MarkDown...)", "detail", true, 30)}
                 </Grid2>
-                <WriteReferenceLink />
+                <div>
+                    <h3>参照リンク追加</h3>
+                    {fields.map((field, index) => {
+                        return (
+                            <div key={field.id}>
+                                <Grid2 container spacing={2}>
+                                    <Grid2 xs={5} alignItems="left">
+                                        <Box component="span">
+                                            <TextField
+                                                id="outlined-basic"
+                                                label="linkTitle"
+                                                variant="outlined"
+                                                multiline={false}
+                                                fullWidth
+                                                {...register(`reference.${index}.linkTitle`)} />
+                                            <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
+                                        </Box>
+                                    </Grid2>
+                                    <Grid2 xs={5} alignItems="left">
+                                        <Box component="span">
+                                            <TextField
+                                                id="outlined-basic"
+                                                label="linkUrl"
+                                                variant="outlined"
+                                                multiline={false}
+                                                fullWidth
+                                                {...register(`reference.${index}.linkUrl`)} />
+                                            <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
+                                        </Box>
+                                    </Grid2>
+                                    <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
+                                </Grid2>
+                            </div>
+                        )
+                    })}
+                </div>
+                <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
+                {/* <WriteReferenceLink /> */}
                 <Divider />
                 <Stack direction="row" spacing={2} justifyContent="right">
                     <Button color="secondary">Clearとか？</Button>
@@ -112,7 +152,7 @@ const InputRecord = (props: any) => {
                     </Button>
                 </Stack>
             </Container>
-        </div >
+        </>
     )
 
 }
