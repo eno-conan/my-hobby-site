@@ -1,12 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { string, z } from 'zod'
 import { useForm } from "react-hook-form"
 
-const RefInfo = z.object({
-    linkTitle: z.string().max(10),
-    linkUrl: z.string().max(10),
-})
 
+interface IRef {
+    linkTitle: string,
+    linkUrl: string
+}
+
+const RefInfo = z.object({
+    linkTitle: z.string().min(1),
+    linkUrl: z.string().min(1),
+})
 
 const schema = z.object({
     title: z.string().min(3),
@@ -19,7 +24,7 @@ type FormValues = z.infer<typeof schema>
 let defaultValues: FormValues = { title: '', description: '', detail: '', reference: [{ linkTitle: '', linkUrl: '' }] }
 
 const inputRecordForm = () => {
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm({
+    const { register, handleSubmit, getValues, formState: { errors }, control } = useForm({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: defaultValues,
@@ -28,6 +33,7 @@ const inputRecordForm = () => {
         register,
         handleSubmit,
         getValues,
+        control,
         errors
     }
 }

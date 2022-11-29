@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { Container, Divider, MenuItem, TextField } from '@material-ui/core'
+import { Box, Container, Divider, MenuItem, TextField } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid2 from '@mui/material/Unstable_Grid2';
@@ -11,6 +11,9 @@ import WriteReferenceLink from './writeReferenceLink';
 import { ErrorMessage } from '@hookform/error-message';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,7 +34,12 @@ const GetRepos = async () => {
 const InputRecord = (props: any) => {
 
     // タイトル・概要・詳細に関するフォームルールを取得
-    const { register, handleSubmit, getValues, errors } = inputRecordForm();
+    const { register, handleSubmit, getValues, control, errors } = inputRecordForm();
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "reference",
+    });
 
     // 各入力項目の表示方法を設定
     const eachField = (content: any, label: any, registerName: any, multiline: any, maxRows: any) => {
@@ -58,7 +66,6 @@ const InputRecord = (props: any) => {
 
     // 入力した内容を表示してみる
     const tmp = () => {
-        console.log('a')
         const method = 'POST';
         const headers = {
             'Accept': 'application/json'
@@ -103,7 +110,9 @@ const InputRecord = (props: any) => {
                     </Grid2>
                     {eachField("Detail (character limit:1-1000)", "Detail(write MarkDown...)", "detail", true, 30)}
                 </Grid2>
-                <WriteReferenceLink />
+
+                <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
+                {/* <WriteReferenceLink /> */}
                 <Divider />
                 <Stack direction="row" spacing={2} justifyContent="right">
                     <Button color="secondary">Clearとか？</Button>
