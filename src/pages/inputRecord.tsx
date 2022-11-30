@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { Box, Container, Divider, MenuItem, TextField } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -7,12 +7,14 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import { Stack } from '@mui/material';
 import React, { useState } from 'react'
 import CommonHeadline from '../components/CommonHeadline'
-import WriteReferenceLink from './writeReferenceLink';
+import WriteReferenceLink from './_writeReferenceLink';
 import { ErrorMessage } from '@hookform/error-message';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
+import useSWR from 'swr';
+import CommonDrawer from '../components/CommonDrawer';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -23,20 +25,32 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 // データ取得
-const GetRepos = async () => {
-    const response = await fetch('http://localhost:3000/api/githubRepos');
-    const res = await response.json();
-    return res!;
-}
+// const GetRepos = async () => {
+//     const response = await fetch('http://localhost:3000/api/githubRepos');
+//     const res = await response.json();
+//     return res!;
+// }
+
+const fetcher = (url: string) =>
+    fetch(url).then(async (res) => {
+        return res.json();
+    });
 
 // 記録追加
-const InputRecord = (props: any) => {
+const InputRecord: NextPage = () => {
+
+    const { data, error } = useSWR(
+        'http://localhost:3000/api/githubRepos',
+        fetcher
+    );
+
+    // console.log(data);
 
     // タイトル・概要・詳細に関するフォームルールを取得
-    // const { register, handleSubmit, getValues, errors } = inputRecordForm();
     const { fields, append, remove, register, handleSubmit, getValues, errors } = inputRecordForm();
 
     // 各入力項目の表示方法を設定
+    // 引数の1つに、テキストボックスか選択肢かを設定してTextFieldの内容を動的に設定できるようにする
     const eachField = (content: any, label: any, registerName: any, multiline: any, maxRows: any) => {
         return (
             <>
@@ -77,8 +91,14 @@ const InputRecord = (props: any) => {
             .then(console.log).catch(console.error);
     }
 
+    if (!data) return (
+        <Container maxWidth="md">
+            <div>Loading...</div>
+        </Container>
+    );
     return (
         <>
+            <CommonDrawer />
             <CommonMeta title={"記録追加"} />
             <Container maxWidth="md">
                 <CommonHeadline headLine='記録追加' />
@@ -97,7 +117,7 @@ const InputRecord = (props: any) => {
                             fullWidth
                             defaultValue=""
                         >
-                            {props.repos && props.repos.map((option: any) => (
+                            {data && data.map((option: any) => (
                                 <MenuItem key={option.reponame} value={option.reponame}>
                                     {option.reponame}
                                 </MenuItem>
@@ -159,8 +179,8 @@ const InputRecord = (props: any) => {
 
 export default InputRecord
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const res: any = await GetRepos();
-    return { props: { repos: res } };
-};
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//     const res: any = await GetRepos();
+//     return { props: { repos: res } };
+// };
 

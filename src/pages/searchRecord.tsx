@@ -1,4 +1,8 @@
-import * as React from 'react';
+import { Container } from '@material-ui/core'
+import React, { useState } from 'react'
+import CommonDrawer from '../components/CommonDrawer'
+import CommonHeadline from '../components/CommonHeadline'
+import CommonMeta from '../components/CommonMeta'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,11 +11,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import CommonHeadline from '../components/CommonHeadline';
-import { Container } from '@material-ui/core';
 
+// ステータス（完了と未完了だけでよき？）・タイトル・概要の頭N文字・gitHubRepo・更新日時
 interface Column {
-    id: 'name' | 'code' | 'population' | 'size' | 'density';
+    id: 'title' | 'description' | 'GithubRepo' | 'updated_at';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -19,47 +22,38 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+    { id: 'title', label: 'Title', minWidth: 170 },
+    { id: 'description', label: 'ISO\u00a0description', minWidth: 100 },
     {
-        id: 'population',
-        label: 'Population',
+        id: 'GithubRepo',
+        label: 'GithubRepo',
         minWidth: 170,
         align: 'right',
         format: (value: number) => value.toLocaleString('en-US'),
     },
     {
-        id: 'size',
-        label: 'Size\u00a0(km\u00b2)',
+        id: 'updated_at',
+        label: 'updated_at\u00a0(km\u00b2)',
         minWidth: 170,
         align: 'right',
         format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'density',
-        label: 'Density',
-        minWidth: 170,
-        align: 'right',
-        format: (value: number) => value.toFixed(2),
-    },
+    }
 ];
 
-interface Data {
-    name: string;
-    code: string;
-    population: number;
-    size: number;
-    density: number;
+interface IData {
+    title: string;
+    description: string;
+    GithubRepo: number;
+    updated_at: number;
 }
 
 function createData(
-    name: string,
-    code: string,
-    population: number,
-    size: number,
-): Data {
-    const density = population / size;
-    return { name, code, population, size, density };
+    title: string,
+    description: string,
+    GithubRepo: number,
+    updated_at: number,
+): IData {
+    return { title, description, GithubRepo, updated_at };
 }
 
 const rows = [
@@ -80,9 +74,12 @@ const rows = [
     createData('Brazil', 'BR', 210147125, 8515767),
 ];
 
-export default function Records() {
+// 記録検索画面の作成
+const searchRecord = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [inputValue, setInputValue] = useState("");
+    const [records, setRecords] = React.useState<Array<IData>>(rows);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -93,10 +90,40 @@ export default function Records() {
         setPage(0);
     };
 
+    const search = (value: string) => {
+        if (value !== "") {
+            const filteredList = rows.filter((member: IData) =>
+                Object.values(member.title).some(
+                    (m: string) =>
+                        m.toUpperCase().indexOf(value.toUpperCase()) !== -1
+                )
+            );
+            setRecords(filteredList);
+            return;
+        }
+
+        setRecords(rows);
+        return;
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+        search(e.target.value);
+    };
     return (
-        <>
+        <div>
+            <CommonDrawer />
+            <CommonMeta title={"記録検索"} />
             <Container maxWidth="md">
-                <CommonHeadline headLine='記録一覧' />
+                <CommonHeadline headLine='記録検索' />
+                <h3>検索条件</h3>
+                <h5>GitHubのリポジトリ</h5>
+                <h5>タイトル</h5>
+                <h5>参照リンクのタイトル</h5>
+                <div>
+                    <span style={{ marginRight: "5px" }}>検索フォーム</span>
+                    <input type="text" value={inputValue} onChange={handleChange} />
+                </div>
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
@@ -114,11 +141,11 @@ export default function Records() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows
+                                {records
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((row) => {
                                         return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.description}>
                                                 {columns.map((column) => {
                                                     const value = row[column.id];
                                                     return (
@@ -145,6 +172,8 @@ export default function Records() {
                         onRowsPerPageChange={handleChangeRowsPerPage} />
                 </Paper>
             </Container>
-        </>
-    );
+        </div>
+    )
 }
+
+export default searchRecord
