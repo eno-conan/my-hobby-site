@@ -93,7 +93,7 @@ const InputRecord: NextPage = () => {
 
     if (!data) return (
         <Container maxWidth="md">
-            <div>Loading...</div>
+            <h4>Loading...</h4>
         </Container>
     );
     return (

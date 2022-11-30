@@ -35,7 +35,7 @@ export default async function handler(
     res: NextApiResponse<any>
 ) {
     const body = req.body;
-    console.log(body)
+    // console.log(JSON.stringify(body, null, '\t'));
     // const method = req.method;
     // const data = await getData();
     const data = 'Hello World';
