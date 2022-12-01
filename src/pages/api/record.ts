@@ -34,10 +34,9 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    const body = req.body;
+    // const body = req.body;
     // console.log(JSON.stringify(body, null, '\t'));
     // const method = req.method;
-    // const data = await getData();
-    const data = 'Hello World';
-    res.status(200).json(data);
+    const dummyData = '{"title":"aaa","description":"sssss","detail":"ddddd","reference":[{"linkTitle":"asasa","linkUrl":"dadas"}]}';
+    res.status(200).json(JSON.parse(dummyData));
 }

@@ -92,10 +92,10 @@ const searchRecord = () => {
 
     const search = (value: string) => {
         if (value !== "") {
-            const filteredList = rows.filter((member: IData) =>
-                Object.values(member.title).some(
-                    (m: string) =>
-                        m.toUpperCase().indexOf(value.toUpperCase()) !== -1
+            const filteredList = rows.filter((rcd: IData) =>
+                Object.values(rcd).some(
+                    (info: string) =>
+                        info.toString().toUpperCase().indexOf(value.toUpperCase()) !== -1
                 )
             );
             setRecords(filteredList);
