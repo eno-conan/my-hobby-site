@@ -21,17 +21,24 @@ https://mui.com/material-ui/icons/
 [POSTデータ登録(axios)](https://qiita.com/kaikusakari/items/1da54c021c19a03df5b2)
 
 ### Zod
+[Zodユースケース](https://zenn.dev/kaz_z/articles/how-to-use-zod)
 [機能一通り紹介](https://zenn.dev/uttk/articles/bd264fa884e026#.parse())
 [Error Handling Basic](https://tech.every.tv/entry/2022/03/31/170000)
 [ネストフォーム](https://zenn.dev/maro12/articles/7d011d3dfed5d4#%E8%A8%98%E4%BA%8B%E3%81%AE%E6%A6%82%E8%A6%81)
 
 ### markdown
+[Next.js + react-markdownでローカルのmarkdownをSSG](https://zenn.dev/asazutaiga/articles/be2a8a5f428a38)
 [markdownの入力](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82)
 [職務経歴書：mdからpdfへ](https://zenn.dev/ryo_kawamata/articles/resume-on-github)
 
 ### others
 [realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
 [リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
+[publicDirにおいたファイルを画面からダウンロードする](https://reactgo.com/react-download-file-on-button-click/)
+[アップロードしたファイルの中身を取得したい](https://ja.javascript.info/file)
+
+### aws
+[ドラッグ&ドロップでファイルアップロード](https://zenn.dev/jinwatanabe/articles/66c712e44661d9#aws-sdk)
 
 ```bash
 npm run dev
