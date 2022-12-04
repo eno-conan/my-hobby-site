@@ -38,6 +38,8 @@ https://mui.com/material-ui/icons/
 
 
 ### others
+[22/12/04:表示ページのパスを取得1](https://www.delftstack.com/ja/howto/react/react-get-current-url/)
+[22/12/04:表示ページのパスを取得2](https://dev-k.hatenablog.com/entry/how-to-access-the-window-object-in-nextjs-dev-k)
 [realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
 [リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
 

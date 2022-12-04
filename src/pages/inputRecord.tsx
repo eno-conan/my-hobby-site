@@ -49,7 +49,6 @@ const fetcher = (url: string) =>
 const InputRecord: NextPage = () => {
     const [host, setHost] = useState('');
     useEffect(() => {
-        // console.log(window.location.href.split('/inputRecord')[0]);
         setHost(window.location.href.split('/inputRecord')[0]);
     }, []);
 
