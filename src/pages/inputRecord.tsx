@@ -17,6 +17,13 @@ import CommonDrawer from '../components/CommonDrawer';
 import WriteMarkdown from './WriteMarkdown';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import {
+    DESCRIPTION_DISPLAY_VALUE,
+    DETAIL_DISPLAY_VALUE,
+    GITHUB_REPO_DISPLAY_VALUE,
+    REFER_LINK_DISPLAY_VALUE,
+    TITLE_DISPLAY_VALUE
+} from '../consts/inputField';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -50,7 +57,7 @@ const InputRecord: NextPage = () => {
     const { fields, append, remove, register, handleSubmit, getValues, errors } = inputRecordForm();
     // switchの状態管理
     const [state, setState] = React.useState({
-        checkedA: false,
+        markdown: false,
     });
     // markDownを使用した場合の値管理
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
@@ -60,24 +67,36 @@ const InputRecord: NextPage = () => {
     };
 
     // 各入力項目の表示方法を設定
-    const inputField = (fieldName: string, label: any, multiline: boolean, selectField: boolean, width: number[]) => {
+    const inputField = (fieldName: string, label: any, multiline: boolean, selectField: boolean, width: number[], data?: any) => {
         return (
             <>
                 <Grid2 xs={width[0]} md={width[0]}>
-                    <Box component="span">
+                    <Box component='span'>
                         {fieldName}
                     </Box>
                 </Grid2>
                 <Grid2 xs={width[1]} md={width[1]}>
-                    <Box component="span">
+                    <Box component='span'>
                         <TextField
+                            variant='outlined'
+                            fullWidth
                             id={label}
                             label={label}
-                            variant="outlined"
                             multiline={multiline}
-                            fullWidth
+                            select={selectField}
                             {...register(label)}
-                        />
+                        >
+                            {/* Github専用だけども */}
+                            {data ?
+                                data.map((option: any) => (
+                                    <MenuItem key={option.reponame} value={option.reponame}>
+                                        {option.reponame}
+                                    </MenuItem>
+                                ))
+                                :
+                                <></>
+                            }
+                        </TextField>
                         <ErrorMessage errors={errors} name={label} />
                     </Box>
                 </Grid2>
@@ -85,7 +104,68 @@ const InputRecord: NextPage = () => {
         );
     }
 
-    // 入力した内容を表示
+    // 詳細部分の表示
+    const detailField = (markdown: boolean) => {
+        return (
+            <>
+                <Grid2 xs={12} md={12}>
+                    {DETAIL_DISPLAY_VALUE}
+                </Grid2>
+                <Grid2 xs={12} md={12}>
+                    <FormGroup row>
+                        <FormControlLabel
+                            control={<Switch checked={state.markdown} onChange={handleChange} name='markdown' />}
+                            label='Markdownで記述'
+                        />
+                    </FormGroup>
+                </Grid2>
+                {state.markdown ?
+                    <>
+                        <Grid2 xs={12} md={12}>
+                            <WriteMarkdown setValueUseMarkdown={setValueUseMarkdown} />
+                        </Grid2>
+                    </>
+                    :
+                    <>
+                        {inputField('', 'detail', false, false, [6, 12])}
+                    </>
+                }
+            </>
+        )
+    }
+
+    // 参照リンクの記載箇所
+    const referenceField = (index: number) => {
+        return (
+            <Grid2 container spacing={2}>
+                <Grid2 xs={5} alignItems='left'>
+                    <Box component='span'>
+                        <TextField
+                            label='linkTitle'
+                            variant='outlined'
+                            multiline={false}
+                            fullWidth
+                            {...register(`reference.${index}.linkTitle`)} />
+                        <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
+                    </Box>
+                </Grid2>
+                <Grid2 xs={5} alignItems='left'>
+                    <Box component='span'>
+                        <TextField
+                            label='linkUrl'
+                            variant='outlined'
+                            multiline={false}
+                            fullWidth
+                            {...register(`reference.${index}.linkUrl`)} />
+                        <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
+                    </Box>
+                </Grid2>
+                <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
+            </Grid2>
+        )
+    }
+
+    // 入力内容送信
     const sendRegistInfo = () => {
         const method = 'POST';
         const headers = {
@@ -93,7 +173,7 @@ const InputRecord: NextPage = () => {
         };
         // 詳細情報はtextかmarkdownで設定値を切替
         let detailInfo: string = '';
-        if (state.checkedA) {
+        if (state.markdown) {
             detailInfo = valueUseMarkdown;
         } else {
             detailInfo = getValues().detail
@@ -113,101 +193,40 @@ const InputRecord: NextPage = () => {
     }
 
     if (!data) return (
-        <Container maxWidth="md">
+        <Container maxWidth='md'>
             <h4>Loading...</h4>
         </Container>
     );
     return (
         <>
             <CommonDrawer />
-            <CommonMeta title={"記録追加"} />
-            <Container maxWidth="md">
+            <CommonMeta title={'記録追加'} />
+            <Container maxWidth='md'>
                 <CommonHeadline headLine='記録追加' />
                 <Grid2 container spacing={2}>
-                    {inputField("Record Title (character limit:1-100)", "title", false, false, [6, 12])}
-                    {inputField("Description (character limit:1-300)", "description", false, false, [6, 12])}
-                    <Grid2 xs={6} md={6}>
-                        Github Repository(Empty is Ok)
-                    </Grid2>
-                    <Grid2 xs={12} md={12}>
-                        <TextField
-                            id="githubRepo"
-                            select
-                            label="Select GitHub Repository"
-                            fullWidth
-                            defaultValue=""
-                            {...register('githubRepo')}
-                        >
-                            {data && data.map((option: any) => (
-                                <MenuItem key={option.reponame} value={option.reponame}>
-                                    {option.reponame}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid2>
-                    <Grid2 xs={12} md={12}>
-                        <FormGroup row>
-                            <FormControlLabel
-                                control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />}
-                                label="Write Markdown"
-                            />
-                        </FormGroup>
-                    </Grid2>
-                    {state.checkedA ?
-                        <>
-                            <Grid2 xs={12} md={12}>
-                                Detail (character limit:1-1000)
-                            </Grid2>
-                            <Grid2 xs={12} md={12}>
-                                <WriteMarkdown valueUseMarkdown={valueUseMarkdown} />
-                            </Grid2>
-                        </>
-                        :
-                        <>
-                            {inputField(" Detail (character limit:1-1000)", "detail", false, false, [6, 12])}
-                        </>}
+                    {/*題名・概要・リポジトリ・詳細 */}
+                    {inputField(TITLE_DISPLAY_VALUE, 'title', false, false, [6, 12])}
+                    {inputField(DESCRIPTION_DISPLAY_VALUE, 'description', false, false, [6, 12])}
+                    {inputField(GITHUB_REPO_DISPLAY_VALUE, 'githubRepo', false, true, [6, 12], data)}
+                    {detailField(state.markdown)}
                 </Grid2>
-                <div>
-                    <h3>参照リンク追加</h3>
-                    {fields.map((field, index) => {
+                <Stack spacing={2}>
+                    <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
+                    {fields.map((field: any, index: number) => {
                         return (
-                            <div key={field.id}>
-                                <Grid2 container spacing={2}>
-                                    <Grid2 xs={5} alignItems="left">
-                                        <Box component="span">
-                                            <TextField
-                                                id="outlined-basic"
-                                                label="linkTitle"
-                                                variant="outlined"
-                                                multiline={false}
-                                                fullWidth
-                                                {...register(`reference.${index}.linkTitle`)} />
-                                            <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
-                                        </Box>
-                                    </Grid2>
-                                    <Grid2 xs={5} alignItems="left">
-                                        <Box component="span">
-                                            <TextField
-                                                id="outlined-basic"
-                                                label="linkUrl"
-                                                variant="outlined"
-                                                multiline={false}
-                                                fullWidth
-                                                {...register(`reference.${index}.linkUrl`)} />
-                                            <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
-                                        </Box>
-                                    </Grid2>
-                                    <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
-                                </Grid2>
-                            </div>
+                            <>
+                                <div key={field.id}>
+                                    {referenceField(index)}
+                                </div>
+                            </>
                         )
                     })}
-                </div>
+                </Stack>
                 <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
                 <Divider />
-                <Stack direction="row" spacing={2} justifyContent="right">
-                    {/* <Button color="secondary">Clearとか？</Button> */}
-                    <Button variant="contained" color="success" onClick={handleSubmit(d => sendRegistInfo())}>
+                <Stack direction='row' spacing={2} justifyContent='right'>
+                    {/* <Button color='secondary'>Clearとか？</Button> */}
+                    <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegistInfo())}>
                         Success
                     </Button>
                 </Stack>

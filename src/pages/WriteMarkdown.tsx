@@ -11,7 +11,9 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false }
 
 
 interface Props {
-    valueUseMarkdown: string;
+    setValueUseMarkdown: React.Dispatch<
+        React.SetStateAction<string>
+    >;
 }
 
 const WriteMarkdown = (props: Props) => {
@@ -22,10 +24,12 @@ const WriteMarkdown = (props: Props) => {
         },
     });
 
+    // 画面表示の値管理
     const [markdownValue, setMarkdownValue] = useState("");
-
     const onChange = (text: any) => {
         setMarkdownValue(text);
+        // 送信情報に設定
+        props.setValueUseMarkdown(text);
     };
 
     return (
