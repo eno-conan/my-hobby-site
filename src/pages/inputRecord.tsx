@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import { Stack } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CommonHeadline from '../components/CommonHeadline';
 import { ErrorMessage } from '@hookform/error-message';
 import inputRecordForm from '../hooks/inputRecordForm';
@@ -47,9 +47,16 @@ const fetcher = (url: string) =>
 
 // 記録追加
 const InputRecord: NextPage = () => {
+    const [host, setHost] = useState('');
+    useEffect(() => {
+        // console.log(window.location.href.split(':3000')[0])
+        setHost(window.location.href.split(':3000')[0]);
+    }, []);
+    // console.log(window.location.href);
+    // console.log(hostName);
 
     const { data, error } = useSWR(
-        'http://localhost:3000/api/githubRepos',
+        `${host}:3000/api/githubRepos`,
         fetcher
     );
 

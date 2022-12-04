@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import useSWR from "swr";
-import styles from "../styles/Home.module.css";
+import styles from "../../styles/Home.module.css";
 
 
 function sleep(msec: number) {
