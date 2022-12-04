@@ -17,7 +17,6 @@ import CommonDrawer from '../components/CommonDrawer';
 import WriteMarkdown from './WriteMarkdown';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
-import CommonInputField from '../components/CommonInputField';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -49,20 +48,18 @@ const InputRecord: NextPage = () => {
 
     // タイトル・概要・詳細に関するフォームルールを取得
     const { fields, append, remove, register, handleSubmit, getValues, errors } = inputRecordForm();
-    // switchButtonの表示・非表示
-    const [checked, setChecked] = useState(false);
     // switchの状態管理
     const [state, setState] = React.useState({
         checkedA: false,
     });
-
+    // markDownを使用した場合の値管理
+    const [valueUseMarkdown, setValueUseMarkdown] = useState('');
     // TextとMarkDownの切り替え
     const handleChange = (event: any) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
     // 各入力項目の表示方法を設定
-    // 引数の1つに、テキストボックスか選択肢かを設定してTextFieldの内容を動的に設定できるようにする
     const inputField = (fieldName: string, label: any, multiline: boolean, selectField: boolean, width: number[]) => {
         return (
             <>
@@ -94,11 +91,19 @@ const InputRecord: NextPage = () => {
         const headers = {
             'Accept': 'application/json'
         };
+        // 詳細情報はtextかmarkdownで設定値を切替
+        let detailInfo: string = '';
+        if (state.checkedA) {
+            detailInfo = valueUseMarkdown;
+        } else {
+            detailInfo = getValues().detail
+        }
+        // 送信情報の設定
         const sendInfo = {
             title: getValues().title,
             description: getValues().description,
             githubRepo: getValues().githubRepo,
-            detail: getValues().detail,
+            detail: detailInfo,
             reference: getValues().reference
         };
         const body = JSON.stringify(sendInfo);
@@ -119,9 +124,7 @@ const InputRecord: NextPage = () => {
             <Container maxWidth="md">
                 <CommonHeadline headLine='記録追加' />
                 <Grid2 container spacing={2}>
-                    {/* 項目の一覧に関する配列使ったらもっとみやすくなるかも */}
                     {inputField("Record Title (character limit:1-100)", "title", false, false, [6, 12])}
-                    {/* <CommonInputField fieldName={''} label={'title'} multiline={false} selectField={false} register={register} errors={errors} /> */}
                     {inputField("Description (character limit:1-300)", "description", false, false, [6, 12])}
                     <Grid2 xs={6} md={6}>
                         Github Repository(Empty is Ok)
@@ -150,17 +153,19 @@ const InputRecord: NextPage = () => {
                             />
                         </FormGroup>
                     </Grid2>
-                    {state.checkedA ? <>
-                        <Grid2 xs={12} md={12}>
-                            Detail (character limit:1-1000)
-                        </Grid2>
-                        <Grid2 xs={12} md={12}>
-                            {/* 記載と表示で別ファイルにしようかな */}
-                            <WriteMarkdown />
-                        </Grid2>
-                    </> : <>
-                        {inputField(" Detail (character limit:1-1000)", "detail", false, false, [6, 12])}
-                    </>}
+                    {state.checkedA ?
+                        <>
+                            <Grid2 xs={12} md={12}>
+                                Detail (character limit:1-1000)
+                            </Grid2>
+                            <Grid2 xs={12} md={12}>
+                                <WriteMarkdown valueUseMarkdown={valueUseMarkdown} />
+                            </Grid2>
+                        </>
+                        :
+                        <>
+                            {inputField(" Detail (character limit:1-1000)", "detail", false, false, [6, 12])}
+                        </>}
                 </Grid2>
                 <div>
                     <h3>参照リンク追加</h3>
@@ -201,7 +206,7 @@ const InputRecord: NextPage = () => {
                 <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
                 <Divider />
                 <Stack direction="row" spacing={2} justifyContent="right">
-                    <Button color="secondary">Clearとか？</Button>
+                    {/* <Button color="secondary">Clearとか？</Button> */}
                     <Button variant="contained" color="success" onClick={handleSubmit(d => sendRegistInfo())}>
                         Success
                     </Button>

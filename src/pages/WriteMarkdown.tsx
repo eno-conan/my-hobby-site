@@ -10,7 +10,11 @@ import xss from "xss";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 
 
-const WriteMarkdown = () => {
+interface Props {
+    valueUseMarkdown: string;
+}
+
+const WriteMarkdown = (props: Props) => {
     // ハイライトの設定
     marked.setOptions({
         highlight: (code: any, lang: any) => {
