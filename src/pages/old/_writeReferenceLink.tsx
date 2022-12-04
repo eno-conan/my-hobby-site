@@ -1,9 +1,9 @@
 import React from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { Button, Container, TextField } from '@material-ui/core';
-import CommonMeta from '../components/CommonMeta';
-import CommonDrawer from '../components/CommonDrawer';
-import CommonHeadline from '../components/CommonHeadline';
+import CommonMeta from '../../components/CommonMeta';
+import CommonDrawer from '../../components/CommonDrawer';
+import CommonHeadline from '../../components/CommonHeadline';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';

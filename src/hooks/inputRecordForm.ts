@@ -9,14 +9,15 @@ const RefInfo = z.object({
 
 
 const schema = z.object({
-    title: z.string().min(3),
-    description: z.string().min(3),
-    detail: z.string().min(3),
+    title: z.string().min(1),
+    description: z.string().min(1),
+    githubRepo: z.string().min(1).or(z.literal('')),
+    detail: z.string().min(1),
     reference: z.array(RefInfo)
 })
 
 type FormValues = z.infer<typeof schema>
-let defaultValues: FormValues = { title: '', description: '', detail: '', reference: [] }
+let defaultValues: FormValues = { title: '', description: '', githubRepo: '', detail: '', reference: [] }
 
 const inputRecordForm = () => {
     const { register, handleSubmit, getValues, formState: { errors }, control } = useForm({

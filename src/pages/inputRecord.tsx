@@ -1,13 +1,12 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Box, Container, Divider, MenuItem, TextField } from '@material-ui/core'
+import { Box, Container, Divider, MenuItem, TextField, Switch } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import { Stack } from '@mui/material';
 import React, { useState } from 'react'
-import CommonHeadline from '../components/CommonHeadline'
-import WriteReferenceLink from './_writeReferenceLink';
+import CommonHeadline from '../components/CommonHeadline';
 import { ErrorMessage } from '@hookform/error-message';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
@@ -15,6 +14,10 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import useSWR from 'swr';
 import CommonDrawer from '../components/CommonDrawer';
+import WriteMarkdown from './WriteMarkdown';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import CommonInputField from '../components/CommonInputField';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -44,37 +47,49 @@ const InputRecord: NextPage = () => {
         fetcher
     );
 
-    // console.log(data);
-
     // タイトル・概要・詳細に関するフォームルールを取得
     const { fields, append, remove, register, handleSubmit, getValues, errors } = inputRecordForm();
+    // switchButtonの表示・非表示
+    const [checked, setChecked] = useState(false);
+    // switchの状態管理
+    const [state, setState] = React.useState({
+        checkedA: false,
+    });
+
+    // TextとMarkDownの切り替え
+    const handleChange = (event: any) => {
+        setState({ ...state, [event.target.name]: event.target.checked });
+    };
 
     // 各入力項目の表示方法を設定
     // 引数の1つに、テキストボックスか選択肢かを設定してTextFieldの内容を動的に設定できるようにする
-    const eachField = (content: any, label: any, registerName: any, multiline: any, maxRows: any) => {
+    const inputField = (fieldName: string, label: any, multiline: boolean, selectField: boolean, width: number[]) => {
         return (
             <>
-                <Grid2 xs={6} md={6}>
-                    {content}
+                <Grid2 xs={width[0]} md={width[0]}>
+                    <Box component="span">
+                        {fieldName}
+                    </Box>
                 </Grid2>
-                <Grid2 xs={12} md={12}>
-                    <TextField
-                        id="outlined-basic"
-                        label={label}
-                        variant="outlined"
-                        multiline={multiline}
-                        fullWidth
-                        maxRows={maxRows}
-                        {...register(registerName)}
-                    />
-                    <ErrorMessage errors={errors} name={registerName} />
+                <Grid2 xs={width[1]} md={width[1]}>
+                    <Box component="span">
+                        <TextField
+                            id={label}
+                            label={label}
+                            variant="outlined"
+                            multiline={multiline}
+                            fullWidth
+                            {...register(label)}
+                        />
+                        <ErrorMessage errors={errors} name={label} />
+                    </Box>
                 </Grid2>
             </>
         );
     }
 
-    // 入力した内容を表示してみる
-    const tmp = () => {
+    // 入力した内容を表示
+    const sendRegistInfo = () => {
         const method = 'POST';
         const headers = {
             'Accept': 'application/json'
@@ -82,6 +97,7 @@ const InputRecord: NextPage = () => {
         const sendInfo = {
             title: getValues().title,
             description: getValues().description,
+            githubRepo: getValues().githubRepo,
             detail: getValues().detail,
             reference: getValues().reference
         };
@@ -104,8 +120,9 @@ const InputRecord: NextPage = () => {
                 <CommonHeadline headLine='記録追加' />
                 <Grid2 container spacing={2}>
                     {/* 項目の一覧に関する配列使ったらもっとみやすくなるかも */}
-                    {eachField("Record Title (character limit:1-100)", "Record Title", "title", false, 0)}
-                    {eachField("Description (character limit:1-300)", "Description", "description", true, 5)}
+                    {inputField("Record Title (character limit:1-100)", "title", false, false, [6, 12])}
+                    {/* <CommonInputField fieldName={''} label={'title'} multiline={false} selectField={false} register={register} errors={errors} /> */}
+                    {inputField("Description (character limit:1-300)", "description", false, false, [6, 12])}
                     <Grid2 xs={6} md={6}>
                         Github Repository(Empty is Ok)
                     </Grid2>
@@ -116,6 +133,7 @@ const InputRecord: NextPage = () => {
                             label="Select GitHub Repository"
                             fullWidth
                             defaultValue=""
+                            {...register('githubRepo')}
                         >
                             {data && data.map((option: any) => (
                                 <MenuItem key={option.reponame} value={option.reponame}>
@@ -124,7 +142,25 @@ const InputRecord: NextPage = () => {
                             ))}
                         </TextField>
                     </Grid2>
-                    {eachField("Detail (character limit:1-1000)", "Detail(write MarkDown...)", "detail", true, 30)}
+                    <Grid2 xs={12} md={12}>
+                        <FormGroup row>
+                            <FormControlLabel
+                                control={<Switch checked={state.checkedA} onChange={handleChange} name="checkedA" />}
+                                label="Write Markdown"
+                            />
+                        </FormGroup>
+                    </Grid2>
+                    {state.checkedA ? <>
+                        <Grid2 xs={12} md={12}>
+                            Detail (character limit:1-1000)
+                        </Grid2>
+                        <Grid2 xs={12} md={12}>
+                            {/* 記載と表示で別ファイルにしようかな */}
+                            <WriteMarkdown />
+                        </Grid2>
+                    </> : <>
+                        {inputField(" Detail (character limit:1-1000)", "detail", false, false, [6, 12])}
+                    </>}
                 </Grid2>
                 <div>
                     <h3>参照リンク追加</h3>
@@ -163,11 +199,10 @@ const InputRecord: NextPage = () => {
                     })}
                 </div>
                 <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
-                {/* <WriteReferenceLink /> */}
                 <Divider />
                 <Stack direction="row" spacing={2} justifyContent="right">
                     <Button color="secondary">Clearとか？</Button>
-                    <Button variant="contained" color="success" onClick={handleSubmit(d => tmp())}>
+                    <Button variant="contained" color="success" onClick={handleSubmit(d => sendRegistInfo())}>
                         Success
                     </Button>
                 </Stack>

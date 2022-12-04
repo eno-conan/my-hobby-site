@@ -27,13 +27,21 @@ https://mui.com/material-ui/icons/
 [ネストフォーム](https://zenn.dev/maro12/articles/7d011d3dfed5d4#%E8%A8%98%E4%BA%8B%E3%81%AE%E6%A6%82%E8%A6%81)
 
 ### markdown
+[入力とプレビュー：22/12/04](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82#%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%80%E3%82%A6%[…]l%E3%81%AB%E5%A4%89%E6%8F%9B%E3%81%99%E3%82%8B)
+→これが一番よかった
+[使いそうなライブラリが載っていた：22/12/04](https://zenn.dev/rinka/articles/b260e200cb5258)
+[エラー対応：22/12/04](https://stackoverflow.com/questions/65646007/next-js-dompurify-sanitize-shows-typeerror-dompurify-webpack-imported-module)
+[ReferenceError: navigator is not defined対応](https://qiita.com/akki-memo/items/bd14d9af5dc1be8e04c9)
 [Next.js + react-markdownでローカルのmarkdownをSSG](https://zenn.dev/asazutaiga/articles/be2a8a5f428a38)
 [markdownの入力](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82)
 [職務経歴書：mdからpdfへ](https://zenn.dev/ryo_kawamata/articles/resume-on-github)
 
+
 ### others
 [realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
 [リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
+
+### file management
 [publicDirにおいたファイルを画面からダウンロードする](https://reactgo.com/react-download-file-on-button-click/)
 [アップロードしたファイルの中身を取得したい](https://ja.javascript.info/file)
 
