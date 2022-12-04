@@ -138,7 +138,7 @@ const InputRecord: NextPage = () => {
     const referenceField = (index: number) => {
         return (
             <Grid2 container spacing={2}>
-                <Grid2 xs={5} alignItems='left'>
+                <Grid2 xs={6} alignItems='left'>
                     <Box component='span'>
                         <TextField
                             label='linkTitle'
@@ -160,7 +160,9 @@ const InputRecord: NextPage = () => {
                         <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
                     </Box>
                 </Grid2>
-                <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
+                <Grid2 xs={1} alignItems='right' paddingTop={2}>
+                    <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
+                </Grid2>
             </Grid2>
         )
     }
