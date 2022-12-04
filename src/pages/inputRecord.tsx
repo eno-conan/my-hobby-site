@@ -49,14 +49,12 @@ const fetcher = (url: string) =>
 const InputRecord: NextPage = () => {
     const [host, setHost] = useState('');
     useEffect(() => {
-        // console.log(window.location.href.split(':3000')[0])
-        setHost(window.location.href.split(':3000')[0]);
+        // console.log(window.location.href.split('/inputRecord')[0]);
+        setHost(window.location.href.split('/inputRecord')[0]);
     }, []);
-    // console.log(window.location.href);
-    // console.log(hostName);
 
     const { data, error } = useSWR(
-        `${host}:3000/api/githubRepos`,
+        `${host}/api/githubRepos`,
         fetcher
     );
 
@@ -196,7 +194,7 @@ const InputRecord: NextPage = () => {
             reference: getValues().reference
         };
         const body = JSON.stringify(sendInfo);
-        fetch('http://localhost:3000/api/record', { method, headers, body })
+        fetch(`${host}/api/record`, { method, headers, body })
             .then((res) => res.json())
             .then(console.log).catch(console.error);
     }
