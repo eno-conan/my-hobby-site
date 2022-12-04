@@ -10,7 +10,6 @@ import CommonDrawer from '../components/CommonDrawer';
 import { GetServerSideProps } from 'next';
 import { SubmitErrorHandler, SubmitHandler } from 'react-hook-form';
 import { UserForm, useUserForm } from '../hooks/useUserForm';
-import { InputField } from '../components/InputField';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { IQiitaArticle, sampleArticles, tags } from '../consts/qiita';
@@ -124,11 +123,11 @@ const Qiita = (props: any) => {
                                                 <Typography gutterBottom variant="inherit" component="div">
                                                     {book.title}
                                                 </Typography>
-                                                <Typography variant="body2" color="text.secondary" component="div">
+                                                {/* <Typography variant="body2" color="text.secondary" component="div">
                                                     <Link href={book.url} legacyBehavior>
                                                         <a target="_blank">ページを表示</a>
                                                     </Link>
-                                                </Typography>
+                                                </Typography> */}
                                                 <IconButton aria-label="add to favorites">
                                                     <FavoriteIcon fontSize="small" titleAccess='number of likes' />
                                                 </IconButton>
