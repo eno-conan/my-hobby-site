@@ -248,7 +248,7 @@ const InputRecord: NextPage = () => {
                     {detailField(state.markdown)}
                 </Grid2>
                 <Stack spacing={2}>
-                    <Box sx={{ color: 'primary.success', pl: 2 }}>
+                    <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
                         <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
                     </Box>
                     <Box sx={{ color: 'primary.success', pl: 4 }}>
