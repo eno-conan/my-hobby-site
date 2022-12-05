@@ -11,16 +11,16 @@ const RefInfo = z.object({
 const schema = z.object({
     title: z.string().min(1),
     description: z.string().min(1),
-    githubRepo: z.string().min(1).or(z.literal('')),
+    githubRepo: z.string().max(100).or(z.literal('')),
     detail: z.string().min(1),
     reference: z.array(RefInfo)
 })
 
 type FormValues = z.infer<typeof schema>
-let defaultValues: FormValues = { title: '', description: '', githubRepo: '', detail: '', reference: [] }
+export let defaultValues: FormValues = { title: '', description: '', githubRepo: '', detail: '', reference: [] }
 
 const inputRecordForm = () => {
-    const { register, handleSubmit, getValues, formState: { errors }, control } = useForm({
+    const { register, handleSubmit, getValues, setValue, formState: { errors }, control, reset, setFocus } = useForm({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: defaultValues,
@@ -32,8 +32,11 @@ const inputRecordForm = () => {
         remove,
         register,
         handleSubmit,
+        setValue,
         getValues,
-        errors
+        errors,
+        reset,
+        setFocus
     }
 }
 

@@ -15,6 +15,8 @@ https://mui.com/material-ui/icons/
 [動的フォーム](https://note.com/note_fumi/n/naa2d4f16133b)
 [SelectのときにdefaultValueを設定しないと表示されるエラー](https://stackoverflow.com/questions/60813040/materialui-select-set-value-is-always-out-of-range)
 [記録の一覧表示に使用できそう?](https://mui.com/material-ui/react-stack/)
+[22/12/05：待機状態のUI](https://zenn.dev/kii/articles/progress-indicator-ui)
+[22/12/05：How to Create a MUI Grid Container with Full Width and Height](https://smartdevpreneur.com/how-to-create-a-mui-grid-container-with-full-width-and-height/)
 
 ### POST
 [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)

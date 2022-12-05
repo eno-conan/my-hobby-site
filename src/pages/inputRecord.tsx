@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Box, Container, Divider, MenuItem, TextField, Switch } from '@material-ui/core'
+import { Box, Container, Divider, MenuItem, TextField, Switch, Grid } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid2 from '@mui/material/Unstable_Grid2';
@@ -17,6 +17,7 @@ import CommonDrawer from '../components/CommonDrawer';
 import WriteMarkdown from './WriteMarkdown';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
     DESCRIPTION_DISPLAY_VALUE,
     DETAIL_DISPLAY_VALUE,
@@ -58,7 +59,7 @@ const InputRecord: NextPage = () => {
     );
 
     // タイトル・概要・詳細に関するフォームルールを取得
-    const { fields, append, remove, register, handleSubmit, getValues, errors } = inputRecordForm();
+    const { fields, append, remove, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
     // switchの状態管理
     const [state, setState] = React.useState({
         markdown: false,
@@ -88,6 +89,7 @@ const InputRecord: NextPage = () => {
                             label={label}
                             multiline={multiline}
                             select={selectField}
+                            defaultValue={''}
                             {...register(label)}
                         >
                             {/* Github専用だけども */}
@@ -196,11 +198,23 @@ const InputRecord: NextPage = () => {
         fetch(`${host}/api/record`, { method, headers, body })
             .then((res) => res.json())
             .then(console.log).catch(console.error);
+        //githubのプルダウンが初期化できない・・・(22/12/04) 
+        reset();
+        setValueUseMarkdown('');
+        setFocus('title');
     }
 
     if (!data) return (
         <Container maxWidth='md'>
-            <h4>Loading...</h4>
+            <Grid container spacing={4} alignItems='center' justifyContent='center' direction="column">
+                <h1></h1>
+                <h1></h1>
+                <h1></h1>
+                <h2>Loading...</h2>
+                <Grid item xs={12}>
+                    <CircularProgress />
+                </Grid>
+            </Grid>
         </Container>
     );
     return (

@@ -35,9 +35,11 @@ const WriteMarkdown = (props: Props) => {
     return (
         <div>
             <SimpleMDE onChange={(text) => onChange(text)} />
+            <h3>プレビュー</h3>
             <div id="body" >
                 <span dangerouslySetInnerHTML={{ __html: xss(marked(markdownValue)) }} />
             </div>
+            <hr />
         </div>
     );
 }
