@@ -9,10 +9,10 @@ const RefInfo = z.object({
 
 
 const schema = z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
+    title: z.string().min(1, '最低1文字は入力してください'),
+    description: z.string().min(1, '最低1文字は入力してください'),
     githubRepo: z.string().max(100).or(z.literal('')),
-    detail: z.string().min(1),
+    detail: z.string().min(1, '最低1文字は入力してください'),
     reference: z.array(RefInfo)
 })
 

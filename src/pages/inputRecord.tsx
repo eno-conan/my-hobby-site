@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import { Stack } from '@mui/material';
+import { Link, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import CommonHeadline from '../components/CommonHeadline';
 import { ErrorMessage } from '@hookform/error-message';
@@ -22,6 +22,7 @@ import {
     DESCRIPTION_DISPLAY_VALUE,
     DETAIL_DISPLAY_VALUE,
     GITHUB_REPO_DISPLAY_VALUE,
+    MAIN_ITEM_DISPLAY_VALUE,
     REFER_LINK_DISPLAY_VALUE,
     TITLE_DISPLAY_VALUE
 } from '../consts/inputField';
@@ -76,7 +77,7 @@ const InputRecord: NextPage = () => {
         return (
             <>
                 <Grid2 xs={width[0]} md={width[0]}>
-                    <Box component='span'>
+                    <Box component='span' fontSize={18}>
                         {fieldName}
                     </Box>
                 </Grid2>
@@ -103,6 +104,8 @@ const InputRecord: NextPage = () => {
                                 <></>
                             }
                         </TextField>
+                    </Box>
+                    <Box sx={{ bgcolor: 'error.main', borderRadius: 2 }}>
                         <ErrorMessage errors={errors} name={label} />
                     </Box>
                 </Grid2>
@@ -115,7 +118,9 @@ const InputRecord: NextPage = () => {
         return (
             <>
                 <Grid2 xs={12} md={12}>
-                    {DETAIL_DISPLAY_VALUE}
+                    <Box component='span' fontSize={18}>
+                        {DETAIL_DISPLAY_VALUE}
+                    </Box>
                 </Grid2>
                 <Grid2 xs={12} md={12}>
                     <FormGroup row>
@@ -166,7 +171,7 @@ const InputRecord: NextPage = () => {
                         <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
                     </Box>
                 </Grid2>
-                <Grid2 xs={1} alignItems='right' paddingTop={2}>
+                <Grid2 xs={1} alignItems='right' paddingTop={3}>
                     <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
                 </Grid2>
             </Grid2>
@@ -174,7 +179,7 @@ const InputRecord: NextPage = () => {
     }
 
     // 入力内容送信
-    const sendRegistInfo = () => {
+    const sendRegisterInfo = () => {
         const method = 'POST';
         const headers = {
             'Accept': 'application/json'
@@ -220,10 +225,22 @@ const InputRecord: NextPage = () => {
     return (
         <>
             <CommonDrawer />
-            <CommonMeta title={'記録追加'} />
             <Container maxWidth='md'>
+                <CommonMeta title={'記録追加'} />
                 <CommonHeadline headLine='記録追加' />
-                <Grid2 container spacing={2}>
+                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
+                    <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
+                </Box>
+                <Stack direction='row' justifyContent='right' paddingBottom={2}>
+                    <Grid2 container>
+                        <Grid item xs={12} sm={12}>
+                            <Link href="/template.md" download>
+                                <Typography fontSize="18px">テンプレートダウンロード</Typography>
+                            </Link>
+                        </Grid>
+                    </Grid2>
+                </Stack>
+                <Grid2 container spacing={2} paddingLeft={4}>
                     {/*題名・概要・リポジトリ・詳細 */}
                     {inputField(TITLE_DISPLAY_VALUE, 'title', false, false, [6, 12])}
                     {inputField(DESCRIPTION_DISPLAY_VALUE, 'description', false, false, [6, 12])}
@@ -231,22 +248,28 @@ const InputRecord: NextPage = () => {
                     {detailField(state.markdown)}
                 </Grid2>
                 <Stack spacing={2}>
-                    <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
-                    {fields.map((field: any, index: number) => {
-                        return (
-                            <>
-                                <div key={field.id}>
-                                    {referenceField(index)}
-                                </div>
-                            </>
-                        )
-                    })}
+                    <Box sx={{ color: 'primary.success', pl: 2 }}>
+                        <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
+                    </Box>
+                    <Box sx={{ color: 'primary.success', pl: 4 }}>
+                        {fields.map((field: any, index: number) => {
+                            return (
+                                <>
+                                    <div key={field.id}>
+                                        {referenceField(index)}
+                                    </div>
+                                </>
+                            )
+                        })}
+                    </Box>
                 </Stack>
-                <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
+                <Box sx={{ color: 'primary.success', pt: 2, pl: 4 }}>
+                    <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
+                </Box>
                 <Divider />
                 <Stack direction='row' spacing={2} justifyContent='right'>
                     {/* <Button color='secondary'>Clearとか？</Button> */}
-                    <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegistInfo())}>
+                    <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
                         Success
                     </Button>
                 </Stack>
