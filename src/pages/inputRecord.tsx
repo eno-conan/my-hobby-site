@@ -26,6 +26,8 @@ import {
     REFER_LINK_DISPLAY_VALUE,
     TITLE_DISPLAY_VALUE
 } from '../consts/inputField';
+import DragDropRef from './dragDropRef';
+import TemplateDownload from './templateDownload';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -228,18 +230,16 @@ const InputRecord: NextPage = () => {
             <Container maxWidth='md'>
                 <CommonMeta title={'記録追加'} />
                 <CommonHeadline headLine='記録追加' />
+                {/* ファイルアップロード・ダウンロード機能 */}
+                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
+                    {TemplateDownload}
+                </Box>
+                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
+                    {DragDropRef}
+                </Box>
                 <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
                     <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
                 </Box>
-                <Stack direction='row' justifyContent='right' paddingBottom={2}>
-                    <Grid2 container>
-                        <Grid item xs={12} sm={12}>
-                            <Link href="/template.md" download>
-                                <Typography fontSize="18px">テンプレートダウンロード</Typography>
-                            </Link>
-                        </Grid>
-                    </Grid2>
-                </Stack>
                 <Grid2 container spacing={2} paddingLeft={4}>
                     {/*題名・概要・リポジトリ・詳細 */}
                     {inputField(TITLE_DISPLAY_VALUE, 'title', false, false, [6, 12])}
