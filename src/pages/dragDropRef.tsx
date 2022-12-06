@@ -68,41 +68,43 @@ const DragDropRef = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            {isLoading ? (
-                <h1>アップロード中・・・</h1>
-            ) : (
-                <Grid2 container>
-                    <Grid item xs={12} sm={12}>
-                        <div
-                            className="rounded shadow-lg w-1/2"
-                            style={{ maxWidth: "400px", minWidth: "300px" }}
-                        >
-                            <div className="flex justify-center">
-                                <div className="my-8 flex justify-center grid">
-                                    <h3 className="font-bold text-gray-500 col-span-3 text-center">
-                                        記入済ファイルアップロード
-                                    </h3>
-                                    <div
-                                        className="border-dashed border-2 border-gray-500 grid flex justify-cente p-4 mb-2 cursor-pointer"
-                                        style={{ minWidth: "200px" }}
-                                        {...getRootProps()}
-                                    >
-                                        <input {...getInputProps()} />
-                                        <div className="container flex justify-center mb-2">
+            <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
+                {isLoading ? (
+                    <h1>アップロード中・・・</h1>
+                ) : (
+                    <Grid2 container>
+                        <Grid item xs={12} sm={12}>
+                            <div
+                                className="rounded shadow-lg w-1/2"
+                                style={{ maxWidth: "400px", minWidth: "300px" }}
+                            >
+                                <div className="flex justify-center">
+                                    <div className="my-8 flex justify-center grid">
+                                        <h3 className="font-bold text-gray-500 col-span-3 text-center">
+                                            記入済ファイルアップロード
+                                        </h3>
+                                        <div
+                                            className="border-dashed border-2 border-gray-500 grid flex justify-cente p-4 mb-2 cursor-pointer"
+                                            style={{ minWidth: "200px" }}
+                                            {...getRootProps()}
+                                        >
+                                            <input {...getInputProps()} />
+                                            <div className="container flex justify-center mb-2">
+                                            </div>
+                                            <div className="container flex justify-center text-xs text-gray-500">
+                                                <p>
+                                                    <>ドラッグ＆ドロップ、またはクリックしてファイルをアップロード</>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="container flex justify-center text-xs text-gray-500">
-                                            <p>
-                                                <>ドラッグ＆ドロップ、またはクリックしてファイルをアップロード</>
-                                            </p>
-                                        </div>
+                                        <br />
                                     </div>
-                                    <br />
                                 </div>
                             </div>
-                        </div>
-                    </Grid>
-                </Grid2>
-            )}
+                        </Grid>
+                    </Grid2>
+                )}
+            </Box>
         </div>
     );
 }

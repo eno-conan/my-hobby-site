@@ -26,10 +26,10 @@ import {
     REFER_LINK_DISPLAY_VALUE,
     TITLE_DISPLAY_VALUE
 } from '../consts/inputField';
-import DragDropRef from './dragDropRef';
-import TemplateDownload from './templateDownload';
 import { useFieldArray } from "react-hook-form"
+import FileOperatePart from './FileOperatePart';
 import ReferencePart from './referencePart';
+import LoadingPart from './LoadingPart';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -189,19 +189,6 @@ const InputRecord: NextPage = () => {
         )
     }
 
-    // ファイルアップロード・ダウンロード機能
-    const fileUploadDownloadPart = () => {
-        return (
-            <>
-                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
-                    {TemplateDownload}
-                </Box>
-                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
-                    {DragDropRef}
-                </Box>
-            </>)
-    }
-
     // 入力内容送信
     const sendRegisterInfo = () => {
         const method = 'POST';
@@ -235,18 +222,9 @@ const InputRecord: NextPage = () => {
 
     // ローディング中の表示
     if (!data) return (
-        <Container maxWidth='md'>
-            <Grid container spacing={4} alignItems='center' justifyContent='center' direction="column">
-                <h1></h1>
-                <h1></h1>
-                <h1></h1>
-                <h2>Loading...</h2>
-                <Grid item xs={12}>
-                    <CircularProgress />
-                </Grid>
-            </Grid>
-        </Container>
+        <LoadingPart />
     );
+
     return (
         <>
             <CommonDrawer />
@@ -254,9 +232,7 @@ const InputRecord: NextPage = () => {
                 <CommonMeta title={'記録追加'} />
                 <CommonHeadline headLine='記録追加' />
                 {/* ファイルアップロード・ダウンロード機能 */}
-                <Box>
-                    {fileUploadDownloadPart}
-                </Box>
+                <FileOperatePart />
                 <Divider />
                 {/* 入力箇所 */}
                 <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
