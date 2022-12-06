@@ -6,8 +6,6 @@ const RefInfo = z.object({
     linkTitle: z.string().max(10),
     linkUrl: z.string().max(10),
 })
-
-
 const schema = z.object({
     title: z.string().min(1, '最低1文字は入力してください'),
     description: z.string().min(1, '最低1文字は入力してください'),
@@ -15,24 +13,33 @@ const schema = z.object({
     detail: z.string().min(1, '最低1文字は入力してください'),
     reference: z.array(RefInfo)
 })
+// type FormValues = z.infer<typeof schema>
+// let defaultValues: FormValues = { title: '', description: '', githubRepo: '', detail: '', reference: [] }
 
-type FormValues = z.infer<typeof schema>
-export let defaultValues: FormValues = { title: '', description: '', githubRepo: '', detail: '', reference: [] }
+export interface RefForm {
+    linkTitle: string
+    linkUrl: string
+}
+
+export interface RecordForm {
+    title: string;
+    description: string
+    githubRepo: string
+    detail: string
+    reference: RefForm[]
+}
 
 const inputRecordForm = () => {
-    const { register, handleSubmit, getValues, setValue, formState: { errors }, control, reset, setFocus } = useForm({
+    const { register, handleSubmit, getValues, formState: { errors }, control, reset, setFocus } = useForm<RecordForm>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
-        defaultValues: defaultValues,
+        defaultValues: { title: '', description: '', githubRepo: '', detail: '', reference: [] },
     });
-    const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
+    // const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
     return {
-        fields,
-        append,
-        remove,
+        control,
         register,
         handleSubmit,
-        setValue,
         getValues,
         errors,
         reset,

@@ -28,6 +28,8 @@ import {
 } from '../consts/inputField';
 import DragDropRef from './dragDropRef';
 import TemplateDownload from './templateDownload';
+import { useFieldArray } from "react-hook-form"
+import ReferencePart from './referencePart';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -63,7 +65,8 @@ const InputRecord: NextPage = () => {
     );
 
     // タイトル・概要・詳細に関するフォームルールを取得
-    const { fields, append, remove, register, handleSubmit, getValues, errors, reset, setFocus } = inputRecordForm();
+    const { control, register, handleSubmit, getValues, errors, reset, setFocus } = inputRecordForm();
+    const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
     // switchの状態管理
     const [state, setState] = React.useState({
         markdown: false,
@@ -154,47 +157,6 @@ const InputRecord: NextPage = () => {
         )
     }
 
-    // Reference系を別クラスに
-    // 参照リンクの記載箇所
-    const referenceField = (index: number) => {
-        const fieldsWidth: number[] = [6, 5]
-        return (
-            <Grid2 container spacing={2}>
-                {fieldsWidth.map((width: number, idx: number) => {
-                    return (
-                        <>
-                            <Grid2 xs={width} alignItems='left'>
-                                <Box component='span'>
-                                    {idx == 0 ? (
-                                        <>
-                                            <TextField
-                                                label='linkTitle'
-                                                variant='outlined'
-                                                fullWidth
-                                                {...register(`reference.${index}.linkTitle`)} />
-                                            <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
-                                        </>)
-                                        :
-                                        (<>
-                                            <TextField
-                                                label='linkUrl'
-                                                variant='outlined'
-                                                fullWidth
-                                                {...register(`reference.${index}.linkUrl`)} />
-                                            <ErrorMessage errors={errors} name={`reference.${index}.linkUrl`} />
-                                        </>)}
-                                </Box>
-                            </Grid2>
-                        </>
-                    )
-                })}
-                <Grid2 xs={1} alignItems='right' paddingTop={3}>
-                    <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
-                </Grid2>
-            </Grid2>
-        )
-    }
-
     // 参照リンク以下
     const referencePart = () => {
         return (
@@ -208,7 +170,12 @@ const InputRecord: NextPage = () => {
                             return (
                                 <>
                                     <div key={field.id}>
-                                        {referenceField(index)}
+                                        <ReferencePart
+                                            index={index}
+                                            register={register}
+                                            errors={errors}
+                                            remove={remove}
+                                        />
                                     </div>
                                 </>
                             )
