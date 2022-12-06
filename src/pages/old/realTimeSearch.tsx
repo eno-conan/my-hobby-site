@@ -1,35 +1,8 @@
 import React, { useState } from "react";
+import { allMemberList } from "../../consts/realtimeSearch";
+import { member } from "../../types/realtimeSearchType";
+export type MemberList = Array<member>;
 
-type member = {
-    name: string;
-    country: string;
-    food: string;
-};
-
-type MemberList = Array<member>;
-
-const allMemberList = [
-    {
-        name: "太郎",
-        country: "Japan",
-        food: "焼肉"
-    },
-    {
-        name: "花子",
-        country: "Japan",
-        food: "ケーキ"
-    },
-    {
-        name: "リチャード",
-        country: "Canada",
-        food: "ステーキ"
-    },
-    {
-        name: "マイケル",
-        country: "USA",
-        food: "ハンバーガー"
-    }
-];
 const RealTimeSearch = () => {
     const [inputValue, setInputValue] = useState("");
     const [memberList, setMemberList] = useState<MemberList>(allMemberList);
