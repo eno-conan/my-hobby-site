@@ -7,21 +7,21 @@ import type { NextApiRequest, NextApiResponse } from 'next'
  * 
  * @returns 実行結果
  */
-export async function getData(): Promise<any> {
-    const targetUrl = 'https://api.github.com/user/repos';
-    const apiKey = process.env.GITHUB_API_KEY!
-    const response = await fetch(targetUrl, {
-        method: 'GET',
-        headers: {
-            'Authorization': apiKey
-        }
-    });
-    const jsonData = await response.json();
-    return jsonData.map((art: any) => {
-        return {
-            reponame: art.full_name
-        }
-    });
+export async function registerData(): Promise<any> {
+    // const targetUrl = 'https://api.github.com/user/repos';
+    // const apiKey = process.env.GITHUB_API_KEY!
+    // const response = await fetch(targetUrl, {
+    //     method: 'GET',
+    //     headers: {
+    //         'Authorization': apiKey
+    //     }
+    // });
+    // const jsonData = await response.json();
+    // return jsonData.map((art: any) => {
+    //     return {
+    //         reponame: art.full_name
+    //     }
+    // });
 }
 
 /**

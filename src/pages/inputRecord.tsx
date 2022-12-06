@@ -51,18 +51,19 @@ const fetcher = (url: string) =>
 
 // 記録追加
 const InputRecord: NextPage = () => {
+    // URLからドメイン取得
     const [host, setHost] = useState('');
     useEffect(() => {
         setHost(window.location.href.split('/inputRecord')[0]);
     }, []);
-
+    // gitHubRepository一覧取得
     const { data, error } = useSWR(
         `${host}/api/githubRepos`,
         fetcher
     );
 
     // タイトル・概要・詳細に関するフォームルールを取得
-    const { fields, append, remove, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
+    const { fields, append, remove, register, handleSubmit, getValues, errors, reset, setFocus } = inputRecordForm();
     // switchの状態管理
     const [state, setState] = React.useState({
         markdown: false,
@@ -74,16 +75,24 @@ const InputRecord: NextPage = () => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    // 各入力項目の表示方法を設定
-    const inputField = (fieldName: string, label: any, multiline: boolean, selectField: boolean, width: number[], data?: any) => {
+    // フィールド名表示用のメソッド
+    const fieldNamePart = (fieldName: string) => {
         return (
             <>
-                <Grid2 xs={width[0]} md={width[0]}>
-                    <Box component='span' fontSize={18}>
-                        {fieldName}
-                    </Box>
+                <Grid2 xs={12} md={12}>
+                    {fieldName}
                 </Grid2>
-                <Grid2 xs={width[1]} md={width[1]}>
+            </>)
+    }
+
+    // 各入力項目の表示方法を設定
+    const inputField = (fieldName: string, label: any, multiline: boolean, selectField: boolean, data?: any) => {
+        return (
+            <>
+                <Box component='span' fontSize={18}>
+                    {fieldNamePart(fieldName)}
+                </Box>
+                <Grid2 xs={12} md={12}>
                     <Box component='span'>
                         <TextField
                             variant='outlined'
@@ -119,11 +128,9 @@ const InputRecord: NextPage = () => {
     const detailField = (markdown: boolean) => {
         return (
             <>
-                <Grid2 xs={12} md={12}>
-                    <Box component='span' fontSize={18}>
-                        {DETAIL_DISPLAY_VALUE}
-                    </Box>
-                </Grid2>
+                <Box component='span' fontSize={18}>
+                    {fieldNamePart(DETAIL_DISPLAY_VALUE)}
+                </Box>
                 <Grid2 xs={12} md={12}>
                     <FormGroup row>
                         <FormControlLabel
@@ -140,44 +147,92 @@ const InputRecord: NextPage = () => {
                     </>
                     :
                     <>
-                        {inputField('', 'detail', false, false, [6, 12])}
+                        {inputField('', 'detail', false, false)}
                     </>
                 }
             </>
         )
     }
 
+    // Reference系を別クラスに
     // 参照リンクの記載箇所
     const referenceField = (index: number) => {
+        const fieldsWidth: number[] = [6, 5]
         return (
             <Grid2 container spacing={2}>
-                <Grid2 xs={6} alignItems='left'>
-                    <Box component='span'>
-                        <TextField
-                            label='linkTitle'
-                            variant='outlined'
-                            multiline={false}
-                            fullWidth
-                            {...register(`reference.${index}.linkTitle`)} />
-                        <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
-                    </Box>
-                </Grid2>
-                <Grid2 xs={5} alignItems='left'>
-                    <Box component='span'>
-                        <TextField
-                            label='linkUrl'
-                            variant='outlined'
-                            multiline={false}
-                            fullWidth
-                            {...register(`reference.${index}.linkUrl`)} />
-                        <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
-                    </Box>
-                </Grid2>
+                {fieldsWidth.map((width: number, idx: number) => {
+                    return (
+                        <>
+                            <Grid2 xs={width} alignItems='left'>
+                                <Box component='span'>
+                                    {idx == 0 ? (
+                                        <>
+                                            <TextField
+                                                label='linkTitle'
+                                                variant='outlined'
+                                                fullWidth
+                                                {...register(`reference.${index}.linkTitle`)} />
+                                            <ErrorMessage errors={errors} name={`reference.${index}.linkTitle`} />
+                                        </>)
+                                        :
+                                        (<>
+                                            <TextField
+                                                label='linkUrl'
+                                                variant='outlined'
+                                                fullWidth
+                                                {...register(`reference.${index}.linkUrl`)} />
+                                            <ErrorMessage errors={errors} name={`reference.${index}.linkUrl`} />
+                                        </>)}
+                                </Box>
+                            </Grid2>
+                        </>
+                    )
+                })}
                 <Grid2 xs={1} alignItems='right' paddingTop={3}>
                     <Button onClick={() => remove(index)}><ClearIcon titleAccess='remove reference' /></Button>
                 </Grid2>
             </Grid2>
         )
+    }
+
+    // 参照リンク以下
+    const referencePart = () => {
+        return (
+            <>
+                <Stack spacing={2}>
+                    <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
+                        <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
+                    </Box>
+                    <Box sx={{ color: 'primary.success', pl: 4 }}>
+                        {fields.map((field: any, index: number) => {
+                            return (
+                                <>
+                                    <div key={field.id}>
+                                        {referenceField(index)}
+                                    </div>
+                                </>
+                            )
+                        })}
+                    </Box>
+                </Stack>
+                <Box sx={{ color: 'primary.success', pt: 2, pl: 4 }}>
+                    <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
+                </Box>
+            </>
+        )
+    }
+
+    // ファイルアップロード・ダウンロード機能
+    const fileUploadDownloadPart = () => {
+        return (
+            <>
+                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
+                    {TemplateDownload}
+                </Box>
+                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
+                    {DragDropRef}
+                </Box>
+            </>)
     }
 
     // 入力内容送信
@@ -211,6 +266,7 @@ const InputRecord: NextPage = () => {
         setFocus('title');
     }
 
+    // ローディング中の表示
     if (!data) return (
         <Container maxWidth='md'>
             <Grid container spacing={4} alignItems='center' justifyContent='center' direction="column">
@@ -231,44 +287,27 @@ const InputRecord: NextPage = () => {
                 <CommonMeta title={'記録追加'} />
                 <CommonHeadline headLine='記録追加' />
                 {/* ファイルアップロード・ダウンロード機能 */}
-                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
-                    {TemplateDownload}
+                <Box>
+                    {fileUploadDownloadPart}
                 </Box>
-                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
-                    {DragDropRef}
-                </Box>
+                <Divider />
+                {/* 入力箇所 */}
                 <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
                     <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
                 </Box>
                 <Grid2 container spacing={2} paddingLeft={4}>
                     {/*題名・概要・リポジトリ・詳細 */}
-                    {inputField(TITLE_DISPLAY_VALUE, 'title', false, false, [6, 12])}
-                    {inputField(DESCRIPTION_DISPLAY_VALUE, 'description', false, false, [6, 12])}
-                    {inputField(GITHUB_REPO_DISPLAY_VALUE, 'githubRepo', false, true, [6, 12], data)}
+                    {/* 汚いから修正したい */}
+                    {inputField(TITLE_DISPLAY_VALUE, 'title', false, false)}
+                    {inputField(DESCRIPTION_DISPLAY_VALUE, 'description', false, false)}
+                    {inputField(GITHUB_REPO_DISPLAY_VALUE, 'githubRepo', false, true, data)}
                     {detailField(state.markdown)}
                 </Grid2>
-                <Stack spacing={2}>
-                    <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
-                        <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
-                    </Box>
-                    <Box sx={{ color: 'primary.success', pl: 4 }}>
-                        {fields.map((field: any, index: number) => {
-                            return (
-                                <>
-                                    <div key={field.id}>
-                                        {referenceField(index)}
-                                    </div>
-                                </>
-                            )
-                        })}
-                    </Box>
-                </Stack>
-                <Box sx={{ color: 'primary.success', pt: 2, pl: 4 }}>
-                    <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
+                {/* 参照リンクの記載箇所 */}
+                <Box>
+                    {referencePart}
                 </Box>
-                <Divider />
                 <Stack direction='row' spacing={2} justifyContent='right'>
-                    {/* <Button color='secondary'>Clearとか？</Button> */}
                     <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
                         Success
                     </Button>
