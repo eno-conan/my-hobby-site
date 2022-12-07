@@ -1,35 +1,21 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Box, Container, Divider, MenuItem, TextField, Switch, Grid } from '@material-ui/core'
+import { Box, Container, Divider } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import Grid2 from '@mui/material/Unstable_Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import { Link, Stack, Typography } from '@mui/material';
+import { Stack, } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import CommonHeadline from '../components/CommonHeadline';
-import { ErrorMessage } from '@hookform/error-message';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
 import AddIcon from '@mui/icons-material/Add';
 import useSWR from 'swr';
 import CommonDrawer from '../components/CommonDrawer';
-import WriteMarkdown from './DetailMarkdownPart';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import {
-    DESCRIPTION_DISPLAY_VALUE,
-    DETAIL_DISPLAY_VALUE,
-    GITHUB_REPO_DISPLAY_VALUE,
-    MAIN_ITEM_DISPLAY_VALUE,
-    REFER_LINK_DISPLAY_VALUE,
-    TITLE_DISPLAY_VALUE
-} from '../consts/inputField';
+import { REFER_LINK_DISPLAY_VALUE } from '../consts/inputField';
 import { useFieldArray } from "react-hook-form"
 import FileOperatePart from './FileOperatePart';
 import LoadingPart from './LoadingPart';
 import ReferencePart from './ReferencePart';
-import DetailPart from './DetailPart';
-import TextPart from './TextPart';
 import MainPart from './MainPart';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -53,7 +39,7 @@ const fetcher = (url: string) =>
     });
 
 // 記録追加
-const inputRecordPage: NextPage = () => {
+const InputRecordPage: NextPage = () => {
     // URLからドメイン取得
     const [host, setHost] = useState('');
     useEffect(() => {
@@ -66,7 +52,7 @@ const inputRecordPage: NextPage = () => {
     );
 
     // タイトル・概要・詳細に関するフォームルールを取得
-    const { control, register, handleSubmit, getValues, errors, reset, setFocus } = inputRecordForm();
+    const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
     const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
     // switchの状態管理
     const [state, setState] = React.useState({
@@ -147,10 +133,12 @@ const inputRecordPage: NextPage = () => {
         <>
             <CommonDrawer />
             <Container maxWidth='md'>
+                {/* メタ情報の設定 */}
+                {/* ページ見出し */}
                 <CommonMeta title={'記録追加'} />
                 <CommonHeadline headLine='記録追加' />
                 {/* ファイルアップロード・ダウンロード機能 */}
-                <FileOperatePart />
+                <FileOperatePart setValue={setValue} />
                 <Divider />
                 {/* 主な事項を記載する箇所 */}
                 <MainPart
@@ -159,6 +147,7 @@ const inputRecordPage: NextPage = () => {
                 <Box>
                     {referencePart}
                 </Box>
+                {/* 送信 */}
                 <Stack direction='row' spacing={2} justifyContent='right'>
                     <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
                         Success
@@ -170,7 +159,7 @@ const inputRecordPage: NextPage = () => {
 
 }
 
-export default inputRecordPage
+export default InputRecordPage
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //     const res: any = await GetRepos();

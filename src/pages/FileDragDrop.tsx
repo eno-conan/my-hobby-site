@@ -3,9 +3,10 @@ import { useDropzone } from "react-dropzone";
 import { Credentials } from "aws-sdk";
 import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client } from "@aws-sdk/client-s3";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { Box, Grid } from '@material-ui/core'
 import Grid2 from '@mui/material/Unstable_Grid2';
+import { RecordForm } from "../hooks/inputRecordForm";
 
 type FormData = {
     name: string;
@@ -13,12 +14,22 @@ type FormData = {
     file: File | null;
 };
 
+interface Props {
+    setValue: UseFormSetValue<RecordForm>;
+    // errors: Partial<FieldErrorsImpl<RecordForm>>
+    // setValueUseMarkdown: React.Dispatch<
+    //     React.SetStateAction<string>
+    // >;
+    // data: any;
+}
 
-const FileDragDrop = () => {
+// ドロップできたら、ファイル名を表示
+// 反映ってボタンを作って、フォームに反映するとか。
+const FileDragDrop = ({ setValue }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
     // ファイル選択できたら、ファイル名を画面に表示したい
     const [fileName, setFileName] = useState('');
-    const { setValue, getValues, watch } = useForm<FormData>({
+    const { getValues, watch } = useForm<FormData>({
         defaultValues: {
             name: '',
             email: '',
@@ -45,7 +56,9 @@ const FileDragDrop = () => {
     // ファイル情報を保持する
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
-            setIsLoading(true);
+            // ファイルの内容をフォームにはんえいする
+            setValue('title', '12345');
+            // setIsLoading(true);
             const file = acceptedFiles[0];
             // アップロードしたファイルの中身を取得
             let reader = new FileReader();
@@ -55,7 +68,8 @@ const FileDragDrop = () => {
             };
             // ファイル名を管理
             setFileName(file.name);
-            setValue('file', file);
+            // setValue('file', file);
+            // register()
         } else {
             // 何かする？
         }
@@ -80,6 +94,7 @@ const FileDragDrop = () => {
                             >
                                 <div className="flex justify-center">
                                     <div className="my-8 flex justify-center grid">
+                                        {/* <input type="text" {...register("title")} /> */}
                                         <h3 className="font-bold text-gray-500 col-span-3 text-center">
                                             記入済ファイルアップロード
                                         </h3>

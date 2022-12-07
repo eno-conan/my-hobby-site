@@ -11,6 +11,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { NextPage } from 'next'
 
 // ステータス（完了と未完了だけでよき？）・タイトル・概要の頭N文字・gitHubRepo・更新日時
 interface Column {
@@ -75,7 +76,7 @@ const rows = [
 ];
 
 // 記録検索画面の作成
-const searchRecordPage = () => {
+const SearchRecordPage: NextPage = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [inputValue, setInputValue] = useState("");
@@ -176,4 +177,4 @@ const searchRecordPage = () => {
     )
 }
 
-export default searchRecordPage
+export default SearchRecordPage

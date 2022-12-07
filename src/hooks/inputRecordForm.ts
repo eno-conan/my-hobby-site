@@ -28,7 +28,7 @@ export interface RecordForm {
 }
 
 const inputRecordForm = () => {
-    const { register, handleSubmit, getValues, formState: { errors }, control, reset, setFocus } = useForm<RecordForm>({
+    const { register, handleSubmit, getValues, setValue, formState: { errors }, control, reset, setFocus } = useForm<RecordForm>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: { title: '', description: '', githubRepo: '', detail: '', reference: [] },
@@ -38,6 +38,7 @@ const inputRecordForm = () => {
         register,
         handleSubmit,
         getValues,
+        setValue,
         errors,
         reset,
         setFocus
