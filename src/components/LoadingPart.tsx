@@ -5,7 +5,7 @@ const LoadingPart = () => {
     return (
         <div>
             <Container maxWidth='md'>
-                <Grid container spacing={4} alignItems='center' justifyContent='center' direction="column">
+                <Grid container alignItems='center' justifyContent='center' direction="column">
                     <h1></h1>
                     <h1></h1>
                     <h1></h1>
