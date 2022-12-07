@@ -13,10 +13,10 @@ import useSWR from 'swr';
 import CommonDrawer from '../components/CommonDrawer';
 import { REFER_LINK_DISPLAY_VALUE } from '../consts/inputField';
 import { useFieldArray } from "react-hook-form"
-import FileOperatePart from './FileOperatePart';
-import LoadingPart from './LoadingPart';
-import ReferencePart from './ReferencePart';
-import MainPart from './MainPart';
+import LoadingPart from '../components/LoadingPart';
+import ReferencePart from '../components/ReferencePart';
+import MainPart from '../components/MainPart';
+import FileOperatePart from '../components/FileOperatePart';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -62,7 +62,7 @@ const InputRecordPage: NextPage = () => {
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
 
     // 参照リンク以下
-    const referencePart = () => {
+    const refPart = () => {
         return (
             <>
                 <Stack spacing={2}>
@@ -145,7 +145,7 @@ const InputRecordPage: NextPage = () => {
                     register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} data={data} />
                 {/* 参照リンクの記載箇所 */}
                 <Box>
-                    {referencePart}
+                    {refPart}
                 </Box>
                 {/* 送信 */}
                 <Stack direction='row' spacing={2} justifyContent='right'>

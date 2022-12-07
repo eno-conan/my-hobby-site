@@ -17,7 +17,6 @@ interface Props {
     remove: (index: number) => void;
 }
 
-// { fields, append, remove, register, errors }
 const ReferencePart = ({ index, register, errors, remove }: Props) => {
 
     const fieldsWidth: number[] = [6, 5]

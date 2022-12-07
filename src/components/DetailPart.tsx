@@ -4,8 +4,8 @@ import React from 'react'
 import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form';
 import { DETAIL_DISPLAY_VALUE } from '../consts/inputField';
 import { RecordForm } from '../hooks/inputRecordForm';
-import TextPart from './TextPart';
 import DetailMarkdownPart from './DetailMarkdownPart';
+import TextPart from './TextPart';
 
 interface Props {
     register: UseFormRegister<RecordForm>;
