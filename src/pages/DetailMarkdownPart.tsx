@@ -16,7 +16,7 @@ interface Props {
     >;
 }
 
-const WriteMarkdown = (props: Props) => {
+const DetailMarkdownPart = (props: Props) => {
     // ハイライトの設定
     marked.setOptions({
         highlight: (code: any, lang: any) => {
@@ -44,4 +44,4 @@ const WriteMarkdown = (props: Props) => {
     );
 }
 
-export default WriteMarkdown
+export default DetailMarkdownPart

@@ -14,7 +14,7 @@ type FormData = {
 };
 
 
-const DragDropRef = () => {
+const FileDragDrop = () => {
     const [isLoading, setIsLoading] = useState(false);
     // ファイル選択できたら、ファイル名を画面に表示したい
     const [fileName, setFileName] = useState('');
@@ -109,4 +109,4 @@ const DragDropRef = () => {
     );
 }
 
-export default DragDropRef;
+export default FileDragDrop;

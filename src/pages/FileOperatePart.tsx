@@ -1,13 +1,13 @@
 import React from 'react'
-import DragDropRef from './dragDropRef'
-import TemplateDownload from './TemplateDownload'
+import FileDragDrop from './FileDragDrop'
+import FileTemplateDownload from './FileTemplateDownload'
 
 {/* ファイルアップロード・ダウンロード機能 */ }
 const FileOperatePart = () => {
     return (
         <>
-            <TemplateDownload />
-            <DragDropRef />
+            <FileTemplateDownload />
+            <FileDragDrop />
         </>
     )
 }

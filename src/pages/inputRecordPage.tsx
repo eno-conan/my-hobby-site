@@ -11,13 +11,11 @@ import { ErrorMessage } from '@hookform/error-message';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
 import AddIcon from '@mui/icons-material/Add';
-import ClearIcon from '@mui/icons-material/Clear';
 import useSWR from 'swr';
 import CommonDrawer from '../components/CommonDrawer';
-import WriteMarkdown from './WriteMarkdown';
+import WriteMarkdown from './DetailMarkdownPart';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
-import CircularProgress from '@mui/material/CircularProgress';
 import {
     DESCRIPTION_DISPLAY_VALUE,
     DETAIL_DISPLAY_VALUE,
@@ -28,8 +26,11 @@ import {
 } from '../consts/inputField';
 import { useFieldArray } from "react-hook-form"
 import FileOperatePart from './FileOperatePart';
-import ReferencePart from './referencePart';
 import LoadingPart from './LoadingPart';
+import ReferencePart from './ReferencePart';
+import DetailPart from './DetailPart';
+import TextPart from './TextPart';
+import MainPart from './MainPart';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -52,7 +53,7 @@ const fetcher = (url: string) =>
     });
 
 // 記録追加
-const InputRecord: NextPage = () => {
+const inputRecordPage: NextPage = () => {
     // URLからドメイン取得
     const [host, setHost] = useState('');
     useEffect(() => {
@@ -73,89 +74,6 @@ const InputRecord: NextPage = () => {
     });
     // markDownを使用した場合の値管理
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
-    // TextとMarkDownの切り替え
-    const handleChange = (event: any) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
-
-    // フィールド名表示用のメソッド
-    const fieldNamePart = (fieldName: string) => {
-        return (
-            <>
-                <Grid2 xs={12} md={12}>
-                    {fieldName}
-                </Grid2>
-            </>)
-    }
-
-    // 各入力項目の表示方法を設定
-    const inputField = (fieldName: string, label: any, multiline: boolean, selectField: boolean, data?: any) => {
-        return (
-            <>
-                <Box component='span' fontSize={18}>
-                    {fieldNamePart(fieldName)}
-                </Box>
-                <Grid2 xs={12} md={12}>
-                    <Box component='span'>
-                        <TextField
-                            variant='outlined'
-                            fullWidth
-                            id={label}
-                            label={label}
-                            multiline={multiline}
-                            select={selectField}
-                            defaultValue={''}
-                            {...register(label)}
-                        >
-                            {/* Github専用だけども */}
-                            {data ?
-                                data.map((option: any) => (
-                                    <MenuItem key={option.reponame} value={option.reponame}>
-                                        {option.reponame}
-                                    </MenuItem>
-                                ))
-                                :
-                                <></>
-                            }
-                        </TextField>
-                    </Box>
-                    <Box sx={{ bgcolor: 'error.main', borderRadius: 2 }}>
-                        <ErrorMessage errors={errors} name={label} />
-                    </Box>
-                </Grid2>
-            </>
-        );
-    }
-
-    // 詳細部分の表示
-    const detailField = (markdown: boolean) => {
-        return (
-            <>
-                <Box component='span' fontSize={18}>
-                    {fieldNamePart(DETAIL_DISPLAY_VALUE)}
-                </Box>
-                <Grid2 xs={12} md={12}>
-                    <FormGroup row>
-                        <FormControlLabel
-                            control={<Switch checked={state.markdown} onChange={handleChange} name='markdown' />}
-                            label='Markdownで記述'
-                        />
-                    </FormGroup>
-                </Grid2>
-                {state.markdown ?
-                    <>
-                        <Grid2 xs={12} md={12}>
-                            <WriteMarkdown setValueUseMarkdown={setValueUseMarkdown} />
-                        </Grid2>
-                    </>
-                    :
-                    <>
-                        {inputField('', 'detail', false, false)}
-                    </>
-                }
-            </>
-        )
-    }
 
     // 参照リンク以下
     const referencePart = () => {
@@ -234,18 +152,9 @@ const InputRecord: NextPage = () => {
                 {/* ファイルアップロード・ダウンロード機能 */}
                 <FileOperatePart />
                 <Divider />
-                {/* 入力箇所 */}
-                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
-                    <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
-                </Box>
-                <Grid2 container spacing={2} paddingLeft={4}>
-                    {/*題名・概要・リポジトリ・詳細 */}
-                    {/* 汚いから修正したい */}
-                    {inputField(TITLE_DISPLAY_VALUE, 'title', false, false)}
-                    {inputField(DESCRIPTION_DISPLAY_VALUE, 'description', false, false)}
-                    {inputField(GITHUB_REPO_DISPLAY_VALUE, 'githubRepo', false, true, data)}
-                    {detailField(state.markdown)}
-                </Grid2>
+                {/* 主な事項を記載する箇所 */}
+                <MainPart
+                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} data={data} />
                 {/* 参照リンクの記載箇所 */}
                 <Box>
                     {referencePart}
@@ -261,7 +170,7 @@ const InputRecord: NextPage = () => {
 
 }
 
-export default InputRecord
+export default inputRecordPage
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //     const res: any = await GetRepos();

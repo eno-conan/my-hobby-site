@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useFieldArray, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 const RefInfo = z.object({
     linkTitle: z.string().max(10),
@@ -10,11 +10,9 @@ const schema = z.object({
     title: z.string().min(1, '最低1文字は入力してください'),
     description: z.string().min(1, '最低1文字は入力してください'),
     githubRepo: z.string().max(100).or(z.literal('')),
-    detail: z.string().min(1, '最低1文字は入力してください'),
+    detail: z.string().min(1, '最低1文字は入力してください').or(z.literal('')),
     reference: z.array(RefInfo)
 })
-// type FormValues = z.infer<typeof schema>
-// let defaultValues: FormValues = { title: '', description: '', githubRepo: '', detail: '', reference: [] }
 
 export interface RefForm {
     linkTitle: string
@@ -35,7 +33,6 @@ const inputRecordForm = () => {
         resolver: zodResolver(schema),
         defaultValues: { title: '', description: '', githubRepo: '', detail: '', reference: [] },
     });
-    // const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
     return {
         control,
         register,

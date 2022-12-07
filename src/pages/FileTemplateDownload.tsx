@@ -3,7 +3,7 @@ import { Box, Grid } from '@material-ui/core'
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { Link, Stack, Typography } from '@mui/material';
 
-const TemplateDownload = () => {
+const FileTemplateDownload = () => {
     return (
         <>
             <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
@@ -22,4 +22,4 @@ const TemplateDownload = () => {
     )
 }
 
-export default TemplateDownload
+export default FileTemplateDownload

@@ -75,7 +75,7 @@ const rows = [
 ];
 
 // 記録検索画面の作成
-const searchRecord = () => {
+const searchRecordPage = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [inputValue, setInputValue] = useState("");
@@ -176,4 +176,4 @@ const searchRecord = () => {
     )
 }
 
-export default searchRecord
+export default searchRecordPage
