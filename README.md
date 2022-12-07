@@ -6,6 +6,11 @@ https://mui.com/material-ui/icons/
 [ESLintを無視(next.config.jsに記載)](https://nextjs.org/docs/api-reference/next.config.js/ignoring-eslint)
 [react-form-errorMessage表示](https://react-hook-form.com/api/useformstate/errormessage)
 
+
+### React
+[1度だけ変更されるstateにはuseStateよりuseReducerを使う](https://zenn.dev/spacemarket/articles/9eb80496fa5fe6?s=09)
+[RHF：ネストフォーム](https://zenn.dev/maro12/articles/7d011d3dfed5d4#%E8%A8%98%E4%BA%8B%E3%81%AE%E6%A6%82%E8%A6%81)
+
 ### Material UI
 [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
 [Gridの使い方、V1,2の2種類あるらしい](https://weblion303.net/1236)
@@ -26,7 +31,6 @@ https://mui.com/material-ui/icons/
 [Zodユースケース](https://zenn.dev/kaz_z/articles/how-to-use-zod)
 [機能一通り紹介](https://zenn.dev/uttk/articles/bd264fa884e026#.parse())
 [Error Handling Basic](https://tech.every.tv/entry/2022/03/31/170000)
-[ネストフォーム](https://zenn.dev/maro12/articles/7d011d3dfed5d4#%E8%A8%98%E4%BA%8B%E3%81%AE%E6%A6%82%E8%A6%81)
 
 ### markdown
 [入力とプレビュー：22/12/04](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82#%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%80%E3%82%A6%[…]l%E3%81%AB%E5%A4%89%E6%8F%9B%E3%81%99%E3%82%8B)

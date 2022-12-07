@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import { Stack, } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import CommonHeadline from '../components/CommonHeadline';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
@@ -17,6 +17,7 @@ import LoadingPart from '../components/LoadingPart';
 import ReferencePart from '../components/ReferencePart';
 import MainPart from '../components/MainPart';
 import FileOperatePart from '../components/FileOperatePart';
+import SentPart from '../components/SentPart';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -55,11 +56,10 @@ const InputRecordPage: NextPage = () => {
     const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
     const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
     // switchの状態管理
-    const [state, setState] = React.useState({
-        markdown: false,
-    });
+    const [writeMarkdown, setWriteMarkdown] = React.useState(false);
     // markDownを使用した場合の値管理
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
+    const [finished, setFinished] = useState(false)
 
     // 参照リンク以下
     const refPart = () => {
@@ -101,7 +101,7 @@ const InputRecordPage: NextPage = () => {
         };
         // 詳細情報はtextかmarkdownで設定値を切替
         let detailInfo: string = '';
-        if (state.markdown) {
+        if (writeMarkdown) {
             detailInfo = valueUseMarkdown;
         } else {
             detailInfo = getValues().detail
@@ -115,18 +115,26 @@ const InputRecordPage: NextPage = () => {
             reference: getValues().reference
         };
         const body = JSON.stringify(sendInfo);
+        // 送信
         fetch(`${host}/api/record`, { method, headers, body })
             .then((res) => res.json())
             .then(console.log).catch(console.error);
+
         //githubのプルダウンが初期化できない・・・(22/12/04) 
+        // SentPartで送信完了表示から遷移したら初期化できているぞ(22/12/08)
         reset();
         setValueUseMarkdown('');
-        setFocus('title');
+        setFinished(true);
     }
 
     // ローディング中の表示
     if (!data) return (
         <LoadingPart />
+    );
+
+    // 送信完了を表示
+    if (finished) return (
+        <SentPart setFinished={setFinished} />
     );
 
     return (
@@ -142,7 +150,7 @@ const InputRecordPage: NextPage = () => {
                 <Divider />
                 {/* 主な事項を記載する箇所 */}
                 <MainPart
-                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} data={data} />
+                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} data={data} />
                 {/* 参照リンクの記載箇所 */}
                 <Box>
                     {refPart}

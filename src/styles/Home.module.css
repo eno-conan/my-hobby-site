@@ -45,6 +45,18 @@
   font-size: 4rem;
 }
 
+.sentRecord {
+  margin: 0;
+  line-height: 2.0;
+  font-size: 2.5rem;
+}
+
+.nextaction {
+  margin: 0;
+  line-height: 2.0;
+  font-size: 2rem;
+}
+
 .title,
 .description {
   text-align: center;

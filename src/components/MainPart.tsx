@@ -13,12 +13,13 @@ interface Props {
     register: UseFormRegister<RecordForm>;
     errors: Partial<FieldErrorsImpl<RecordForm>>
     setValueUseMarkdown: React.Dispatch<
-        React.SetStateAction<string>
-    >;
+        React.SetStateAction<string>>;
+    setWriteMarkdown: React.Dispatch<
+        React.SetStateAction<boolean>>;
     data: any;
 }
 
-const MainPart = ({ register, errors, setValueUseMarkdown, data }: Props) => {
+const MainPart = ({ register, errors, setValueUseMarkdown, setWriteMarkdown, data }: Props) => {
     const fieldNamePart = (fieldName: string) => {
         return (
             <>
@@ -77,7 +78,7 @@ const MainPart = ({ register, errors, setValueUseMarkdown, data }: Props) => {
                     register={register} errors={errors} fieldName={DESCRIPTION_DISPLAY_VALUE} label={'description'} />
                 {/* リポジトリ・詳細 */}
                 {pullDownField(GITHUB_REPO_DISPLAY_VALUE, 'githubRepo', data)}
-                <DetailPart register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} />
+                <DetailPart register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} />
             </Grid2>
         </>
     )

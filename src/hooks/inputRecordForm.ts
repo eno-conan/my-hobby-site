@@ -3,8 +3,8 @@ import { z } from 'zod'
 import { useForm } from "react-hook-form"
 
 const RefInfo = z.object({
-    linkTitle: z.string().max(10),
-    linkUrl: z.string().max(10),
+    linkTitle: z.string().max(200),
+    linkUrl: z.string().max(200),
 })
 const schema = z.object({
     title: z.string().min(1, '最低1文字は入力してください'),
