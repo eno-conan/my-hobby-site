@@ -55,10 +55,6 @@ const InputRecordPage: NextPage = () => {
 
     // 入力内容送信
     const sendRegisterInfo = () => {
-        const method = 'POST';
-        const headers = {
-            'Accept': 'application/json'
-        };
         // 詳細情報はtextかmarkdownで設定値を切替
         let detailInfo: string = '';
         if (writeMarkdown) {
@@ -74,7 +70,11 @@ const InputRecordPage: NextPage = () => {
             detail: detailInfo,
             reference: getValues().reference
         };
+        const method = 'POST';
         const body = JSON.stringify(sendInfo);
+        const headers = {
+            'Accept': 'application/json'
+        };
         // 送信
         fetch(`${host}/api/record`, { method, headers, body })
             .then((res) => res.json())
@@ -109,6 +109,7 @@ const InputRecordPage: NextPage = () => {
                                 {/* メタ情報の設定 */}
                                 {/* ページ見出し */}
                                 <CommonMeta title={'記録追加'} />
+                                {/* フォントサイズと見出しかどうかの引数設定して、FieldNamePartで統一できないか */}
                                 <CommonHeadline headLine='記録追加' />
                                 {/* ファイルアップロード・ダウンロード機能 */}
                                 <FileOperatePart setValue={setValue} />
@@ -119,9 +120,9 @@ const InputRecordPage: NextPage = () => {
                                 {/* 参照リンクの記載箇所 */}
                                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                                 {/* 送信 */}
-                                <Stack direction='row' spacing={2} justifyContent='right'>
+                                <Stack direction='row' justifyContent='right' pb={4}>
                                     <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
-                                        Success
+                                        Create Record
                                     </Button>
                                 </Stack>
                             </Container>

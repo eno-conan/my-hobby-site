@@ -5,6 +5,7 @@ import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form';
 import { DETAIL_DISPLAY_VALUE } from '../consts/inputField';
 import { RecordForm } from '../hooks/inputRecordForm';
 import DetailMarkdownPart from './DetailMarkdownPart';
+import FieldNamePart from './FieldNamePart';
 import TextPart from './TextPart';
 
 interface Props {
@@ -31,11 +32,7 @@ const DetailPart = ({ register, errors, setValueUseMarkdown, setWriteMarkdown }:
     };
     return (
         <>
-            <Box component='span' fontSize={18}>
-                <Grid2 xs={12} md={12}>
-                    {DETAIL_DISPLAY_VALUE}
-                </Grid2>
-            </Box>
+            <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
             <Grid2 xs={12} md={12}>
                 <FormGroup row>
                     <FormControlLabel
@@ -53,7 +50,7 @@ const DetailPart = ({ register, errors, setValueUseMarkdown, setWriteMarkdown }:
                 :
                 <>
                     <TextPart
-                        register={register} errors={errors} fieldName={''} label={'detail'} />
+                        register={register} errors={errors} label={'detail'} />
                 </>
             }
         </>

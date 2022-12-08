@@ -8,6 +8,7 @@ import { MenuItem, TextField } from '@material-ui/core'
 import { RecordForm } from '../hooks/inputRecordForm'
 import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
+import FieldNamePart from './FieldNamePart'
 
 interface Props {
     register: UseFormRegister<RecordForm>;
@@ -20,21 +21,10 @@ interface Props {
 }
 
 const MainPart = ({ register, errors, setValueUseMarkdown, setWriteMarkdown, data }: Props) => {
-    const fieldNamePart = (fieldName: string) => {
-        return (
-            <>
-                <Grid2 xs={12} md={12}>
-                    {fieldName}
-                </Grid2>
-            </>)
-    }
 
-    const pullDownField = (fieldName: string, label: any, data: any) => {
+    const pullDownField = (label: any, data: any) => {
         return (
             <>
-                <Box component='span' fontSize={18}>
-                    {fieldNamePart(fieldName)}
-                </Box>
                 <Grid2 xs={12} md={12}>
                     <Box component='span'>
                         <TextField
@@ -72,12 +62,15 @@ const MainPart = ({ register, errors, setValueUseMarkdown, setWriteMarkdown, dat
             </Box>
             <Grid2 container spacing={2} paddingLeft={4}>
                 {/*題名・概要 */}
+                <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
                 <TextPart
-                    register={register} errors={errors} fieldName={TITLE_DISPLAY_VALUE} label={'title'} />
+                    register={register} errors={errors} label={'title'} />
+                <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
                 <TextPart
-                    register={register} errors={errors} fieldName={DESCRIPTION_DISPLAY_VALUE} label={'description'} />
+                    register={register} errors={errors} label={'description'} />
                 {/* リポジトリ・詳細 */}
-                {pullDownField(GITHUB_REPO_DISPLAY_VALUE, 'githubRepo', data)}
+                <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} />
+                {pullDownField('githubRepo', data)}
                 <DetailPart register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} />
             </Grid2>
         </>

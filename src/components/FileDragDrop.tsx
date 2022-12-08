@@ -108,7 +108,7 @@ const FileDragDrop = ({ setValue }: Props) => {
                                             </div>
                                             <div className="container flex justify-center text-xs text-gray-500">
                                                 <p>
-                                                    <>ドラッグ＆ドロップ、またはクリックしてファイルをアップロード</>
+                                                    <>ここをクリックしてファイルをアップロード</>
                                                 </p>
                                             </div>
                                         </div>

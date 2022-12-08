@@ -9,34 +9,22 @@ import { ErrorMessage } from '@hookform/error-message';
 interface Props {
     register: UseFormRegister<RecordForm>;
     errors: Partial<FieldErrorsImpl<RecordForm>>
-    fieldName: string;
     label: any;
 }
 
 
-const TextPart = ({ register, errors, fieldName, label }: Props) => {
-    // フィールド名表示用のメソッド
-    const fieldNamePart = (fieldName: string) => {
-        return (
-            <>
-                <Grid2 xs={12} md={12}>
-                    {fieldName}
-                </Grid2>
-            </>)
-    }
+const TextPart = ({ register, errors, label }: Props) => {
 
     return (
         <>
-            <Box component='span' fontSize={18}>
-                {fieldNamePart(fieldName)}
-            </Box>
             <Grid2 xs={12} md={12}>
                 <Box component='span'>
                     <TextField
                         variant='outlined'
                         fullWidth
                         id={label}
-                        label={label}
+                        multiline
+                        // label={label}
                         {...register(label)}
                     >
                     </TextField>
