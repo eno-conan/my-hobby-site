@@ -10,6 +10,7 @@ https://mui.com/material-ui/icons/
 ### React
 [1度だけ変更されるstateにはuseStateよりuseReducerを使う](https://zenn.dev/spacemarket/articles/9eb80496fa5fe6?s=09)
 [RHF：ネストフォーム](https://zenn.dev/maro12/articles/7d011d3dfed5d4#%E8%A8%98%E4%BA%8B%E3%81%AE%E6%A6%82%E8%A6%81)
+[22/12/08:Each child in a list should have a unique "key" propへの対応](https://dev.classmethod.jp/articles/avoiding-warningeach-child-in-a-list-should-have-a-unique-key-prop-in-react-apps-is-called-and-not-on-the-side-do-it-on-the-caller/)
 
 ### Material UI
 [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)

@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Box, Container, Divider } from '@material-ui/core'
+import { Container, Divider } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { experimentalStyled as styled } from '@mui/material/styles';
@@ -8,10 +8,8 @@ import React, { useEffect, useReducer, useState } from 'react'
 import CommonHeadline from '../components/CommonHeadline';
 import inputRecordForm from '../hooks/inputRecordForm';
 import CommonMeta from '../components/CommonMeta';
-import AddIcon from '@mui/icons-material/Add';
 import useSWR from 'swr';
 import CommonDrawer from '../components/CommonDrawer';
-import { REFER_LINK_DISPLAY_VALUE } from '../consts/inputField';
 import { useFieldArray } from "react-hook-form"
 import LoadingPart from '../components/LoadingPart';
 import ReferencePart from '../components/ReferencePart';
@@ -26,13 +24,6 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
 }));
-
-// データ取得
-// const GetRepos = async () => {
-//     const response = await fetch('http://localhost:3000/api/githubRepos');
-//     const res = await response.json();
-//     return res!;
-// }
 
 const fetcher = (url: string) =>
     fetch(url).then(async (res) => {
@@ -59,39 +50,8 @@ const InputRecordPage: NextPage = () => {
     const [writeMarkdown, setWriteMarkdown] = React.useState(false);
     // markDownを使用した場合の値管理
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
+    // 入力完了を管理
     const [finished, setFinished] = useState(false)
-
-    // 参照リンク以下
-    const refPart = () => {
-        return (
-            <>
-                <Stack spacing={2}>
-                    <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
-                        <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
-                    </Box>
-                    <Box sx={{ color: 'primary.success', pl: 4 }}>
-                        {fields.map((field: any, index: number) => {
-                            return (
-                                <>
-                                    <div key={field.id}>
-                                        <ReferencePart
-                                            index={index}
-                                            register={register}
-                                            errors={errors}
-                                            remove={remove}
-                                        />
-                                    </div>
-                                </>
-                            )
-                        })}
-                    </Box>
-                </Stack>
-                <Box sx={{ color: 'primary.success', pt: 2, pl: 4 }}>
-                    <Button onClick={() => append({ linkTitle: '', linkUrl: '' })}><AddIcon titleAccess='Add reference' /></Button>
-                </Box>
-            </>
-        )
-    }
 
     // 入力内容送信
     const sendRegisterInfo = () => {
@@ -128,43 +88,48 @@ const InputRecordPage: NextPage = () => {
     }
 
     // ローディング中の表示
-    if (!data) return (
-        <LoadingPart />
-    );
-
-    // 送信完了を表示
-    if (finished) return (
-        <SentPart setFinished={setFinished} />
-    );
+    if (!data) {
+        return (
+            <LoadingPart />
+        );
+    }
 
     return (
         <>
-            <CommonDrawer />
-            <Container maxWidth='md'>
-                {/* メタ情報の設定 */}
-                {/* ページ見出し */}
-                <CommonMeta title={'記録追加'} />
-                <CommonHeadline headLine='記録追加' />
-                {/* ファイルアップロード・ダウンロード機能 */}
-                <FileOperatePart setValue={setValue} />
-                <Divider />
-                {/* 主な事項を記載する箇所 */}
-                <MainPart
-                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} data={data} />
-                {/* 参照リンクの記載箇所 */}
-                <Box>
-                    {refPart}
-                </Box>
-                {/* 送信 */}
-                <Stack direction='row' spacing={2} justifyContent='right'>
-                    <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
-                        Success
-                    </Button>
-                </Stack>
-            </Container>
+            {(() => {
+                // 送信完了を表示
+                if (finished) return (
+                    <SentPart setFinished={setFinished} />
+                ); else {
+                    // 未送信の場合はフォーム表示
+                    return (
+                        <>
+                            <CommonDrawer />
+                            <Container maxWidth='md'>
+                                {/* メタ情報の設定 */}
+                                {/* ページ見出し */}
+                                <CommonMeta title={'記録追加'} />
+                                <CommonHeadline headLine='記録追加' />
+                                {/* ファイルアップロード・ダウンロード機能 */}
+                                <FileOperatePart setValue={setValue} />
+                                <Divider />
+                                {/* 主な事項を記載する箇所 */}
+                                <MainPart
+                                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} data={data} />
+                                {/* 参照リンクの記載箇所 */}
+                                <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
+                                {/* 送信 */}
+                                <Stack direction='row' spacing={2} justifyContent='right'>
+                                    <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
+                                        Success
+                                    </Button>
+                                </Stack>
+                            </Container>
+                        </>);
+                }
+            })()}
         </>
     )
-
 }
 
 export default InputRecordPage
