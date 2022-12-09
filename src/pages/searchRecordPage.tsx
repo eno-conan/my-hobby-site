@@ -16,6 +16,7 @@ import useRecord from '../hooks/useRecord'
 import { IData } from '../../types/searchRecordPage'
 import { Record } from '../../types'
 import { Stack } from '@mui/material'
+import setGetData from '../hooks/setGetData'
 
 interface Column {
     id: 'title' | 'description' | 'githubRepo' | 'updated_at' | 'finished';
@@ -44,45 +45,35 @@ const columns: readonly Column[] = [
     }
 ];
 
-// function createData(
-//     title: string,
-//     description: string,
-//     githubRepo: string,
-//     updated_at: dateti,
-//     finished: boolean
-// ): Record {
-//     return { title, description, githubRepo, updated_at, finished };
-// }
 
-const rows = [
-    {
-        created_at: "2022-12-09T12:53:14.014Z",
-        description: "2",
-        detail: "3",
-        finished: false,
-        githubRepo: "eno-conan/next-nortion-blog",
-        id: 1,
-        title: "1",
-        updated_at: "2022-12-09T12:53:14.014Z"
-    }];
+// const rows = [
+//     {
+//         created_at: "2022-12-09T12:53:14.014Z",
+//         description: "2",
+//         detail: "3",
+//         finished: false,
+//         githubRepo: "eno-conan/next-nortion-blog",
+//         id: 1,
+//         title: "1",
+//         updated_at: "2022-12-09T12:53:14.014Z"
+//     }];
 
 // 記録検索画面の作成
 const searchRecordPage: NextPage = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [inputValue, setInputValue] = useState("");
+    const [showRecords, setShowRecords] = useState<any>();
     // 取得データを設定
-    const [showRecords, setShowRecords] = React.useState<any>(rows);
     const {
         records,
         isLoading: isLoadingRecords,
         refetch: refetchRecords,
     } = useRecord();
+    setGetData(setShowRecords, records);
     // useEffect(() => {
-    //     setShowRecords(records);
+    //     setShowRecords(records)
     // }, []);
-    // Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
-
     // 別ページ遷移
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -96,20 +87,20 @@ const searchRecordPage: NextPage = () => {
 
     // 検索機能
     const search = (value: string) => {
-        console.log(value);
         if (value !== "") {
-            const filteredList = showRecords.filter((rcd: IData) =>
+            const filteredList = records!.filter((rcd: Record) =>
                 Object.values(rcd).some(
-                    (info: string) =>
-                        console.log(info)
-                    // info.toString().toUpperCase().indexOf(value.toUpperCase()) !== -1
+                    (info: any) => (
+                        info.toString().toUpperCase().indexOf(value.toString().toUpperCase()) !== -1
+                    )
                 )
             );
+            console.log(filteredList);
             setShowRecords(filteredList);
             return;
         }
 
-        setShowRecords(showRecords);
+        setShowRecords(records);
         return;
     };
 
@@ -138,7 +129,7 @@ const searchRecordPage: NextPage = () => {
             </Container>
             <Divider />
             {(() => {
-                if (records) return (
+                if (showRecords) return (
                     <Container maxWidth="lg">
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                             <TableContainer sx={{ maxHeight: 440 }}>
@@ -157,7 +148,7 @@ const searchRecordPage: NextPage = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {records && records
+                                        {showRecords && showRecords
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row: any) => {
                                                 return (
