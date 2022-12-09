@@ -1,5 +1,5 @@
-import { Container } from '@material-ui/core'
-import React, { useState } from 'react'
+import { Container, Divider } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
 import CommonDrawer from '../components/CommonDrawer'
 import CommonHeadline from '../components/CommonHeadline'
 import CommonMeta from '../components/CommonMeta'
@@ -12,10 +12,13 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { NextPage } from 'next'
+import useRecord from '../hooks/useRecord'
+import { IData } from '../../types/searchRecordPage'
+import { Record } from '../../types'
+import { Stack } from '@mui/material'
 
-// ステータス（完了と未完了だけでよき？）・タイトル・概要の頭N文字・gitHubRepo・更新日時
 interface Column {
-    id: 'title' | 'description' | 'GithubRepo' | 'updated_at';
+    id: 'title' | 'description' | 'githubRepo' | 'updated_at' | 'finished';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -23,65 +26,62 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: 'title', label: 'Title', minWidth: 170 },
-    { id: 'description', label: 'ISO\u00a0description', minWidth: 100 },
+    { id: 'title', label: 'Title', minWidth: 50 },
+    { id: 'description', label: 'description', minWidth: 50 },
     {
-        id: 'GithubRepo',
-        label: 'GithubRepo',
-        minWidth: 170,
+        id: 'githubRepo',
+        label: 'githubRepo',
+        minWidth: 50,
         align: 'right',
         format: (value: number) => value.toLocaleString('en-US'),
     },
     {
         id: 'updated_at',
-        label: 'updated_at\u00a0(km\u00b2)',
+        label: 'updated_at',
         minWidth: 170,
         align: 'right',
         format: (value: number) => value.toLocaleString('en-US'),
     }
 ];
 
-interface IData {
-    title: string;
-    description: string;
-    GithubRepo: number;
-    updated_at: number;
-}
-
-function createData(
-    title: string,
-    description: string,
-    GithubRepo: number,
-    updated_at: number,
-): IData {
-    return { title, description, GithubRepo, updated_at };
-}
+// function createData(
+//     title: string,
+//     description: string,
+//     githubRepo: string,
+//     updated_at: dateti,
+//     finished: boolean
+// ): Record {
+//     return { title, description, githubRepo, updated_at, finished };
+// }
 
 const rows = [
-    createData('India', 'IN', 1324171354, 3287263),
-    createData('China', 'CN', 1403500365, 9596961),
-    createData('Italy', 'IT', 60483973, 301340),
-    createData('United States', 'US', 327167434, 9833520),
-    createData('Canada', 'CA', 37602103, 9984670),
-    createData('Australia', 'AU', 25475400, 7692024),
-    createData('Germany', 'DE', 83019200, 357578),
-    createData('Ireland', 'IE', 4857000, 70273),
-    createData('Mexico', 'MX', 126577691, 1972550),
-    createData('Japan', 'JP', 126317000, 377973),
-    createData('France', 'FR', 67022000, 640679),
-    createData('United Kingdom', 'GB', 67545757, 242495),
-    createData('Russia', 'RU', 146793744, 17098246),
-    createData('Nigeria', 'NG', 200962417, 923768),
-    createData('Brazil', 'BR', 210147125, 8515767),
-];
+    {
+        created_at: "2022-12-09T12:53:14.014Z",
+        description: "2",
+        detail: "3",
+        finished: false,
+        githubRepo: "eno-conan/next-nortion-blog",
+        id: 1,
+        title: "1",
+        updated_at: "2022-12-09T12:53:14.014Z"
+    }];
 
 // 記録検索画面の作成
-const SearchRecordPage: NextPage = () => {
+const searchRecordPage: NextPage = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [inputValue, setInputValue] = useState("");
     // 取得データを設定
-    const [records, setRecords] = React.useState<Array<IData>>(rows);
+    const [showRecords, setShowRecords] = React.useState<any>(rows);
+    const {
+        records,
+        isLoading: isLoadingRecords,
+        refetch: refetchRecords,
+    } = useRecord();
+    // useEffect(() => {
+    //     setShowRecords(records);
+    // }, []);
+    // Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
 
     // 別ページ遷移
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -96,18 +96,20 @@ const SearchRecordPage: NextPage = () => {
 
     // 検索機能
     const search = (value: string) => {
+        console.log(value);
         if (value !== "") {
-            const filteredList = rows.filter((rcd: IData) =>
+            const filteredList = showRecords.filter((rcd: IData) =>
                 Object.values(rcd).some(
                     (info: string) =>
-                        info.toString().toUpperCase().indexOf(value.toUpperCase()) !== -1
+                        console.log(info)
+                    // info.toString().toUpperCase().indexOf(value.toUpperCase()) !== -1
                 )
             );
-            setRecords(filteredList);
+            setShowRecords(filteredList);
             return;
         }
 
-        setRecords(rows);
+        setShowRecords(showRecords);
         return;
     };
 
@@ -116,70 +118,80 @@ const SearchRecordPage: NextPage = () => {
         setInputValue(e.target.value);
         search(e.target.value);
     };
+
     return (
-        <div>
+        <>
             <CommonDrawer />
             <CommonMeta title={"記録検索"} />
             <Container maxWidth="md">
-                <CommonHeadline headLine='記録検索' />
-                <h3>検索条件</h3>
-                <h5>GitHubのリポジトリ</h5>
-                <h5>タイトル</h5>
-                <h5>参照リンクのタイトル</h5>
-                <div>
-                    <span style={{ marginRight: "5px" }}>検索フォーム</span>
-                    <input type="text" value={inputValue} onChange={handleChange} />
-                </div>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <TableContainer sx={{ maxHeight: 440 }}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {records
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.description}>
-                                                {columns.map((column) => {
-                                                    const value = row[column.id];
-                                                    return (
-                                                        <TableCell key={column.id} align={column.align}>
-                                                            {column.format && typeof value === 'number'
-                                                                ? column.format(value)
-                                                                : value}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage} />
-                </Paper>
+                <Stack spacing={2} pb={4}>
+                    <CommonHeadline headLine='記録検索' />
+                    <h3>検索条件</h3>
+                    <h5>GitHubのリポジトリ</h5>
+                    <h5>タイトル</h5>
+                    <h5>参照リンクのタイトル</h5>
+                    <div>
+                        <span style={{ marginRight: "5px" }}>検索フォーム</span>
+                        <input type="text" value={inputValue} onChange={handleChange} />
+                    </div>
+                </Stack>
             </Container>
-        </div>
+            <Divider />
+            {(() => {
+                if (records) return (
+                    <Container maxWidth="lg">
+                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                            <TableContainer sx={{ maxHeight: 440 }}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            {columns.map((column) => (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align={column.align}
+                                                    style={{ minWidth: column.minWidth }}
+                                                >
+                                                    {column.label}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {records && records
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row: any) => {
+                                                return (
+                                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.description}>
+                                                        {columns.map((column) => {
+                                                            const value = row[column.id];
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align}>
+                                                                    {column.format && typeof value === 'number'
+                                                                        ? column.format(value)
+                                                                        : value}
+                                                                </TableCell>
+                                                            );
+                                                        })}
+                                                    </TableRow>
+                                                );
+                                            })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[10, 25, 100]}
+                                component="div"
+                                count={showRecords.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage} />
+                        </Paper>
+                    </Container>
+                );
+            })()}
+        </>
     )
 }
 
-export default SearchRecordPage
+export default searchRecordPage

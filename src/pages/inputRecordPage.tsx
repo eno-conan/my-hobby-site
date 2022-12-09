@@ -35,7 +35,7 @@ const InputRecordPage: NextPage = () => {
     // URLからドメイン取得
     const [host, setHost] = useState('');
     useEffect(() => {
-        setHost(window.location.href.split('/inputRecord')[0]);
+        setHost(window.location.href.split('/inputRecordPage')[0]);
     }, []);
     // gitHubRepository一覧取得
     const { data, error } = useSWR(

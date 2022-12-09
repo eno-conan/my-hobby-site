@@ -1,6 +1,6 @@
 import { Record } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prismaRecordCreate } from '../../../prisma/functions/record';
+import { prismaRecordCreate, prismaRecordsFindMany } from '../../../prisma/functions/record';
 import { prismaRecordRefsCreate } from '../../../prisma/functions/recordRef';
 
 /**
@@ -41,8 +41,8 @@ export default async function handler(
 
     switch (method) {
         case 'GET':
-            //   const authors = await prismaAuthorFindMany();
-            //   res.status(200).json(authors);
+            const records = await prismaRecordsFindMany();
+            res.status(200).json(records);
             break;
 
         case 'POST':
@@ -50,7 +50,7 @@ export default async function handler(
             const jsonBody = JSON.parse(body)
             // const params = JSON.parse(body) as Omit<Record, 'id'>;
             //recordテーブルへの登録内容設定 
-            const createRecordParams = { title: '', description: '', githubRepo: '', detail: '', finished: false }
+            const createRecordParams = { title: '', description: '', githubRepo: '', detail: '', finished: false, created_at: new Date(), updated_at: new Date() }
             createRecordParams.title = jsonBody.title
             createRecordParams.description = jsonBody.description
             createRecordParams.githubRepo = jsonBody.githubRepo
@@ -58,7 +58,7 @@ export default async function handler(
             createRecordParams.finished = jsonBody.finished
             const record = await prismaRecordCreate(createRecordParams);
             // recordRefへの登録
-            const createRecordRefsParams = { linkTitle: '1', linkUrl: '2', recordId: record.id }
+            const createRecordRefsParams = { linkTitle: '', linkUrl: '', recordId: record.id }
             const links = jsonBody.refs
             createRecordRefsParams.linkTitle = links[0].linkTitle
             createRecordRefsParams.linkUrl = links[0].linkUrl

@@ -26,7 +26,7 @@ const SentPart = ({ setFinished }: Props) => {
                         <div onClick={reInputRecord}>続けて入力する</div>
                     </div>
                     <div className={styles.nextaction}>
-                        <Link href="/">一覧を表示する</Link>
+                        <Link href="/searchRecordPage">一覧を表示する</Link>
                     </div>
                 </Grid>
             </Container>

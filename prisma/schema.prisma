@@ -12,12 +12,14 @@ datasource db {
 }
 
 model Record {
-  id          Int         @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
-  description String @db.LongText
+  description String   @db.LongText
   githubRepo  String
-  detail      String @db.LongText
+  detail      String   @db.LongText
   finished    Boolean
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
 }
 
 model RecordRef {
@@ -28,6 +30,6 @@ model RecordRef {
 }
 
 model Dummy {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 }

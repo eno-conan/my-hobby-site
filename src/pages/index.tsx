@@ -14,7 +14,13 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Let's Visit <Link href="/inputRecordPage">Input Record Page</Link>
+          Select Page
+        </h1>
+        <h1 className={styles.nextaction}>
+          <Link href="/inputRecordPage">Input Record Page</Link>
+        </h1>
+        <h1 className={styles.nextaction}>
+          <Link href="/searchRecordPage">Records List Page</Link>
         </h1>
 
         <p className={styles.description}>

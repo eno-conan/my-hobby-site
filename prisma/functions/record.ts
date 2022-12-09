@@ -1,7 +1,7 @@
 import prisma from './client';
 import { Record } from '@prisma/client';
 
-export const prismaAuthorFindMany = async (): Promise<Record[]> => {
+export const prismaRecordsFindMany = async (): Promise<Record[]> => {
     const records = await prisma.record.findMany();
     return records;
 };
