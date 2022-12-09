@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { allMemberList } from "../../consts/realtimeSearch";
-import { member } from "../../types/realtimeSearchType";
+import { member } from "../../../types/realtimeSearchType";
 export type MemberList = Array<member>;
 
 const RealTimeSearch = () => {

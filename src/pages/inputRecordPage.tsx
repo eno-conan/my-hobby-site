@@ -68,7 +68,8 @@ const InputRecordPage: NextPage = () => {
             description: getValues().description,
             githubRepo: getValues().githubRepo,
             detail: detailInfo,
-            reference: getValues().reference
+            finished: false,
+            refs: getValues().reference
         };
         const method = 'POST';
         const body = JSON.stringify(sendInfo);

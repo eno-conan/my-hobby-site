@@ -80,17 +80,21 @@ const SearchRecordPage: NextPage = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [inputValue, setInputValue] = useState("");
+    // 取得データを設定
     const [records, setRecords] = React.useState<Array<IData>>(rows);
 
+    // 別ページ遷移
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
 
+    // 1ページあたりの表示件数変更
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
 
+    // 検索機能
     const search = (value: string) => {
         if (value !== "") {
             const filteredList = rows.filter((rcd: IData) =>
@@ -107,6 +111,7 @@ const SearchRecordPage: NextPage = () => {
         return;
     };
 
+    // 入力文字の更新実施
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
         search(e.target.value);

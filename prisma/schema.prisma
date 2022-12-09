@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Record {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String @db.LongText
+  githubRepo  String
+  detail      String @db.LongText
+  finished    Boolean
+}
+
+model RecordRef {
+  id        Int    @id @default(autoincrement())
+  linkTitle String
+  linkUrl   String @db.LongText
+  recordId  Int
+}
