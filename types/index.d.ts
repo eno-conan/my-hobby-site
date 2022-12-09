@@ -1,4 +1,4 @@
-import { Record, RecordRef } from '@prisma/client';
+import { Record, RecordRef, Dummy } from '@prisma/client';
 
 type Record = Record;
 
@@ -11,3 +11,5 @@ type RecordRef = RecordRef;
 type RecordWithRefs = Record & {
   refs: RecordRef[];
 };
+
+type Dummy = Dummy

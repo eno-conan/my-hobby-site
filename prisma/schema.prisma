@@ -26,3 +26,8 @@ model RecordRef {
   linkUrl   String @db.LongText
   recordId  Int
 }
+
+model Dummy {
+  id    Int    @id @default(autoincrement())
+  name  String
+}
