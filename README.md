@@ -26,6 +26,7 @@ https://mui.com/material-ui/icons/
 [22/12/11：material-table-next版](https://www.npmjs.com/package/material-table-next)
 [22/12/11：material-table-next参考になった記事](https://zenn.dev/kazu777/articles/51b08d9238617a#%E3%83%87%E3%83%A2)
 [22/12/11：material-table-nextテーブルカラーを変更する](https://github.com/mbrn/material-table/issues/169)
+[22/12/11:ClassNameがフロントとバックで違うよ、って警告対応](https://zenn.dev/nbr41to/articles/c0c691653e3d55#.babelrc-%E3%82%92%E4%BD%9C%E6%88%90)
 
 ### POST
 [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)

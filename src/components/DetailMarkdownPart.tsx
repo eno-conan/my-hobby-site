@@ -2,7 +2,6 @@ import React, { useState } from "react";
 // import SimpleMde from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { marked } from "marked";
-import DOMPurify from "dompurify";
 import highlightjs from "highlight.js";
 import "highlight.js/styles/github.css";
 import dynamic from "next/dynamic"
