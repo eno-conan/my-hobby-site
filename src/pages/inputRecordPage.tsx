@@ -46,11 +46,11 @@ const InputRecordPage: NextPage = () => {
     // タイトル・概要・詳細に関するフォームルールを取得
     const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
     const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
-    // switchの状態管理
+    // text/markdownの状態管理
     const [writeMarkdown, setWriteMarkdown] = React.useState(false);
-    // markDownを使用した場合の値管理
+    // markDownを使用した場合の値を保持
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
-    // 入力完了を管理
+    // 入力完了の画面表示を制御
     const [finished, setFinished] = useState(false)
 
     // 入力内容送信

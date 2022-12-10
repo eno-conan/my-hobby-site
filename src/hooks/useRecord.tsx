@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
 import useSWR from 'swr';
 import { Record } from '../../types';
 import { fetcher } from './fetcher';
@@ -13,7 +13,8 @@ const useRecord = () => {
     const refetch = useCallback(() => mutate(), [mutate]);
 
     return {
-        records: data,
+        originalRecords: data,
+        originalRecordCount: data?.length || 0,
         isLoading: !error && !data,
         error,
         refetch,

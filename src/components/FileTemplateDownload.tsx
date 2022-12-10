@@ -11,7 +11,7 @@ const FileTemplateDownload = () => {
                     <Grid2 container>
                         <Grid item xs={12} sm={12}></Grid>
                         <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={16}>
-                            <Link href="/template.md" download>
+                            <Link href="/template.txt" download>
                                 <Typography fontSize="18px">テンプレートダウンロード</Typography>
                             </Link>
                         </Box>

@@ -56,20 +56,24 @@ const FileDragDrop = ({ setValue }: Props) => {
     // ファイル情報を保持する
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
-            // ファイルの内容をフォームにはんえいする
-            setValue('title', '12345');
-            // setIsLoading(true);
             const file = acceptedFiles[0];
             // アップロードしたファイルの中身を取得
             let reader = new FileReader();
             reader.readAsText(file);
             reader.onload = function () {
-                console.log(reader.result);
+                if (reader.result) {
+                    let wholeInfoArr: string[] = reader.result!.toString().split('_Description_\r\n');
+                    const titleInfo = wholeInfoArr[0].replace('_Title_\r\n', '').trim();
+                    const descriptionInfo = wholeInfoArr[1].split('_Detail_\r\n')[0].trim();
+                    const detailInfo = wholeInfoArr[1].split('_Detail_\r\n')[1].trim();
+                    // ファイルの内容をフォームに反映
+                    setValue('title', titleInfo);
+                    setValue('description', descriptionInfo);
+                    setValue('detail', detailInfo);
+                }
             };
             // ファイル名を管理
             setFileName(file.name);
-            // setValue('file', file);
-            // register()
         } else {
             // 何かする？
         }

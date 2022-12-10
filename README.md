@@ -41,6 +41,7 @@ https://mui.com/material-ui/icons/
 [seed.tsの記載例](https://github.com/prisma/prisma-examples/blob/latest/typescript/graphql/prisma/seed.ts)
 [22/12/09：長い文字列を登録したい1](https://zenn.dev/ikekyo/scraps/f6c87fbfd3bf9d)
 [22/12/09：長い文字列を登録したい2](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#mysql)
+[22/12/10：There are already 10 instances of Prisma Client actively running修正](https://zenn.dev/kanasugi/articles/368d0b39c94daf)
 
 ### markdown
 [入力とプレビュー：22/12/04](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82#%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%80%E3%82%A6%[…]l%E3%81%AB%E5%A4%89%E6%8F%9B%E3%81%99%E3%82%8B)

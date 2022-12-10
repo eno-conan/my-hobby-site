@@ -20,19 +20,19 @@ import RecordTablePart from '../components/RecordTablePart'
 
 // 記録検索画面の作成
 const searchRecordPage: NextPage = () => {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [inputValue, setInputValue] = useState("");
-    const [showRecords, setShowRecords] = useState<any>();
     // 取得データを設定
     const {
-        records,
+        originalRecords,
+        originalRecordCount,
         isLoading: isLoadingRecords,
         refetch: refetchRecords,
     } = useRecord();
-    // useEffect(() => {
-    //     setShowRecords(records)
-    // }, []);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [inputValue, setInputValue] = useState("");
+    const [recordCount, setRecordCount] = useState(originalRecordCount);
+    const [showRecords, setShowRecords] = useState<any>();
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -47,19 +47,19 @@ const searchRecordPage: NextPage = () => {
     // 検索機能
     const search = (value: string) => {
         if (value !== "") {
-            const filteredList = records!.filter((rcd: Record) =>
+            const filteredList = originalRecords!.filter((rcd: Record) =>
                 Object.values(rcd).some(
                     (info: any) => (
                         info.toString().toUpperCase().indexOf(value.toString().toUpperCase()) !== -1
                     )
                 )
             );
-            console.log(filteredList);
+            setRecordCount(filteredList.length);
             setShowRecords(filteredList);
             return;
         }
-
-        setShowRecords(records);
+        setRecordCount(originalRecordCount);
+        setShowRecords(originalRecords);
         return;
     };
 
@@ -89,19 +89,15 @@ const searchRecordPage: NextPage = () => {
             <Divider />
             <Container maxWidth="lg">
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <RecordTablePart page={page} rowsPerPage={rowsPerPage} showRecords={showRecords} />
-                    {(() => {
-                        if (showRecords) return (
-                            <TablePagination
-                                rowsPerPageOptions={[10, 25, 100]}
-                                component="div"
-                                count={showRecords.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage} />
-                        );
-                    })()}
+                    <RecordTablePart page={page} rowsPerPage={rowsPerPage} inputValue={inputValue} showRecords={showRecords} records={originalRecords} />
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={originalRecordCount}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage} />
                 </Paper>
             </Container>
         </>

@@ -58,11 +58,13 @@ export default async function handler(
             createRecordParams.finished = jsonBody.finished
             const record = await prismaRecordCreate(createRecordParams);
             // recordRefへの登録
-            const createRecordRefsParams = { linkTitle: '', linkUrl: '', recordId: record.id }
-            const links = jsonBody.refs
-            createRecordRefsParams.linkTitle = links[0].linkTitle
-            createRecordRefsParams.linkUrl = links[0].linkUrl
-            const recordRefs = await prismaRecordRefsCreate(createRecordRefsParams);
+            if (jsonBody.refs.length > 0) {
+                const createRecordRefsParams = { linkTitle: 'sample', linkUrl: 'sample', recordId: record.id }
+                const links = jsonBody.refs
+                createRecordRefsParams.linkTitle = links[0].linkTitle
+                createRecordRefsParams.linkUrl = links[0].linkUrl
+                const recordRefs = await prismaRecordRefsCreate(createRecordRefsParams);
+            }
             res.status(200).json(jsonBody);
             break;
         default:
