@@ -18,8 +18,8 @@ model Record {
   githubRepo  String
   detail      String   @db.LongText
   finished    Boolean
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
 }
 
 model RecordRef {

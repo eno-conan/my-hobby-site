@@ -38,8 +38,8 @@ let originalRecordsSample: Record[] = [
         githubRepo: '',
         detail: '',
         finished: false,
-        created_at: new Date(),
-        updated_at: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
     }
 ]
 
@@ -182,7 +182,7 @@ const searchRecordPage: NextPage = () => {
                                                     <TableCell>{row.title}</TableCell>
                                                     <TableCell>{row.description}</TableCell>
                                                     <TableCell>{row.githubRepo}</TableCell>
-                                                    <TableCell>{row.updated_at.toLocaleString('en-US')}</TableCell>
+                                                    <TableCell>{row.updatedAt.toLocaleString('en-US')}</TableCell>
                                                 </TableRow>
                                             );
                                         })}

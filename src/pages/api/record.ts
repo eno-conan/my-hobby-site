@@ -51,7 +51,7 @@ export default async function handler(
             const jsonBody = JSON.parse(body)
             // const params = JSON.parse(body) as Omit<Record, 'id'>;
             //recordテーブルへの登録内容設定 
-            const createRecordParams = { title: '', description: '', githubRepo: '', detail: '', finished: false, created_at: new Date(), updated_at: new Date() }
+            const createRecordParams = { title: '', description: '', githubRepo: '', detail: '', finished: false, createdAt: new Date(), updatedAt: new Date() }
             createRecordParams.title = jsonBody.title
             createRecordParams.description = jsonBody.description
             createRecordParams.githubRepo = jsonBody.githubRepo
