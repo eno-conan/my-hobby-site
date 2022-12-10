@@ -15,7 +15,6 @@ export async function getData(): Promise<IQiitaArticle[]> {
     const getDataUrl = `https://qiita.com/api/v2/items?page=1&per_page=10&query=updated:>${currentDate}+tag:AWS+stocks:>1`;
     const response = await fetch(getDataUrl);
     const jsonData = await response.json();
-    // console.log(jsonData[0])
     return jsonData.map((art: any) => {
         return {
             url: art.url,

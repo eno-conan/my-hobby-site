@@ -42,6 +42,7 @@ export default async function handler(
     switch (method) {
         case 'GET':
             const records = await prismaRecordsFindMany();
+            // console.log(records)
             res.status(200).json(records);
             break;
 
@@ -61,9 +62,12 @@ export default async function handler(
             if (jsonBody.refs.length > 0) {
                 const createRecordRefsParams = { linkTitle: 'sample', linkUrl: 'sample', recordId: record.id }
                 const links = jsonBody.refs
-                createRecordRefsParams.linkTitle = links[0].linkTitle
-                createRecordRefsParams.linkUrl = links[0].linkUrl
-                const recordRefs = await prismaRecordRefsCreate(createRecordRefsParams);
+                // 暫定対応でfor文記載（後々bulkInsertにする:22/12/10）
+                for (let info of links) {
+                    createRecordRefsParams.linkTitle = info.linkTitle
+                    createRecordRefsParams.linkUrl = info.linkUrl
+                    const recordRefs = await prismaRecordRefsCreate(createRecordRefsParams);
+                }
             }
             res.status(200).json(jsonBody);
             break;

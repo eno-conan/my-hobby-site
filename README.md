@@ -23,6 +23,9 @@ https://mui.com/material-ui/icons/
 [記録の一覧表示に使用できそう?](https://mui.com/material-ui/react-stack/)
 [22/12/05：待機状態のUI](https://zenn.dev/kii/articles/progress-indicator-ui)
 [22/12/05：How to Create a MUI Grid Container with Full Width and Height](https://smartdevpreneur.com/how-to-create-a-mui-grid-container-with-full-width-and-height/)
+[22/12/11：material-table-next版](https://www.npmjs.com/package/material-table-next)
+[22/12/11：material-table-next参考になった記事](https://zenn.dev/kazu777/articles/51b08d9238617a#%E3%83%87%E3%83%A2)
+[22/12/11：material-table-nextテーブルカラーを変更する](https://github.com/mbrn/material-table/issues/169)
 
 ### POST
 [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)
@@ -39,9 +42,11 @@ https://mui.com/material-ui/icons/
 [migraiotnプチブック](https://zenn.dev/thirosue/books/49a4ee418743ed/viewer/57d161)
 [seed.ts使うまでの準備](https://www.prisma.io/docs/guides/database/seed-database)
 [seed.tsの記載例](https://github.com/prisma/prisma-examples/blob/latest/typescript/graphql/prisma/seed.ts)
+[22/12/10：特定項目だけ取得](https://www.prisma.io/docs/concepts/components/prisma-client/select-fields)
 [22/12/09：長い文字列を登録したい1](https://zenn.dev/ikekyo/scraps/f6c87fbfd3bf9d)
 [22/12/09：長い文字列を登録したい2](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#mysql)
 [22/12/10：There are already 10 instances of Prisma Client actively running修正](https://zenn.dev/kanasugi/articles/368d0b39c94daf)
+[22/12/10：単体試験](https://www.prisma.io/docs/guides/testing/unit-testing)
 
 ### markdown
 [入力とプレビュー：22/12/04](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82#%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%80%E3%82%A6%[…]l%E3%81%AB%E5%A4%89%E6%8F%9B%E3%81%99%E3%82%8B)

@@ -1,25 +1,59 @@
-import { Container, Divider } from '@material-ui/core'
+import {
+    Box,
+    Checkbox,
+    Container,
+    createMuiTheme,
+    Divider,
+    MuiThemeProvider,
+    Table,
+    TableBody, TableCell,
+    TableContainer, Typography
+} from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import CommonDrawer from '../components/CommonDrawer'
 import CommonHeadline from '../components/CommonHeadline'
 import CommonMeta from '../components/CommonMeta'
 import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { NextPage } from 'next'
 import useRecord from '../hooks/useRecord'
-import { IData } from '../../types/searchRecordPage'
 import { Record } from '../../types'
 import { Stack } from '@mui/material'
 import RecordTablePart from '../components/RecordTablePart'
+import { HeadCell, SelectableTableHead } from '../components/SelectableTableHead'
+import { useRowSelect } from '../hooks/useRowSelect'
+
+// const theme = createMuiTheme({
+//     palette: {
+//         secondary: { main: '#11cb5f' }
+//     },
+// });
+
+
+let originalRecordsSample: Record[] = [
+    {
+        id: 13,
+        title: 'プルダウンの初期値',
+        description: 'プルダウンの初期値確認',
+        githubRepo: '',
+        detail: '',
+        finished: false,
+        created_at: new Date(),
+        updated_at: new Date()
+    }
+]
+
+const headCells: HeadCell[] = [
+    { id: 'title', label: 'title' },
+    { id: 'description', label: 'description' },
+    { id: 'githubRepo', label: 'githubRepo' },
+    { id: 'updated_at', label: 'updated_at' },
+]
 
 // 記録検索画面の作成
 const searchRecordPage: NextPage = () => {
+
     // 取得データを設定
     const {
         originalRecords,
@@ -27,6 +61,17 @@ const searchRecordPage: NextPage = () => {
         isLoading: isLoadingRecords,
         refetch: refetchRecords,
     } = useRecord();
+    if (originalRecords) {
+        originalRecordsSample = originalRecords;
+    }
+    const {
+        selectedRowIds,
+        isSelected,
+        isSelectedAll,
+        isIndeterminate,
+        toggleSelected,
+        toggleSelectedAll,
+    } = useRowSelect(originalRecordsSample.map((row) => row.id));
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -76,20 +121,78 @@ const searchRecordPage: NextPage = () => {
             <Container maxWidth="md">
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録検索' />
-                    <h3>検索条件</h3>
-                    <h5>GitHubのリポジトリ</h5>
-                    <h5>タイトル</h5>
-                    <h5>参照リンクのタイトル</h5>
                     <div>
-                        <span style={{ marginRight: "5px" }}>検索フォーム</span>
+                        <span style={{ marginRight: "5px" }}>条件</span>
                         <input type="text" value={inputValue} onChange={handleChange} />
                     </div>
                 </Stack>
             </Container>
             <Divider />
             <Container maxWidth="lg">
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <RecordTablePart page={page} rowsPerPage={rowsPerPage} inputValue={inputValue} showRecords={showRecords} records={originalRecords} />
+                <TableContainer component={Paper}>
+                    <Table>
+                        <SelectableTableHead
+                            onSelectAllClick={toggleSelectedAll}
+                            headCells={headCells}
+                            checked={isSelectedAll}
+                            indeterminate={isIndeterminate}
+                        />
+                        <TableBody>
+                            {(() => {
+                                if (inputValue) {
+                                    return (<>
+                                        {showRecords.map((row: any) => {
+                                            const isItemSelected = isSelected(row.id);
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    role="checkbox"
+                                                    tabIndex={-1}
+                                                    key={row.id}
+                                                    onClick={() => toggleSelected(row.id)}
+                                                    selected={isItemSelected}
+                                                >
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox checked={isItemSelected} />
+                                                    </TableCell>
+                                                    <TableCell>{row.title}</TableCell>
+                                                    <TableCell>{row.description}</TableCell>
+                                                    <TableCell>{row.githubRepo}</TableCell>
+                                                    <TableCell>{row.updated_at.toLocaleString('en-US')}</TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </>
+                                    );
+                                } else {
+                                    return (<>
+                                        {originalRecordsSample.map((row) => {
+                                            const isItemSelected = isSelected(row.id);
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    role="checkbox"
+                                                    tabIndex={-1}
+                                                    key={row.id}
+                                                    onClick={() => toggleSelected(row.id)}
+                                                    selected={isItemSelected}
+                                                >
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox checked={isItemSelected} />
+                                                    </TableCell>
+                                                    <TableCell>{row.title}</TableCell>
+                                                    <TableCell>{row.description}</TableCell>
+                                                    <TableCell>{row.githubRepo}</TableCell>
+                                                    <TableCell>{row.updated_at.toLocaleString('en-US')}</TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </>
+                                    );
+                                }
+                            })()}
+                        </TableBody>
+                    </Table>
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
@@ -97,8 +200,16 @@ const searchRecordPage: NextPage = () => {
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage} />
-                </Paper>
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    // labelDisplayedRows={({ from, to, page }) => {
+                    //     return `Page: ${page + 1}`;
+                    // }}
+                    />
+                </TableContainer>
+                <Box>
+                    <Typography>selectedRowIds</Typography>
+                    <Typography>{JSON.stringify(selectedRowIds)}</Typography>
+                </Box>
             </Container>
         </>
     )

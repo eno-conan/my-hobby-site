@@ -1,8 +1,19 @@
 import prisma from './client';
 import { Record } from '@prisma/client';
 
-export const prismaRecordsFindMany = async (): Promise<Record[]> => {
-    const records = await prisma.record.findMany();
+export const prismaRecordsFindMany = async (): Promise<any[]> => {
+    const records = await prisma.record.findMany({
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            githubRepo: true,
+            detail: false,
+            finished: true,
+            created_at: false,
+            updated_at: true
+        }
+    });
     return records;
 };
 
