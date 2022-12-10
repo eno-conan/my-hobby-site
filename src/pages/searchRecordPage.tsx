@@ -16,47 +16,7 @@ import useRecord from '../hooks/useRecord'
 import { IData } from '../../types/searchRecordPage'
 import { Record } from '../../types'
 import { Stack } from '@mui/material'
-import setGetData from '../hooks/setGetData'
-
-interface Column {
-    id: 'title' | 'description' | 'githubRepo' | 'updated_at' | 'finished';
-    label: string;
-    minWidth?: number;
-    align?: 'right';
-    format?: (value: number) => string;
-}
-
-const columns: readonly Column[] = [
-    { id: 'title', label: 'Title', minWidth: 50 },
-    { id: 'description', label: 'description', minWidth: 50 },
-    {
-        id: 'githubRepo',
-        label: 'githubRepo',
-        minWidth: 50,
-        align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'updated_at',
-        label: 'updated_at',
-        minWidth: 170,
-        align: 'right',
-        format: (value: number) => value.toLocaleString('en-US'),
-    }
-];
-
-
-// const rows = [
-//     {
-//         created_at: "2022-12-09T12:53:14.014Z",
-//         description: "2",
-//         detail: "3",
-//         finished: false,
-//         githubRepo: "eno-conan/next-nortion-blog",
-//         id: 1,
-//         title: "1",
-//         updated_at: "2022-12-09T12:53:14.014Z"
-//     }];
+import RecordTablePart from '../components/RecordTablePart'
 
 // 記録検索画面の作成
 const searchRecordPage: NextPage = () => {
@@ -70,11 +30,10 @@ const searchRecordPage: NextPage = () => {
         isLoading: isLoadingRecords,
         refetch: refetchRecords,
     } = useRecord();
-    setGetData(setShowRecords, records);
     // useEffect(() => {
     //     setShowRecords(records)
     // }, []);
-    // 別ページ遷移
+
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -128,47 +87,11 @@ const searchRecordPage: NextPage = () => {
                 </Stack>
             </Container>
             <Divider />
-            {(() => {
-                if (showRecords) return (
-                    <Container maxWidth="lg">
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                            <TableContainer sx={{ maxHeight: 440 }}>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead>
-                                        <TableRow>
-                                            {columns.map((column) => (
-                                                <TableCell
-                                                    key={column.id}
-                                                    align={column.align}
-                                                    style={{ minWidth: column.minWidth }}
-                                                >
-                                                    {column.label}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {showRecords && showRecords
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row: any) => {
-                                                return (
-                                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.description}>
-                                                        {columns.map((column) => {
-                                                            const value = row[column.id];
-                                                            return (
-                                                                <TableCell key={column.id} align={column.align}>
-                                                                    {column.format && typeof value === 'number'
-                                                                        ? column.format(value)
-                                                                        : value}
-                                                                </TableCell>
-                                                            );
-                                                        })}
-                                                    </TableRow>
-                                                );
-                                            })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+            <Container maxWidth="lg">
+                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    <RecordTablePart page={page} rowsPerPage={rowsPerPage} showRecords={showRecords} />
+                    {(() => {
+                        if (showRecords) return (
                             <TablePagination
                                 rowsPerPageOptions={[10, 25, 100]}
                                 component="div"
@@ -177,10 +100,10 @@ const searchRecordPage: NextPage = () => {
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage} />
-                        </Paper>
-                    </Container>
-                );
-            })()}
+                        );
+                    })()}
+                </Paper>
+            </Container>
         </>
     )
 }
