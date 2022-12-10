@@ -1,15 +1,12 @@
-import { Record, RecordRef, Dummy } from '@prisma/client';
+import { Record, RecordRef, Dummy, Prisma } from '@prisma/client';
 
 type Record = Record;
-
-type RefWithRecord = RecordRef & {
-  record: Record;
-};
-
 type RecordRef = RecordRef;
-
-type RecordWithRefs = Record & {
-  refs: RecordRef[];
-};
-
 type Dummy = Dummy
+
+// type RefWithRecord = RecordRef & {
+//   record: Record;
+// };
+// type RecordWithRefs = Record & {
+//   refs: RecordRef[];
+// };

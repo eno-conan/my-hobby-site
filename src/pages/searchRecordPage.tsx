@@ -20,9 +20,9 @@ import { NextPage } from 'next'
 import useRecord from '../hooks/useRecord'
 import { Record } from '../../types'
 import { Stack } from '@mui/material'
-import RecordTablePart from '../components/RecordTablePart'
 import { HeadCell, SelectableTableHead } from '../components/SelectableTableHead'
 import { useRowSelect } from '../hooks/useRowSelect'
+import LoadingPart from '../components/LoadingPart'
 
 // const theme = createMuiTheme({
 //     palette: {
@@ -30,7 +30,7 @@ import { useRowSelect } from '../hooks/useRowSelect'
 //     },
 // });
 
-let originalRecordsSample: Record[] = [
+let originalRecordsSample: any[] = [
     {
         id: 13,
         title: 'プルダウンの初期値',
@@ -38,8 +38,8 @@ let originalRecordsSample: Record[] = [
         githubRepo: '',
         detail: '',
         finished: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        createdAt: '',
+        updatedAt: ''
     }
 ]
 
@@ -47,7 +47,8 @@ const headCells: HeadCell[] = [
     { id: 'title', label: 'title' },
     { id: 'description', label: 'description' },
     { id: 'githubRepo', label: 'githubRepo' },
-    { id: 'updated_at', label: 'updated_at' },
+    { id: 'finished', label: 'finished' },
+    // { id: 'updated_at', label: 'updated_at' },
 ]
 
 // 記録検索画面の作成
@@ -113,6 +114,21 @@ const searchRecordPage: NextPage = () => {
         search(e.target.value);
     };
 
+    const getStatus = (finished: Boolean) => {
+        if (finished) {
+            return 'Finished'
+        } else {
+            return '-'
+        }
+    }
+
+    // ローディング中の表示
+    if (!originalRecords) {
+        return (
+            <LoadingPart />
+        );
+    }
+
     return (
         <>
             <CommonDrawer />
@@ -157,7 +173,7 @@ const searchRecordPage: NextPage = () => {
                                                     <TableCell>{row.title}</TableCell>
                                                     <TableCell>{row.description}</TableCell>
                                                     <TableCell>{row.githubRepo}</TableCell>
-                                                    <TableCell>{row.updated_at.toLocaleString('en-US')}</TableCell>
+                                                    <TableCell>{getStatus(row.finished)}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -182,7 +198,9 @@ const searchRecordPage: NextPage = () => {
                                                     <TableCell>{row.title}</TableCell>
                                                     <TableCell>{row.description}</TableCell>
                                                     <TableCell>{row.githubRepo}</TableCell>
-                                                    <TableCell>{row.updatedAt.toLocaleString('en-US')}</TableCell>
+                                                    <TableCell>{getStatus(row.finished)}</TableCell>
+                                                    {/* <TableCell>{row.updatedAt}</TableCell> */}
+                                                    {/* .toLocaleString('en-US') */}
                                                 </TableRow>
                                             );
                                         })}
@@ -205,10 +223,10 @@ const searchRecordPage: NextPage = () => {
                     // }}
                     />
                 </TableContainer>
-                <Box>
+                {/* <Box>
                     <Typography>selectedRowIds</Typography>
                     <Typography>{JSON.stringify(selectedRowIds)}</Typography>
-                </Box>
+                </Box> */}
             </Container>
         </>
     )

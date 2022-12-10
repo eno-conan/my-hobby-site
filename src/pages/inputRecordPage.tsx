@@ -30,7 +30,7 @@ const fetcher = (url: string) =>
         return res.json();
     });
 
-// 記録追加
+// 記録追加確認
 const InputRecordPage: NextPage = () => {
     // URLからドメイン取得
     const [host, setHost] = useState('');
@@ -77,9 +77,9 @@ const InputRecordPage: NextPage = () => {
             'Accept': 'application/json'
         };
         // 送信
-        fetch(`${host}/api/record`, { method, headers, body })
+        fetch(`/api/record`, { method, headers, body })
             .then((res) => res.json())
-            .then(console.log).catch(console.error);
+            .then(console.info).catch(console.error);
 
         //githubのプルダウンが初期化できない・・・(22/12/04) 
         // SentPartで送信完了表示から遷移したら初期化できているぞ(22/12/08)

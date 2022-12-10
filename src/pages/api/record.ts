@@ -51,16 +51,12 @@ export default async function handler(
             const jsonBody = JSON.parse(body)
             // const params = JSON.parse(body) as Omit<Record, 'id'>;
             //recordテーブルへの登録内容設定 
-            const createRecordParams = { title: '', description: '', githubRepo: '', detail: '', finished: false, createdAt: new Date(), updatedAt: new Date() }
-            createRecordParams.title = jsonBody.title
-            createRecordParams.description = jsonBody.description
-            createRecordParams.githubRepo = jsonBody.githubRepo
-            createRecordParams.detail = jsonBody.detail
-            createRecordParams.finished = jsonBody.finished
-            const record = await prismaRecordCreate(createRecordParams);
+
+            const cnt: number = (await prismaRecordsFindMany()).length + 1;
+
             // recordRefへの登録
             if (jsonBody.refs.length > 0) {
-                const createRecordRefsParams = { linkTitle: 'sample', linkUrl: 'sample', recordId: record.id }
+                const createRecordRefsParams = { linkTitle: 'sample', linkUrl: 'sample', recordId: cnt }
                 const links = jsonBody.refs
                 // 暫定対応でfor文記載（後々bulkInsertにする:22/12/10）
                 for (let info of links) {
@@ -69,6 +65,19 @@ export default async function handler(
                     const recordRefs = await prismaRecordRefsCreate(createRecordRefsParams);
                 }
             }
+
+            const createRecordParams: any = {
+                title: jsonBody.title,
+                description: jsonBody.description,
+                githubRepo: jsonBody.githubRepo,
+                detail: jsonBody.detail,
+                finished: jsonBody.finished,
+            }
+            // const createRecordParams = { title: '', description: '', githubRepo: '', detail: '', finished: false }
+            console.log(createRecordParams)
+
+            const record = await prismaRecordCreate(createRecordParams);
+
             res.status(200).json(jsonBody);
             break;
         default:
