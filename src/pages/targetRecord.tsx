@@ -4,8 +4,14 @@ import LoadingPart from '../components/LoadingPart';
 import { fetcher } from '../hooks/fetcher';
 
 const targetRecord = (props: any) => {
+
     const info = props.recordInfo;
-    console.log(info)
+    // ローディング中の表示
+    if (!info) {
+        return (
+            <LoadingPart />
+        );
+    }
     return (
         <div>
             Hello
@@ -17,7 +23,6 @@ export default targetRecord
 
 //サーバーサイドレンダリング
 export async function getServerSideProps(context: { query: { id: any, host: any }; }) {
-
     //検索キーワード
     const targetId = context.query.id;
     const hostName = context.query.host;
@@ -27,13 +32,6 @@ export async function getServerSideProps(context: { query: { id: any, host: any 
         'Accept': 'application/json'
     };
     const response = await fetch(`${hostName}/api/record/${targetId}`, { method, headers });
-
-    // ローディング中の表示
-    if (!response) {
-        return (
-            <LoadingPart />
-        );
-    }
 
     return {
         props: {
