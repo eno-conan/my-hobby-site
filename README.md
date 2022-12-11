@@ -17,6 +17,7 @@ https://mui.com/material-ui/icons/
 - [22/12/11：画面ローディングの実装](https://fumidzuki.com/knowledge/5013/)
 - [22/12/11：画面ローディングが必要な間、図示](https://deecode.net/?p=1891)
 - [22/12/11：API Reference/ next/router](https://zenn.dev/unreact/articles/nextjs-next-router#%E3%81%93%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
+- [getServerSidePropsのエラーハンドリング](https://zenn.dev/takepepe/articles/nextjs-error-handling)
 
 ### Material UI
 - [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
@@ -33,6 +34,7 @@ https://mui.com/material-ui/icons/
 - [22/12/11：material-table-next参考になった記事](https://zenn.dev/kazu777/articles/51b08d9238617a#%E3%83%87%E3%83%A2)
 - [22/12/11：material-table-nextテーブルカラーを変更する](https://github.com/mbrn/material-table/issues/169)
 - [22/12/11:ClassNameがフロントとバックで違うよ、って警告対応](https://zenn.dev/nbr41to/articles/c0c691653e3d55#.babelrc-%E3%82%92%E4%BD%9C%E6%88%90)
+- [デザインの勉強になりそう](https://m2.material.io/design/layout/responsive-layout-grid.html#grid-customization)
 
 ### POST
 - [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)

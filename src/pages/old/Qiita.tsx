@@ -5,14 +5,14 @@ import Paper from '@mui/material/Paper';
 import Grid from '@material-ui/core/Grid';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
-import CommonMeta from '../components/CommonMeta';
-import CommonDrawer from '../components/CommonDrawer';
+import CommonMeta from '../../components/CommonMeta';
+import CommonDrawer from '../../components/CommonDrawer';
 import { GetServerSideProps } from 'next';
 import { SubmitErrorHandler, SubmitHandler } from 'react-hook-form';
-import { UserForm, useUserForm } from '../hooks/useUserForm';
+import { UserForm, useUserForm } from '../../hooks/useUserForm';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { IQiitaArticle, sampleArticles, tags } from '../consts/qiita';
+import { IQiitaArticle, sampleArticles, tags } from '../../consts/qiita';
 import Box from '@mui/material/Box';
 import { Divider } from '@material-ui/core';
 import Card from '@mui/material/Card';
@@ -24,7 +24,7 @@ import { Stack } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
-import CommonHeadline from '../components/CommonHeadline';
+import CommonHeadline from '../../components/CommonHeadline';
 
 // デザイン適用
 const Item = styled(Paper)(({ theme }) => ({

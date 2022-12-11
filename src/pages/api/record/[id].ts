@@ -13,10 +13,9 @@ export default async function handler(
 
     switch (method) {
         case 'GET':
-            // console.log(id)
-            console.log(await prismaRecordFindOne(id));
+            // console.log(await prismaRecordFindOne(id));
             // console.log(records)
-            res.status(200).json({ Hello: 'Hello' });
+            res.status(200).json(await prismaRecordFindOne(id));
             break;
 
         case 'POST':

@@ -128,13 +128,17 @@ const searchRecordPage: NextPage = () => {
     // 詳細画面へ遷移
     const router = useRouter();
     const checkRecord = () => {
-        router.push({
-            pathname: "/targetRecord",
-            query: {
-                id: selectedRowIds[0],
-                host: window.location.href.split('/searchRecordPage')[0]
-            }
-        }, `/targetRecord/id=${selectedRowIds[0]}`);
+        if (selectedRowIds.length == 1) {
+            router.push({
+                pathname: `/targetRecord/${selectedRowIds[0]}`,
+                query: {
+                    id: selectedRowIds[0],
+                    host: window.location.href.split('/searchRecordPage')[0]
+                }
+            }, `/targetRecord/${selectedRowIds[0]}`);
+        } else {
+            alert('詳細表示する場合は、1件のみ選択')
+        }
     }
 
     // ローディング中の表示
