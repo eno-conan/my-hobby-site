@@ -1,17 +1,9 @@
+import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react'
-import useSWR from 'swr';
-import LoadingPart from '../components/LoadingPart';
-import { fetcher } from '../hooks/fetcher';
 
-const targetRecord = (props: any) => {
-
+const TargetRecord: NextPage = (props: any) => {
     const info = props.recordInfo;
-    // ローディング中の表示
-    if (!info) {
-        return (
-            <LoadingPart />
-        );
-    }
+    console.log(info)
     return (
         <div>
             Hello
@@ -19,7 +11,7 @@ const targetRecord = (props: any) => {
     )
 }
 
-export default targetRecord
+export default TargetRecord
 
 //サーバーサイドレンダリング
 export async function getServerSideProps(context: { query: { id: any, host: any }; }) {

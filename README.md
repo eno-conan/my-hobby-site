@@ -14,6 +14,9 @@ https://mui.com/material-ui/icons/
 - [22/12/11:クエリパラメータを使って別ページへ：一番シンプル](https://qiita.com/syu_ikeda/items/9f3c2f041a1031651c61)
 - [22/12/11:クエリパラメータを使って別ページへ：エラーハンドリングあり](https://abillyz.com/mamezou/studies/410)
 - [22/12/11：クエリパラメータを隠したい](https://stackoverflow.com/questions/70484870/how-to-hide-query-params-from-the-url-while-using-router-push)
+- [22/12/11：画面ローディングの実装](https://fumidzuki.com/knowledge/5013/)
+- [22/12/11：画面ローディングが必要な間、図示](https://deecode.net/?p=1891)
+- [22/12/11：API Reference/ next/router](https://zenn.dev/unreact/articles/nextjs-next-router#%E3%81%93%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
 
 ### Material UI
 - [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
