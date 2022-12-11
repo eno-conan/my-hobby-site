@@ -5,17 +5,17 @@ import Button from '@mui/material/Button';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import { Stack, } from '@mui/material';
 import React, { useEffect, useReducer, useState } from 'react'
-import CommonHeadline from '../components/CommonHeadline';
-import inputRecordForm from '../hooks/inputRecordForm';
-import CommonMeta from '../components/CommonMeta';
+import CommonHeadline from '../../components/CommonHeadline';
+import inputRecordForm from '../../hooks/inputRecordForm';
+import CommonMeta from '../../components/CommonMeta';
 import useSWR from 'swr';
-import CommonDrawer from '../components/CommonDrawer';
+import CommonDrawer from '../../components/CommonDrawer';
 import { useFieldArray } from "react-hook-form"
-import LoadingPart from '../components/LoadingPart';
-import ReferencePart from '../components/ReferencePart';
-import MainPart from '../components/MainPart';
-import FileOperatePart from '../components/FileOperatePart';
-import SentPart from '../components/SentPart';
+import LoadingPart from '../../components/LoadingPart';
+import ReferencePart from '../../components/ReferencePart';
+import MainPart from '../../components/MainPart';
+import FileOperatePart from '../../components/FileOperatePart';
+import SentPart from '../../components/SentPart';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

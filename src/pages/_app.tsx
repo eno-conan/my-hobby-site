@@ -8,6 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
   //   const MockServer = () => worker;
   //   MockServer();
   // }
+  // 画面のローディング機能
   useTransition();
   return <Component {...pageProps} />
 }

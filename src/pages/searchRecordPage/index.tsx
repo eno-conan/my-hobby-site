@@ -1,5 +1,4 @@
 import {
-    Box,
     Checkbox,
     Container,
     createMuiTheme,
@@ -10,19 +9,19 @@ import {
     TableContainer, Typography
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import CommonDrawer from '../components/CommonDrawer'
-import CommonHeadline from '../components/CommonHeadline'
-import CommonMeta from '../components/CommonMeta'
+import CommonDrawer from '../../components/CommonDrawer'
+import CommonHeadline from '../../components/CommonHeadline'
+import CommonMeta from '../../components/CommonMeta'
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { NextPage } from 'next'
-import useRecord from '../hooks/useRecord'
-import { Record } from '../../types'
+import useRecord from '../../hooks/useRecord'
+import { Record } from '../../../types'
 import { Stack } from '@mui/material'
-import { HeadCell, SelectableTableHead } from '../components/SelectableTableHead'
-import { useRowSelect } from '../hooks/useRowSelect'
-import LoadingPart from '../components/LoadingPart'
+import { HeadCell, SelectableTableHead } from '../../components/SelectableTableHead'
+import { useRowSelect } from '../../hooks/useRowSelect'
+import LoadingPart from '../../components/LoadingPart'
 import { useRouter } from 'next/router';
 
 // const theme = createMuiTheme({

@@ -1,8 +1,8 @@
 import { Box, Checkbox, createMuiTheme, MuiThemeProvider, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@material-ui/core';
 import { NextPage } from 'next'
 import React from 'react'
-import { HeadCell, SelectableTableHead } from '../components/SelectableTableHead';
-import { useRowSelectOriginal } from '../hooks/useRowSelectOriginal';
+import { HeadCell, SelectableTableHead } from '../../components/SelectableTableHead';
+import { useRowSelectOriginal } from '../../hooks/useRowSelectOriginal';
 
 export type Data = {
     id: number;
