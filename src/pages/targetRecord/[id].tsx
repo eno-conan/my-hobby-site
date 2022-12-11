@@ -23,15 +23,6 @@ function ErrorHandling() {
     )
 }
 
-// interface IRecordData{
-//         id: number;
-//         title: 'dfafaf',    description: 'fdafa',
-//         githubRepo: 'eno-conan/Nuxtjs_pinia_vitest',
-//         detail: 'fadfasfasfafafa',    finished: false,
-//         createdAt: 2022-12-11T03:33:35.630Z,
-//         updatedAt: 2022-12-11T03:33:35.630Z
-// }
-
 const TargetRecord: NextPage = (props: any) => {
     const [recordData, setRecordData] = useState<any>();
     // 実装パターン2で使用する部分
@@ -43,14 +34,26 @@ const TargetRecord: NextPage = (props: any) => {
         //     </>
         // )
     }
-    const info = props.recordInfo[0];
+    const info = props.recordInfo;
     useEffect(() => {
         setRecordData(info)
     })
 
+    // データ確認用のメソッド
     const checkData = () => {
         console.log(recordData)
     }
+
+    // 未完了・完了の文言設定
+    const arrangeFormat = (content: string) => {
+        if (content) {
+            return content
+        } else {
+            return '-'
+        }
+    }
+
+
     return (
         <div>
             <CommonDrawer />
@@ -59,12 +62,31 @@ const TargetRecord: NextPage = (props: any) => {
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録詳細' />
                 </Stack>
-                <Grid container>
-                    <Grid item xs={6}>Title</Grid>
-                    <Grid item xs={6}>{info && info.title}</Grid>
-                    <Grid item xs={12}>C</Grid>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}><h1>Main</h1></Grid>
+                    <Grid item xs={4}>Title</Grid>
+                    <Grid item xs={8}>{info.title}</Grid>
+                    <Grid item xs={4}>Description</Grid>
+                    <Grid item xs={8}>{info.description}</Grid>
+                    <Grid item xs={4}>githubRepo</Grid>
+                    <Grid item xs={8}>{arrangeFormat(info.githubRepo)}</Grid>
+                    <Grid item xs={4}>detail</Grid>
+                    <Grid item xs={8}>{info.detail}</Grid>
+                    <Grid item xs={4}>Finished</Grid>
+                    <Grid item xs={8}>{arrangeFormat(info.finished)}</Grid>
+                    <Grid item xs={12}><h1>Links</h1></Grid>
+                    <Grid item xs={4}><h3>LinkTitle</h3></Grid>
+                    <Grid item xs={8}><h3>LinkUrl</h3></Grid>
+                    {info.refs.map((ref: any) => (
+                        <>
+                            <Grid item xs={4}>{ref.linkTitle}</Grid>
+                            <Grid item xs={8}>{ref.linkUrl}</Grid>
+                        </>
+                    ))}
                 </Grid>
-                <button onClick={checkData}>CheckData</button>
+                <Stack spacing={2} pt={4}>
+                    <button onClick={checkData}>更新ボタンをここに作る予定</button>
+                </Stack>
             </Container>
         </div>
     )

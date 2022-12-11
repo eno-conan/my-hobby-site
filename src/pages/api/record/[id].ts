@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prismaRecordFindOne } from "../../../../prisma/functions/record";
+import { prismaRecordRefsFindOne } from "../../../../prisma/functions/recordRef";
 
 export default async function handler(
     req: NextApiRequest,
@@ -13,9 +14,17 @@ export default async function handler(
 
     switch (method) {
         case 'GET':
-            // console.log(await prismaRecordFindOne(id));
-            // console.log(records)
-            res.status(200).json(await prismaRecordFindOne(id));
+            const recordTableData = await prismaRecordFindOne(id);
+            const refTableData = await prismaRecordRefsFindOne(id);
+            const response: any = {
+                title: recordTableData[0].title,
+                description: recordTableData[0].description,
+                githubRepo: recordTableData[0].githubRepo,
+                detail: recordTableData[0].detail,
+                finished: recordTableData[0].finished,
+                refs: refTableData
+            }
+            res.status(200).json(response);
             break;
 
         case 'POST':
