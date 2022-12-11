@@ -1,7 +1,7 @@
 import { Record } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prismaRecordCreate, prismaRecordsFindMany } from '../../../prisma/functions/record';
-import { prismaRecordRefsCreate } from '../../../prisma/functions/recordRef';
+import { prismaRecordCreate, prismaRecordFindOne, prismaRecordsFindMany } from '../../../../prisma/functions/record';
+import { prismaRecordRefsCreate } from '../../../../prisma/functions/recordRef';
 
 /**
  * 記録についてテーブルに追加などを行うAPI

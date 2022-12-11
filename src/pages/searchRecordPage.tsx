@@ -122,6 +122,17 @@ const searchRecordPage: NextPage = () => {
         }
     }
 
+    const checkRecord = () => {
+        const method = 'GET';
+        const headers = {
+            'Accept': 'application/json'
+        };
+        // 送信
+        fetch(`/api/record/${selectedRowIds[0]}`, { method, headers })
+            .then((res) => res.json())
+            .then(console.info).catch(console.error);
+    }
+
     // ローディング中の表示
     if (!originalRecords) {
         return (
@@ -141,6 +152,7 @@ const searchRecordPage: NextPage = () => {
                         <input type="text" value={inputValue} onChange={handleChange} />
                     </div>
                 </Stack>
+                <button onClick={checkRecord}>checkRecord</button>
             </Container>
             <Divider />
             <Container maxWidth="lg">

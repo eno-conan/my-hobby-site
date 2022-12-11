@@ -7,6 +7,15 @@ export const prismaRecordsFindMany = async (): Promise<Record[]> => {
     return records;
 };
 
+export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
+    const checkedRecord = await prisma.record.findMany({
+        where: {
+            id: Number(id),
+        }
+    });
+    return checkedRecord;
+};
+
 
 
 /* 記録を新規保存 */
