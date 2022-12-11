@@ -134,7 +134,7 @@ const searchRecordPage: NextPage = () => {
                     id: selectedRowIds[0],
                     host: window.location.href.split('/searchRecordPage')[0]
                 }
-            }, `/targetRecord/${selectedRowIds[0]}`);
+            }, `/targetRecordPage/${selectedRowIds[0]}`);
         } else {
             alert('詳細表示する場合は、1件のみ選択')
         }
