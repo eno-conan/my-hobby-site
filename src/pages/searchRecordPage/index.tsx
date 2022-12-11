@@ -129,7 +129,7 @@ const searchRecordPage: NextPage = () => {
     const checkRecord = () => {
         if (selectedRowIds.length == 1) {
             router.push({
-                pathname: `/targetRecord/${selectedRowIds[0]}`,
+                pathname: `/targetRecordPage/${selectedRowIds[0]}`,
                 query: {
                     id: selectedRowIds[0],
                     host: window.location.href.split('/searchRecordPage')[0]
