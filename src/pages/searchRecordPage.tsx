@@ -156,54 +156,58 @@ const searchRecordPage: NextPage = () => {
                             {(() => {
                                 if (inputValue) {
                                     return (<>
-                                        {showRecords.map((row: any) => {
-                                            const isItemSelected = isSelected(row.id);
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    role="checkbox"
-                                                    tabIndex={-1}
-                                                    key={row.id}
-                                                    onClick={() => toggleSelected(row.id)}
-                                                    selected={isItemSelected}
-                                                >
-                                                    <TableCell padding="checkbox">
-                                                        <Checkbox checked={isItemSelected} />
-                                                    </TableCell>
-                                                    <TableCell>{row.title}</TableCell>
-                                                    <TableCell>{row.description}</TableCell>
-                                                    <TableCell>{row.githubRepo}</TableCell>
-                                                    <TableCell>{getStatus(row.finished)}</TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
+                                        {showRecords
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row: any) => {
+                                                const isItemSelected = isSelected(row.id);
+                                                return (
+                                                    <TableRow
+                                                        hover
+                                                        role="checkbox"
+                                                        tabIndex={-1}
+                                                        key={row.id}
+                                                        onClick={() => toggleSelected(row.id)}
+                                                        selected={isItemSelected}
+                                                    >
+                                                        <TableCell padding="checkbox">
+                                                            <Checkbox checked={isItemSelected} />
+                                                        </TableCell>
+                                                        <TableCell>{row.title}</TableCell>
+                                                        <TableCell>{row.description}</TableCell>
+                                                        <TableCell>{row.githubRepo}</TableCell>
+                                                        <TableCell>{getStatus(row.finished)}</TableCell>
+                                                    </TableRow>
+                                                );
+                                            })}
                                     </>
                                     );
                                 } else {
                                     return (<>
-                                        {originalRecordsSample.map((row) => {
-                                            const isItemSelected = isSelected(row.id);
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    role="checkbox"
-                                                    tabIndex={-1}
-                                                    key={row.id}
-                                                    onClick={() => toggleSelected(row.id)}
-                                                    selected={isItemSelected}
-                                                >
-                                                    <TableCell padding="checkbox">
-                                                        <Checkbox checked={isItemSelected} />
-                                                    </TableCell>
-                                                    <TableCell>{row.title}</TableCell>
-                                                    <TableCell>{row.description}</TableCell>
-                                                    <TableCell>{row.githubRepo}</TableCell>
-                                                    <TableCell>{getStatus(row.finished)}</TableCell>
-                                                    {/* <TableCell>{row.updatedAt}</TableCell> */}
-                                                    {/* .toLocaleString('en-US') */}
-                                                </TableRow>
-                                            );
-                                        })}
+                                        {originalRecordsSample
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row) => {
+                                                const isItemSelected = isSelected(row.id);
+                                                return (
+                                                    <TableRow
+                                                        hover
+                                                        role="checkbox"
+                                                        tabIndex={-1}
+                                                        key={row.id}
+                                                        onClick={() => toggleSelected(row.id)}
+                                                        selected={isItemSelected}
+                                                    >
+                                                        <TableCell padding="checkbox">
+                                                            <Checkbox checked={isItemSelected} />
+                                                        </TableCell>
+                                                        <TableCell>{row.title}</TableCell>
+                                                        <TableCell>{row.description}</TableCell>
+                                                        <TableCell>{row.githubRepo}</TableCell>
+                                                        <TableCell>{getStatus(row.finished)}</TableCell>
+                                                        {/* <TableCell>{row.updatedAt}</TableCell> */}
+                                                        {/* .toLocaleString('en-US') */}
+                                                    </TableRow>
+                                                );
+                                            })}
                                     </>
                                     );
                                 }
@@ -222,11 +226,11 @@ const searchRecordPage: NextPage = () => {
                     //     return `Page: ${page + 1}`;
                     // }}
                     />
-                </TableContainer>
-                {/* <Box>
+                    {/* <Box>
                     <Typography>selectedRowIds</Typography>
                     <Typography>{JSON.stringify(selectedRowIds)}</Typography>
                 </Box> */}
+                </TableContainer>
             </Container>
         </>
     )
