@@ -7,10 +7,13 @@ https://mui.com/material-ui/icons/
 - [react-form-errorMessage表示](https://react-hook-form.com/api/useformstate/errormessage)
 
 
-### React
+### React・Next
 - [1度だけ変更されるstateにはuseStateよりuseReducerを使う](https://zenn.dev/spacemarket/articles/9eb80496fa5fe6?s=09)
 - [RHF：ネストフォーム](https://zenn.dev/maro12/articles/7d011d3dfed5d4#%E8%A8%98%E4%BA%8B%E3%81%AE%E6%A6%82%E8%A6%81)
 - [22/12/08:Each child in a list should have a unique "key" propへの対応](https://dev.classmethod.jp/articles/avoiding-warningeach-child-in-a-list-should-have-a-unique-key-prop-in-react-apps-is-called-and-not-on-the-side-do-it-on-the-caller/)
+- [22/12/11:クエリパラメータを使って別ページへ：一番シンプル](https://qiita.com/syu_ikeda/items/9f3c2f041a1031651c61)
+- [22/12/11:クエリパラメータを使って別ページへ：エラーハンドリングあり](https://abillyz.com/mamezou/studies/410)
+- [22/12/11：クエリパラメータを隠したい](https://stackoverflow.com/questions/70484870/how-to-hide-query-params-from-the-url-while-using-router-push)
 
 ### Material UI
 - [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)

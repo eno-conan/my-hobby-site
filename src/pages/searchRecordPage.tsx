@@ -23,6 +23,7 @@ import { Stack } from '@mui/material'
 import { HeadCell, SelectableTableHead } from '../components/SelectableTableHead'
 import { useRowSelect } from '../hooks/useRowSelect'
 import LoadingPart from '../components/LoadingPart'
+import { useRouter } from 'next/router';
 
 // const theme = createMuiTheme({
 //     palette: {
@@ -79,6 +80,7 @@ const searchRecordPage: NextPage = () => {
     const [recordCount, setRecordCount] = useState(originalRecordCount);
     const [showRecords, setShowRecords] = useState<any>();
 
+    // ページ更新
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -114,6 +116,7 @@ const searchRecordPage: NextPage = () => {
         search(e.target.value);
     };
 
+    // 未完了・完了の文言設定
     const getStatus = (finished: Boolean) => {
         if (finished) {
             return 'Finished'
@@ -122,15 +125,16 @@ const searchRecordPage: NextPage = () => {
         }
     }
 
+    // 詳細画面へ遷移
+    const router = useRouter();
     const checkRecord = () => {
-        const method = 'GET';
-        const headers = {
-            'Accept': 'application/json'
-        };
-        // 送信
-        fetch(`/api/record/${selectedRowIds[0]}`, { method, headers })
-            .then((res) => res.json())
-            .then(console.info).catch(console.error);
+        router.push({
+            pathname: "/targetRecord",
+            query: {
+                id: selectedRowIds[0],
+                host: window.location.href.split('/searchRecordPage')[0]
+            }
+        }, `/targetRecord/id=${selectedRowIds[0]}`);
     }
 
     // ローディング中の表示
