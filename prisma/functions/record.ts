@@ -1,7 +1,7 @@
 import { Prisma, Record } from '@prisma/client';
 import prisma from './client';
 
-export const prismaRecordsFindMany = async (): Promise<Record[]> => {
+export const prismaRecordsFindMany = async (): Promise<any[]> => {
     const records = await prisma.record.findMany({
         orderBy: { updatedAt: Prisma.SortOrder.desc }
     }
