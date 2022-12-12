@@ -162,7 +162,7 @@ const searchRecordPage: NextPage = () => {
                 <button onClick={checkRecord}>checkRecord</button>
             </Container>
             <Divider />
-            <Container maxWidth="lg">
+            <Container fixed>
                 <TableContainer component={Paper}>
                     <Table>
                         <SelectableTableHead

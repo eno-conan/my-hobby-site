@@ -106,7 +106,7 @@ const InputRecordPage: NextPage = () => {
                     return (
                         <>
                             <CommonDrawer />
-                            <Container maxWidth='md'>
+                            <Container fixed>
                                 {/* メタ情報の設定 */}
                                 {/* ページ見出し */}
                                 <CommonMeta title={'記録追加'} />

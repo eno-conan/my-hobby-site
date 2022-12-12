@@ -68,7 +68,7 @@ const TargetRecord: NextPage = (props: any) => {
         <div>
             <CommonDrawer />
             <CommonMeta title={"記録詳細"} />
-            <Container maxWidth="md">
+            <Container fixed>
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録詳細' />
                 </Stack>
