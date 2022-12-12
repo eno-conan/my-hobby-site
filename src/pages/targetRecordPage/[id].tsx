@@ -7,6 +7,14 @@ import { Stack } from '@mui/material'
 import CommonHeadline from '../../components/CommonHeadline';
 import styles from '../../styles/Home.module.css'
 import Link from 'next/link';
+import MuiLink from "@material-ui/core/Link";
+import inputRecordForm from '../../hooks/inputRecordForm';
+import { useFieldArray } from 'react-hook-form';
+import MainPart from '../../components/MainPart';
+import ReferencePart from '../../components/ReferencePart';
+import Button from '@mui/material/Button';
+import useSWR from 'swr';
+import { fetcher } from '../../hooks/fetcher';
 
 function ErrorHandling() {
     return (
@@ -39,11 +47,6 @@ const TargetRecord: NextPage = (props: any) => {
         setRecordData(info)
     })
 
-    // データ確認用のメソッド
-    const checkData = () => {
-        console.log(recordData)
-    }
-
     // 未完了・完了の文言設定
     const arrangeFormat = (content: string | boolean) => {
         if (content) {
@@ -64,42 +67,145 @@ const TargetRecord: NextPage = (props: any) => {
     }
 
 
+    // 追加部分
+    // タイトル・概要・詳細に関するフォームルールを取得
+    // const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
+    // const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
+    // // text/markdownの状態管理
+    // const [writeMarkdown, setWriteMarkdown] = React.useState(false);
+    // // markDownを使用した場合の値を保持
+    // const [valueUseMarkdown, setValueUseMarkdown] = useState('');
+    // // 入力完了の画面表示を制御
+    const [update, setUpdate] = useState(false);
+    // // URLからドメイン取得
+    // const [host, setHost] = useState('');
+    // useEffect(() => {
+    //     setHost(window.location.href.split('/targetRecordPage')[0]);
+    // }, []);
+    // gitHubRepository一覧取得
+    // const { data, error } = useSWR(
+    //     `${host}/api/githubRepos`,
+    //     fetcher
+    // );
+
+
+    // データ確認用のメソッド
+    const checkData = () => {
+        if (update) {
+            setUpdate(false)
+        } else {
+            setUpdate(true)
+            // setValue('title', info.title)
+            // setValue('description', info.description)
+            // setValue('githubRepo', info.githubRepo)
+            // setValue('detail', info.detail)
+        }
+    }
+
+
+    // 入力内容送信
+    // const sendRegisterInfo = () => {
+    //     // 詳細情報はtextかmarkdownで設定値を切替
+    //     let detailInfo: string = '';
+    //     if (writeMarkdown) {
+    //         detailInfo = valueUseMarkdown;
+    //     } else {
+    //         detailInfo = getValues().detail
+    //     }
+    //     // 送信情報の設定
+    //     const sendInfo = {
+    //         title: getValues().title,
+    //         description: getValues().description,
+    //         githubRepo: getValues().githubRepo,
+    //         detail: detailInfo,
+    //         finished: false,
+    //         refs: getValues().reference
+    //     };
+    //     const method = 'POST';
+    //     const body = JSON.stringify(sendInfo);
+    //     const headers = {
+    //         'Accept': 'application/json'
+    //     };
+    //     // 送信
+    //     fetch(`/api/record`, { method, headers, body })
+    //         .then((res) => res.json())
+    //         .then(console.info).catch(console.error);
+    // }
+    // 追加部分
+
     return (
-        <div>
+        <>
             <CommonDrawer />
             <CommonMeta title={"記録詳細"} />
-            <Container fixed>
+            <Container maxWidth='md'>
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録詳細' />
                 </Stack>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}><h1>Main</h1></Grid>
-                    {viewItem('Title', info.title)}
-                    {viewItem('Description', info.description)}
-                    {viewItem('githubRepo', info.githubRepo)}
-                    {viewItem('Detail', info.detail)}
-                    {viewItem('Finished', info.finished)}
-                    <Grid item xs={12}><h1>Links</h1></Grid>
-                    {info.refs.length > 0 ?
-                        (<>
-                            <Grid item xs={4}><h3>LinkTitle</h3></Grid>
-                            <Grid item xs={8}><h3>LinkUrl</h3></Grid>
-                            {info.refs.map((ref: any) => (
-                                <>
-                                    <Grid item xs={4}>{ref.linkTitle}</Grid>
-                                    <Grid item xs={8}>{ref.linkUrl}</Grid>
-                                </>
-                            ))}
-                        </>)
-                        :
-                        (<><Grid item xs={4}>No Refs</Grid></>)}
-
+                <Grid container spacing={2} justifyContent='center' alignItems='center'>
+                    <Stack spacing={2} pt={4}>
+                        <button onClick={checkData}>更新ボタンをここに作る予定</button>
+                    </Stack>
                 </Grid>
-                <Stack spacing={2} pt={4}>
-                    <button onClick={checkData}>更新ボタンをここに作る予定</button>
-                </Stack>
+
+                {(() => {
+                    // 送信完了を表示
+                    if (!update) {
+                        return (
+                            <>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}><h1>Main</h1></Grid>
+                                    {viewItem('Title', info.title)}
+                                    {viewItem('Description', info.description)}
+                                    {viewItem('githubRepo', info.githubRepo)}
+                                    {viewItem('Detail', info.detail)}
+                                    {viewItem('Finished', info.finished)}
+                                    <Grid item xs={12}><h1>Links</h1></Grid>
+                                    {info.refs.length > 0 ?
+                                        (<>
+                                            <Grid item xs={4}><h3>LinkTitle</h3></Grid>
+                                            <Grid item xs={8}><h3>LinkUrl</h3></Grid>
+                                            {info.refs.map((ref: any) => (
+                                                <>
+                                                    <Grid item xs={4}>{ref.linkTitle}</Grid>
+                                                    <Grid item xs={8}>
+                                                        <Link href={ref.linkUrl} passHref>
+                                                            <MuiLink target="_blank" rel="noopener noreferrer">
+                                                                {ref.linkUrl}
+                                                            </MuiLink>
+                                                        </Link>
+                                                    </Grid>
+                                                </>
+                                            ))}
+                                        </>)
+                                        :
+                                        (<><Grid item xs={4}>No Refs</Grid></>)}
+                                </Grid>
+                            </>
+                        )
+                    } else {
+                        // 未送信の場合はフォーム表示
+                        return (
+                            <>
+                                <Stack direction='row' justifyContent='center' pt={4}>
+                                    Coding Now...
+                                </Stack>
+                                {/* 主な事項を記載する箇所 */}
+                                {/* <MainPart
+                                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} data={data} /> */}
+                                {/* 参照リンクの記載箇所 */}
+                                {/* <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} /> */}
+                                {/* 送信 */}
+                                {/* <Stack direction='row' justifyContent='right' pb={4}>
+                                    <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
+                                        Create Record
+                                    </Button>
+                                </Stack> */}
+                            </>);
+                    }
+                })()}
+
             </Container>
-        </div>
+        </>
     )
 }
 

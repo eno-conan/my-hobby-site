@@ -99,9 +99,11 @@ const InputRecordPage: NextPage = () => {
         <>
             {(() => {
                 // 送信完了を表示
-                if (finished) return (
-                    <SentPart setFinished={setFinished} />
-                ); else {
+                if (finished) {
+                    return (
+                        <SentPart setFinished={setFinished} />
+                    )
+                } else {
                     // 未送信の場合はフォーム表示
                     return (
                         <>
