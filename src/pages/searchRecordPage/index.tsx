@@ -116,7 +116,7 @@ const searchRecordPage: NextPage = () => {
     };
 
     // 未完了・完了の文言を設定
-    const getStatus = (finished: Boolean) => {
+    const arrangeViewContent = (finished: Boolean) => {
         if (finished) {
             return 'Finished'
         } else {
@@ -193,8 +193,8 @@ const searchRecordPage: NextPage = () => {
                                                         </TableCell>
                                                         <TableCell>{row.title}</TableCell>
                                                         <TableCell>{row.description}</TableCell>
-                                                        <TableCell>{row.githubRepo}</TableCell>
-                                                        <TableCell>{getStatus(row.finished)}</TableCell>
+                                                        <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
+                                                        <TableCell>{arrangeViewContent(row.finished)}</TableCell>
                                                     </TableRow>
                                                 );
                                             })}
@@ -220,8 +220,8 @@ const searchRecordPage: NextPage = () => {
                                                         </TableCell>
                                                         <TableCell>{row.title}</TableCell>
                                                         <TableCell>{row.description}</TableCell>
-                                                        <TableCell>{row.githubRepo}</TableCell>
-                                                        <TableCell>{getStatus(row.finished)}</TableCell>
+                                                        <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
+                                                        <TableCell>{arrangeViewContent(row.finished)}</TableCell>
                                                         {/* <TableCell>{row.updatedAt}</TableCell> */}
                                                         {/* .toLocaleString('en-US') */}
                                                     </TableRow>
