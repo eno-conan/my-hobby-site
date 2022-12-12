@@ -1,5 +1,5 @@
 import { Container, Grid } from '@material-ui/core';
-import { NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType, NextPage } from 'next';
 import React, { useEffect, useState } from 'react'
 import CommonDrawer from '../../components/CommonDrawer';
 import CommonMeta from '../../components/CommonMeta';
@@ -7,6 +7,8 @@ import { Stack } from '@mui/material'
 import CommonHeadline from '../../components/CommonHeadline';
 import styles from '../../styles/Home.module.css'
 import Link from 'next/link';
+import useRecord from '../../hooks/useRecord';
+import { prismaRecordsFindMany } from '../../../prisma/functions/record';
 
 function ErrorHandling() {
     return (
@@ -23,16 +25,18 @@ function ErrorHandling() {
     )
 }
 
+type TestPageProps = InferGetStaticPropsType<typeof getStaticProps>;
+
 const TargetRecord: NextPage = (props: any) => {
     const [recordData, setRecordData] = useState<any>();
     // 実装パターン2で使用する部分
     if (props.status) {
-        ErrorHandling();// 同じ画面が表示されるが、データは残ってない
-        // return (
-        //     <>
-        //         {/* <ErrorHandling /> */}
-        //     </>
-        // )
+        // ErrorHandling();// 同じ画面が表示されるが、データは残ってない
+        return (
+            <>
+                <ErrorHandling />
+            </>
+        )
     }
     const info = props.recordInfo;
     useEffect(() => {
@@ -52,7 +56,6 @@ const TargetRecord: NextPage = (props: any) => {
             return '-'
         }
     }
-
 
     return (
         <div>
@@ -94,12 +97,34 @@ const TargetRecord: NextPage = (props: any) => {
 
 export default TargetRecord
 
+
+
+export async function getStaticPaths() {
+    const records: any = await prismaRecordsFindMany();
+    const paths = records.map((record: any) => `${record.id}`);
+    console.log(paths)
+    return {
+        paths: [
+            { params: { id: '1' } },
+            { params: { id: '2' } },
+            { params: { id: '3' } },
+        ],
+        fallback: "blocking",
+    }
+};
+
 //サーバーサイドレンダリング
-export async function getServerSideProps(context: { query: { id: any, host: any }; }) {
+export const getStaticProps: GetStaticProps = async ({
+    params,
+}: GetStaticPropsContext) => {
+    // console.log(params)
+    // const { params } = context
     //対象記録のID
-    const targetId = context.query.id;
+    // const targetId = context.query.id;
+    const targetId = params!.id;
     // ホストを取得（fetchが絶対パスのため）
-    const hostName = context.query.host;
+    // window.location.href.split('/searchRecordPage')[0]
+    const hostName = 'http://localhost:3000/';
     const method = 'GET';
     const headers = {
         'Accept': 'application/json'
