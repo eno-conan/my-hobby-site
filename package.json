@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest -i --passWithNoTests",
-    "studio": "npx prisma studio"
+    "studio": "npx prisma studio",
+    "vercel-build": "prisma generate && prisma db push && next build",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.218.0",
