@@ -45,12 +45,22 @@ const TargetRecord: NextPage = (props: any) => {
     }
 
     // 未完了・完了の文言設定
-    const arrangeFormat = (content: string) => {
+    const arrangeFormat = (content: string | boolean) => {
         if (content) {
             return content
         } else {
             return '-'
         }
+    }
+
+    // 項目ごとの表示構成
+    const viewItem = (itemLabel: string, item: string | boolean) => {
+        return (
+            <>
+                <Grid item xs={4}>{itemLabel}</Grid>
+                <Grid item xs={8}>{arrangeFormat(item)}</Grid>
+            </>
+        )
     }
 
 
@@ -64,25 +74,26 @@ const TargetRecord: NextPage = (props: any) => {
                 </Stack>
                 <Grid container spacing={2}>
                     <Grid item xs={12}><h1>Main</h1></Grid>
-                    <Grid item xs={4}>Title</Grid>
-                    <Grid item xs={8}>{info.title}</Grid>
-                    <Grid item xs={4}>Description</Grid>
-                    <Grid item xs={8}>{info.description}</Grid>
-                    <Grid item xs={4}>githubRepo</Grid>
-                    <Grid item xs={8}>{arrangeFormat(info.githubRepo)}</Grid>
-                    <Grid item xs={4}>detail</Grid>
-                    <Grid item xs={8}>{info.detail}</Grid>
-                    <Grid item xs={4}>Finished</Grid>
-                    <Grid item xs={8}>{arrangeFormat(info.finished)}</Grid>
+                    {viewItem('Title', info.title)}
+                    {viewItem('Description', info.description)}
+                    {viewItem('githubRepo', info.githubRepo)}
+                    {viewItem('Detail', info.detail)}
+                    {viewItem('Finished', info.finished)}
                     <Grid item xs={12}><h1>Links</h1></Grid>
-                    <Grid item xs={4}><h3>LinkTitle</h3></Grid>
-                    <Grid item xs={8}><h3>LinkUrl</h3></Grid>
-                    {info.refs.map((ref: any) => (
-                        <>
-                            <Grid item xs={4}>{ref.linkTitle}</Grid>
-                            <Grid item xs={8}>{ref.linkUrl}</Grid>
-                        </>
-                    ))}
+                    {info.refs.length > 0 ?
+                        (<>
+                            <Grid item xs={4}><h3>LinkTitle</h3></Grid>
+                            <Grid item xs={8}><h3>LinkUrl</h3></Grid>
+                            {info.refs.map((ref: any) => (
+                                <>
+                                    <Grid item xs={4}>{ref.linkTitle}</Grid>
+                                    <Grid item xs={8}>{ref.linkUrl}</Grid>
+                                </>
+                            ))}
+                        </>)
+                        :
+                        (<><Grid item xs={4}>No Refs</Grid></>)}
+
                 </Grid>
                 <Stack spacing={2} pt={4}>
                     <button onClick={checkData}>更新ボタンをここに作る予定</button>
