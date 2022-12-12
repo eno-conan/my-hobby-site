@@ -115,7 +115,7 @@ const searchRecordPage: NextPage = () => {
         search(e.target.value);
     };
 
-    // 未完了・完了の文言設定
+    // 未完了・完了の文言を設定
     const getStatus = (finished: Boolean) => {
         if (finished) {
             return 'Finished'
