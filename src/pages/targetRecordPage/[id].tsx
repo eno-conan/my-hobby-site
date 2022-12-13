@@ -15,6 +15,7 @@ import ReferencePart from '../../components/ReferencePart';
 import Button from '@mui/material/Button';
 import useSWR from 'swr';
 import { fetcher } from '../../hooks/fetcher';
+import Router from "next/router";
 
 function ErrorHandling() {
     return (
@@ -69,24 +70,24 @@ const TargetRecord: NextPage = (props: any) => {
 
     // 追加部分
     // タイトル・概要・詳細に関するフォームルールを取得
-    // const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
-    // const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
-    // // text/markdownの状態管理
-    // const [writeMarkdown, setWriteMarkdown] = React.useState(false);
-    // // markDownを使用した場合の値を保持
-    // const [valueUseMarkdown, setValueUseMarkdown] = useState('');
+    const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
+    const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
+    // text/markdownの状態管理
+    const [writeMarkdown, setWriteMarkdown] = React.useState(false);
+    // markDownを使用した場合の値を保持
+    const [valueUseMarkdown, setValueUseMarkdown] = useState('');
     // // 入力完了の画面表示を制御
     const [update, setUpdate] = useState(false);
     // // URLからドメイン取得
-    // const [host, setHost] = useState('');
-    // useEffect(() => {
-    //     setHost(window.location.href.split('/targetRecordPage')[0]);
-    // }, []);
+    const [host, setHost] = useState('');
+    useEffect(() => {
+        setHost(window.location.href.split('/targetRecordPage')[0]);
+    }, []);
     // gitHubRepository一覧取得
-    // const { data, error } = useSWR(
-    //     `${host}/api/githubRepos`,
-    //     fetcher
-    // );
+    const { data, error } = useSWR(
+        `${host}/api/githubRepos`,
+        fetcher
+    );
 
 
     // データ確認用のメソッド
@@ -95,42 +96,46 @@ const TargetRecord: NextPage = (props: any) => {
             setUpdate(false)
         } else {
             setUpdate(true)
-            // setValue('title', info.title)
-            // setValue('description', info.description)
-            // setValue('githubRepo', info.githubRepo)
-            // setValue('detail', info.detail)
+            setValue('title', info.title)
+            setValue('description', info.description)
+            setValue('githubRepo', info.githubRepo)
+            setValue('detail', info.detail)
+            setValue('reference', info.refs)
         }
     }
 
 
     // 入力内容送信
-    // const sendRegisterInfo = () => {
-    //     // 詳細情報はtextかmarkdownで設定値を切替
-    //     let detailInfo: string = '';
-    //     if (writeMarkdown) {
-    //         detailInfo = valueUseMarkdown;
-    //     } else {
-    //         detailInfo = getValues().detail
-    //     }
-    //     // 送信情報の設定
-    //     const sendInfo = {
-    //         title: getValues().title,
-    //         description: getValues().description,
-    //         githubRepo: getValues().githubRepo,
-    //         detail: detailInfo,
-    //         finished: false,
-    //         refs: getValues().reference
-    //     };
-    //     const method = 'POST';
-    //     const body = JSON.stringify(sendInfo);
-    //     const headers = {
-    //         'Accept': 'application/json'
-    //     };
-    //     // 送信
-    //     fetch(`/api/record`, { method, headers, body })
-    //         .then((res) => res.json())
-    //         .then(console.info).catch(console.error);
-    // }
+    const sendRegisterInfo = () => {
+        // 詳細情報はtextかmarkdownで設定値を切替
+        let detailInfo: string = '';
+        if (writeMarkdown) {
+            detailInfo = valueUseMarkdown;
+        } else {
+            detailInfo = getValues().detail
+        }
+        // 送信情報の設定
+        const sendInfo = {
+            id: info.id,
+            title: getValues().title,
+            description: getValues().description,
+            githubRepo: getValues().githubRepo,
+            detail: detailInfo,
+            finished: false,
+            refs: getValues().reference
+        };
+        const method = 'POST';
+        const body = JSON.stringify(sendInfo);
+        const headers = {
+            'Accept': 'application/json'
+        };
+        // 送信
+        fetch(`/api/record/${info.id}`, { method, headers, body })
+            .then((res) => res.json())
+            .then(console.info).catch(console.error);
+        alert('更新完了')
+        Router.push({ pathname: '/searchRecordPage', query: { name: 'Someone' } });
+    }
     // 追加部分
 
     return (
@@ -186,20 +191,20 @@ const TargetRecord: NextPage = (props: any) => {
                         // 未送信の場合はフォーム表示
                         return (
                             <>
-                                <Stack direction='row' justifyContent='center' pt={4}>
+                                {/* <Stack direction='row' justifyContent='center' pt={4}>
                                     Coding Now...
-                                </Stack>
+                                </Stack> */}
                                 {/* 主な事項を記載する箇所 */}
-                                {/* <MainPart
-                                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} data={data} /> */}
+                                <MainPart
+                                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} data={data} />
                                 {/* 参照リンクの記載箇所 */}
-                                {/* <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} /> */}
+                                <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                                 {/* 送信 */}
-                                {/* <Stack direction='row' justifyContent='right' pb={4}>
+                                <Stack direction='row' justifyContent='right' pb={4}>
                                     <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
                                         Create Record
                                     </Button>
-                                </Stack> */}
+                                </Stack>
                             </>);
                     }
                 })()}

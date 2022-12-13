@@ -53,6 +53,8 @@ const headCells: HeadCell[] = [
 
 // 記録検索画面の作成
 const searchRecordPage: NextPage = () => {
+    const router = useRouter();
+    console.log(router.query)
 
     // 取得データを設定
     const {
@@ -125,7 +127,6 @@ const searchRecordPage: NextPage = () => {
     }
 
     // 詳細画面へ遷移
-    const router = useRouter();
     const checkRecord = () => {
         if (selectedRowIds.length == 1) {
             router.push({

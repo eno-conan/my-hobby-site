@@ -7,10 +7,10 @@ const RefInfo = z.object({
     linkUrl: z.string().max(200),
 })
 const schema = z.object({
-    title: z.string().min(1, '最低1文字は入力してください'),
-    description: z.string().min(1, '最低1文字は入力してください'),
+    title: z.string().min(1, '最低1文字は入力してください').max(100, '最大100文字です'),
+    description: z.string().min(1, '最低1文字は入力してください').max(300, '最大300文字です'),
     githubRepo: z.string().max(100).or(z.literal('')),
-    detail: z.string().min(1, '最低1文字は入力してください').or(z.literal('')),
+    detail: z.string().min(1, '最低1文字は入力してください').max(1000, '最大1000文字です').or(z.literal('')),
     reference: z.array(RefInfo)
 })
 

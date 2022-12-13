@@ -40,3 +40,12 @@ export const prismaRecordCreate = async (
     });
     return record;
 };
+
+/* 記録を更新 */
+export const prismaRecordUpdate = async (id: number, param: Record): Promise<Record> => {
+    const record = await prisma.record.update({
+        where: { id: id },
+        data: param,
+    });
+    return record;
+};

@@ -25,3 +25,12 @@ export const prismaRecordRefsCreate = async (
     });
     return recordRefs;
 };
+
+/* 参考リンクの更新 */
+export const prismaRecordRefsUpdate = async (id: number, param: Omit<RecordRef, 'id'>): Promise<RecordRef> => {
+    const recordRefs = await prisma.recordRef.update({
+        where: { id: id },
+        data: param,
+    });
+    return recordRefs;
+};

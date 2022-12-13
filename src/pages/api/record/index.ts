@@ -73,9 +73,7 @@ export default async function handler(
                 detail: jsonBody.detail,
                 finished: jsonBody.finished,
             }
-            // const createRecordParams = { title: '', description: '', githubRepo: '', detail: '', finished: false }
-            console.log(createRecordParams)
-
+            // console.log(createRecordParams)
             const record = await prismaRecordCreate(createRecordParams);
 
             res.status(200).json(jsonBody);
