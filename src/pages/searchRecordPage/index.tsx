@@ -2,6 +2,7 @@ import {
     Checkbox,
     Container,
     createMuiTheme,
+    createTheme,
     Divider,
     MuiThemeProvider,
     Table,
@@ -18,13 +19,15 @@ import TableRow from '@mui/material/TableRow';
 import { NextPage } from 'next'
 import useRecord from '../../hooks/useRecord'
 import { Record } from '../../../types'
-import { Stack } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { HeadCell, SelectableTableHead } from '../../components/SelectableTableHead'
 import { useRowSelect } from '../../hooks/useRowSelect'
 import LoadingPart from '../../components/LoadingPart'
 import { useRouter } from 'next/router';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         secondary: { main: '#44CC33' }
     },
@@ -55,7 +58,7 @@ const headCells: HeadCell[] = [
 const searchRecordPage: NextPage = () => {
     // 更新処理が完了したときに、メッセージを表示したい
     const router = useRouter();
-    console.log(router.query)
+    console.log(router.query.name)
 
     // 取得データを設定
     const {
@@ -156,12 +159,25 @@ const searchRecordPage: NextPage = () => {
             <Container maxWidth="md">
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録検索' />
+                    {router.query.name === 'UpdateSuccess' ? (
+                        <>
+                            <Snackbar
+                                open={true}
+                                message="記事の更新が完了しました"
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            >
+                                <Alert severity="success">記事の更新が完了しました</Alert>
+                            </Snackbar>
+                        </>
+                    ) : (<></>)}
                     <div>
                         <span style={{ marginRight: "5px" }}>条件</span>
                         <input type="text" value={inputValue} onChange={handleChange} />
                     </div>
                 </Stack>
-                <button onClick={checkRecord}>checkRecord</button>
+                {/* buttonので事案を変えつつ、左端に寄せた状態にしたい */}
+                {/* <Button variant="contained" onClick={checkRecord} fullWidth={false} >詳細確認</Button> */}
+                <button onClick={checkRecord} >詳細確認</button>
             </Container>
             <Divider />
             <Container fixed>

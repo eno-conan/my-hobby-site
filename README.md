@@ -36,6 +36,7 @@ https://mui.com/material-ui/icons/
 - [22/12/11:ClassNameがフロントとバックで違うよ、って警告対応](https://zenn.dev/nbr41to/articles/c0c691653e3d55#.babelrc-%E3%82%92%E4%BD%9C%E6%88%90)
 - [デザインの勉強になりそう](https://m2.material.io/design/layout/responsive-layout-grid.html#grid-customization)
 - [22/12/12:Next.jsとMaterial-UIのLinkを併用する方法](https://omkz.net/nextjs-mu-link/)
+- [22/12/14：SnackBar](https://mui.com/material-ui/api/snackbar/)
 
 ### POST
 - [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)

@@ -148,7 +148,7 @@ const TargetRecord: NextPage = (props: any) => {
                 </Stack>
                 <Grid container spacing={2} justifyContent='center' alignItems='center'>
                     <Stack spacing={2} pt={4}>
-                        <button onClick={checkData}>更新ボタンをここに作る予定</button>
+                        <button onClick={checkData}>更新画面に切り替え</button>
                     </Stack>
                 </Grid>
 
