@@ -1,7 +1,7 @@
 import { Prisma, Record } from '@prisma/client';
 import prisma from './client';
 
-export const prismaRecordsFindMany = async (): Promise<any[] | Record[]> => {
+export const prismaRecordsFindMany = async (): Promise<any[]> => {
     const records = await prisma.record.findMany({
         select: {
             id: true,
@@ -16,16 +16,16 @@ export const prismaRecordsFindMany = async (): Promise<any[] | Record[]> => {
         orderBy: { updatedAt: Prisma.SortOrder.desc }
     }
     );
-    return records!;
+    return records;
 };
 
-export const prismaRecordFindOne = async (id: any): Promise<Record> => {
-    const checkedRecord = await prisma.record.findUnique({
+export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
+    const checkedRecord = await prisma.record.findMany({
         where: {
             id: Number(id),
         }
     });
-    return checkedRecord!;
+    return checkedRecord;
 };
 
 
