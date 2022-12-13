@@ -53,6 +53,7 @@ const headCells: HeadCell[] = [
 
 // 記録検索画面の作成
 const searchRecordPage: NextPage = () => {
+    // 更新処理が完了したときに、メッセージを表示したい
     const router = useRouter();
     console.log(router.query)
 

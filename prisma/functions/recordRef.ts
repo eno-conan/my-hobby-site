@@ -34,3 +34,11 @@ export const prismaRecordRefsUpdate = async (id: number, param: Omit<RecordRef, 
     });
     return recordRefs;
 };
+
+/* 参考リンクの削除 */
+export const prismaRecordRefsDelete = async (id: number): Promise<RecordRef> => {
+    const recordRefs = await prisma.recordRef.delete({
+        where: { id: id },
+    });
+    return recordRefs;
+};

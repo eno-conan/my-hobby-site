@@ -32,7 +32,6 @@ function formatDate() {
     const y = yesterday.getFullYear();
     const m = ('00' + (yesterday.getMonth() + 1)).slice(-2);
     const d = ('00' + yesterday.getDate()).slice(-2);
-    console.log(y + '-' + m + '-' + d)
     return (y + '-' + m + '-' + d);
 }
 

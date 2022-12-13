@@ -42,7 +42,6 @@ export default async function handler(
     switch (method) {
         case 'GET':
             const records = await prismaRecordsFindMany();
-            // console.log(records)
             res.status(200).json(records);
             break;
 

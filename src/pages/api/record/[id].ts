@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prismaRecordFindOne, prismaRecordUpdate } from "../../../../prisma/functions/record";
-import { prismaRecordRefsFindOne, prismaRecordRefsUpdate } from "../../../../prisma/functions/recordRef";
+import { prismaRecordRefsCreate, prismaRecordRefsDelete, prismaRecordRefsFindOne, prismaRecordRefsUpdate } from "../../../../prisma/functions/recordRef";
 
 export default async function handler(
     req: NextApiRequest,
@@ -27,17 +27,44 @@ export default async function handler(
         case 'POST':
             if (!body) return res.status(400).end('No body');
             const jsonBody = JSON.parse(body)
-            // // const params = JSON.parse(body) as Omit<Record, 'id'>;
+
             // recordRefへの登録
             if (jsonBody.refs.length > 0) {
                 const createRecordRefsParams = { linkTitle: 'sample', linkUrl: 'sample', recordId: jsonBody.id }
-                const links = jsonBody.refs
-                // 暫定対応でfor文記載（後々bulkInsertにする:22/12/10）
-                for (let info of links) {
-                    createRecordRefsParams.linkTitle = info.linkTitle
-                    createRecordRefsParams.linkUrl = info.linkUrl
-                    const recordRefs = await prismaRecordRefsUpdate(Number(info.id), createRecordRefsParams);
+                const receiveRefs = jsonBody.refs
+                const originalRecordRefs = await prismaRecordRefsFindOne(jsonBody.id);
+
+                // もともとあって、今回ない：削除
+                // もともとなくて、今回ある：追加
+                // もともとあって、今回もある：更新
+                let updateOrDeleteRecord = []
+                for (let info of receiveRefs) {
+                    if (!info.id) {
+                        createRecordRefsParams.linkTitle = info.linkTitle
+                        createRecordRefsParams.linkUrl = info.linkUrl
+                        await prismaRecordRefsCreate(createRecordRefsParams);
+                    } else {
+                        updateOrDeleteRecord.push(info)
+                    }
                 }
+
+                // 追加と削除実施
+                for (let originalInfo of originalRecordRefs) {
+                    const existResult = updateOrDeleteRecord.filter((receiveInfo: any) => (
+                        receiveInfo.id == originalInfo.id
+                    ));
+
+                    if (existResult.length > 0) {
+                        createRecordRefsParams.linkTitle = originalInfo.linkTitle
+                        createRecordRefsParams.linkUrl = originalInfo.linkUrl
+                        // console.log(existResult[0].id)
+                        await prismaRecordRefsUpdate(Number(existResult[0].id), createRecordRefsParams);
+                    } else {
+                        // console.log(originalInfo.id)
+                        await prismaRecordRefsDelete(Number(originalInfo.id));
+                    }
+                }
+
             }
 
             //recordテーブルへの登録内容設定 
@@ -49,7 +76,7 @@ export default async function handler(
                 finished: jsonBody.finished,
                 updatedAt: new Date()
             }
-            // console.log(createRecordParams)
+            // 記録更新
             const record = await prismaRecordUpdate(Number(jsonBody.id), createRecordParams);
             res.status(200).json(jsonBody);
             break;
