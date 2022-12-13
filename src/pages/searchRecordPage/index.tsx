@@ -24,11 +24,11 @@ import { useRowSelect } from '../../hooks/useRowSelect'
 import LoadingPart from '../../components/LoadingPart'
 import { useRouter } from 'next/router';
 
-// const theme = createMuiTheme({
-//     palette: {
-//         secondary: { main: '#11cb5f' }
-//     },
-// });
+const theme = createMuiTheme({
+    palette: {
+        secondary: { main: '#44CC33' }
+    },
+});
 
 let originalRecordsSample: any[] = [
     {
@@ -163,93 +163,95 @@ const searchRecordPage: NextPage = () => {
             </Container>
             <Divider />
             <Container fixed>
-                <TableContainer component={Paper}>
-                    <Table>
-                        <SelectableTableHead
-                            onSelectAllClick={toggleSelectedAll}
-                            headCells={headCells}
-                            checked={isSelectedAll}
-                            indeterminate={isIndeterminate}
+                <MuiThemeProvider theme={theme}>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <SelectableTableHead
+                                onSelectAllClick={toggleSelectedAll}
+                                headCells={headCells}
+                                checked={isSelectedAll}
+                                indeterminate={isIndeterminate}
+                            />
+                            <TableBody>
+                                {(() => {
+                                    if (inputValue) {
+                                        return (<>
+                                            {showRecords
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row: any) => {
+                                                    const isItemSelected = isSelected(row.id);
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            role="checkbox"
+                                                            tabIndex={-1}
+                                                            key={row.id}
+                                                            onClick={() => toggleSelected(row.id)}
+                                                            selected={isItemSelected}
+                                                        >
+                                                            <TableCell padding="checkbox">
+                                                                <Checkbox checked={isItemSelected} />
+                                                            </TableCell>
+                                                            <TableCell>{row.title}</TableCell>
+                                                            <TableCell>{row.description}</TableCell>
+                                                            <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
+                                                            <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                        </>
+                                        );
+                                    } else {
+                                        return (<>
+                                            {originalRecordsSample
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row) => {
+                                                    const isItemSelected = isSelected(row.id);
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            role="checkbox"
+                                                            tabIndex={-1}
+                                                            key={row.id}
+                                                            onClick={() => toggleSelected(row.id)}
+                                                            selected={isItemSelected}
+                                                        >
+                                                            <TableCell padding="checkbox">
+                                                                <Checkbox checked={isItemSelected} />
+                                                            </TableCell>
+                                                            <TableCell>{row.title}</TableCell>
+                                                            <TableCell>{row.description}</TableCell>
+                                                            <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
+                                                            <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                                            {/* <TableCell>{row.updatedAt}</TableCell> */}
+                                                            {/* .toLocaleString('en-US') */}
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                        </>
+                                        );
+                                    }
+                                })()}
+                            </TableBody>
+                        </Table>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={originalRecordCount}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        // labelDisplayedRows={({ from, to, page }) => {
+                        //     return `Page: ${page + 1}`;
+                        // }}
                         />
-                        <TableBody>
-                            {(() => {
-                                if (inputValue) {
-                                    return (<>
-                                        {showRecords
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row: any) => {
-                                                const isItemSelected = isSelected(row.id);
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        role="checkbox"
-                                                        tabIndex={-1}
-                                                        key={row.id}
-                                                        onClick={() => toggleSelected(row.id)}
-                                                        selected={isItemSelected}
-                                                    >
-                                                        <TableCell padding="checkbox">
-                                                            <Checkbox checked={isItemSelected} />
-                                                        </TableCell>
-                                                        <TableCell>{row.title}</TableCell>
-                                                        <TableCell>{row.description}</TableCell>
-                                                        <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
-                                                        <TableCell>{arrangeViewContent(row.finished)}</TableCell>
-                                                    </TableRow>
-                                                );
-                                            })}
-                                    </>
-                                    );
-                                } else {
-                                    return (<>
-                                        {originalRecordsSample
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row) => {
-                                                const isItemSelected = isSelected(row.id);
-                                                return (
-                                                    <TableRow
-                                                        hover
-                                                        role="checkbox"
-                                                        tabIndex={-1}
-                                                        key={row.id}
-                                                        onClick={() => toggleSelected(row.id)}
-                                                        selected={isItemSelected}
-                                                    >
-                                                        <TableCell padding="checkbox">
-                                                            <Checkbox checked={isItemSelected} />
-                                                        </TableCell>
-                                                        <TableCell>{row.title}</TableCell>
-                                                        <TableCell>{row.description}</TableCell>
-                                                        <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
-                                                        <TableCell>{arrangeViewContent(row.finished)}</TableCell>
-                                                        {/* <TableCell>{row.updatedAt}</TableCell> */}
-                                                        {/* .toLocaleString('en-US') */}
-                                                    </TableRow>
-                                                );
-                                            })}
-                                    </>
-                                    );
-                                }
-                            })()}
-                        </TableBody>
-                    </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={originalRecordCount}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    // labelDisplayedRows={({ from, to, page }) => {
-                    //     return `Page: ${page + 1}`;
-                    // }}
-                    />
-                    {/* <Box>
+                        {/* <Box>
                     <Typography>selectedRowIds</Typography>
                     <Typography>{JSON.stringify(selectedRowIds)}</Typography>
                 </Box> */}
-                </TableContainer>
+                    </TableContainer>
+                </MuiThemeProvider>
             </Container>
         </>
     )

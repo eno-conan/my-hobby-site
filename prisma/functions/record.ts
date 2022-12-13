@@ -1,7 +1,7 @@
 import { Prisma, Record } from '@prisma/client';
 import prisma from './client';
 
-export const prismaRecordsFindMany = async (): Promise<any[]> => {
+export const prismaRecordsFindMany = async (): Promise<any[] | Record[]> => {
     const records = await prisma.record.findMany({
         select: {
             id: true,
@@ -16,16 +16,16 @@ export const prismaRecordsFindMany = async (): Promise<any[]> => {
         orderBy: { updatedAt: Prisma.SortOrder.desc }
     }
     );
-    return records;
+    return records!;
 };
 
-export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
-    const checkedRecord = await prisma.record.findMany({
+export const prismaRecordFindOne = async (id: any): Promise<Record> => {
+    const checkedRecord = await prisma.record.findUnique({
         where: {
             id: Number(id),
         }
     });
-    return checkedRecord;
+    return checkedRecord!;
 };
 
 
@@ -40,23 +40,3 @@ export const prismaRecordCreate = async (
     });
     return record;
 };
-
-
-// {
-//     orderBy: {
-//         updatedAt: Prisma.SortOrder.desc,
-//     } as any
-// }
-
-// {
-//     select: {
-//         id: true,
-//         title: true,
-//         description: true,
-//         githubRepo: true,
-//         detail: false,
-//         finished: true,
-//         createdAt: false,
-//         updatedAt: true
-//     }
-// }
