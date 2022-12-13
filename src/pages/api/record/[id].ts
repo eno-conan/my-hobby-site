@@ -55,8 +55,8 @@ export default async function handler(
                     ));
 
                     if (existResult.length > 0) {
-                        createRecordRefsParams.linkTitle = originalInfo.linkTitle
-                        createRecordRefsParams.linkUrl = originalInfo.linkUrl
+                        createRecordRefsParams.linkTitle = existResult[0].linkTitle
+                        createRecordRefsParams.linkUrl = existResult[0].linkUrl
                         // console.log(existResult[0].id)
                         await prismaRecordRefsUpdate(Number(existResult[0].id), createRecordRefsParams);
                     } else {
