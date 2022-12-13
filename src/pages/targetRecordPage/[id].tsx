@@ -134,7 +134,7 @@ const TargetRecord: NextPage = (props: any) => {
             .then((res) => res.json())
             .then(console.info).catch(console.error);
         alert('更新完了')
-        Router.push({ pathname: '/searchRecordPage', query: { name: 'Someone' } });
+        Router.push({ pathname: '/searchRecordPage', query: { name: 'Someone' } }, '/searchRecordPage');
     }
     // 追加部分
 
