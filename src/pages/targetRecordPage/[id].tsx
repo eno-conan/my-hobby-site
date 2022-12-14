@@ -84,8 +84,8 @@ const TargetRecord: NextPage = (props: any) => {
         fetcher
     );
 
-    // データ確認用のメソッド
-    const checkData = () => {
+    // 内容確認と更新の切り替え
+    const switchViewAndWrite = () => {
         if (update) {
             setUpdate(false)
         } else {
@@ -94,6 +94,8 @@ const TargetRecord: NextPage = (props: any) => {
             setValue('description', info.description)
             setValue('githubRepo', info.githubRepo)
             setValue('detail', info.detail)
+            // マークダウン記述に備えて内容を設定しておく
+            setValueUseMarkdown(info.detail)
             setValue('reference', info.refs)
         }
     }
@@ -122,14 +124,19 @@ const TargetRecord: NextPage = (props: any) => {
         const headers = {
             'Accept': 'application/json'
         };
-        // 送信
+        // 送信して一覧画面に遷移（遷移時に更新が成功したことを伝える）
         fetch(`/api/record/${info.id}`, { method, headers, body })
-            .then((res) => res.json())
-            .then(console.info).catch(console.error);
-        alert('更新完了')
-        Router.push({ pathname: '/searchRecordPage', query: { name: 'UpdateSuccess' } }, '/searchRecordPage');
+            .then((res) => {
+                if (!res.ok) {
+                    console.log(res.status)
+                    Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateFailed' } }, '/searchRecordPage');
+                }
+                Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateSuccess' } }, '/searchRecordPage');
+            }
+            ).catch(console.error);
+        // 一覧画面に遷移（遷移時に更新が成功したことを伝える）
+        // Router.push({ pathname: '/searchRecordPage', query: { name: 'UpdateSuccess' } }, '/searchRecordPage');
     }
-    // 追加部分
 
     return (
         <>
@@ -141,7 +148,7 @@ const TargetRecord: NextPage = (props: any) => {
                 </Stack>
                 <Grid container spacing={2} justifyContent='center' alignItems='center'>
                     <Stack spacing={2} pt={4}>
-                        <button onClick={checkData}>更新画面に切り替え</button>
+                        <button onClick={switchViewAndWrite}>更新画面に切り替え</button>
                     </Stack>
                 </Grid>
 

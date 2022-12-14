@@ -159,17 +159,23 @@ const searchRecordPage: NextPage = () => {
             <Container maxWidth="md">
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録検索' />
-                    {router.query.name === 'UpdateSuccess' ? (
+                    {router.query.status && router.query.status.length > 0 ? (
                         <>
                             <Snackbar
                                 open={true}
-                                message="記事の更新が完了しました"
                                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                             >
-                                <Alert severity="success">記事の更新が完了しました</Alert>
+                                {/* 記事の更新について、成功・失敗でメッセージを切り替え */}
+                                {router.query.status == 'UpdateSuccess' ?
+                                    (<><Alert severity="success">記事の更新が完了しました</Alert></>)
+                                    :
+                                    (<><Alert severity="error">記事の更新に失敗しました</Alert></>)
+                                }
                             </Snackbar>
                         </>
-                    ) : (<></>)}
+                    ) : (
+                        <></>
+                    )}
                     <div>
                         <span style={{ marginRight: "5px" }}>条件</span>
                         <input type="text" value={inputValue} onChange={handleChange} />

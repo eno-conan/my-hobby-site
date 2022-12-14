@@ -38,9 +38,10 @@ https://mui.com/material-ui/icons/
 - [22/12/12:Next.jsとMaterial-UIのLinkを併用する方法](https://omkz.net/nextjs-mu-link/)
 - [22/12/14：SnackBar](https://mui.com/material-ui/api/snackbar/)
 
-### POST
+### HTTP
 - [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)
 - [POSTデータ登録(axios)](https://qiita.com/kaikusakari/items/1da54c021c19a03df5b2)
+- [fetchのエラーハンドリング](https://zenn.dev/junki555/articles/4ab67fc78ce64c)
 
 ### Zod
 - [Zodユースケース](https://zenn.dev/kaz_z/articles/how-to-use-zod)
