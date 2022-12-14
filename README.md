@@ -76,6 +76,8 @@ https://mui.com/material-ui/icons/
 - [22/12/04:表示ページのパスを取得2](https://dev-k.hatenablog.com/entry/how-to-access-the-window-object-in-nextjs-dev-k)
 - [realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
 - [リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)
+- [URLインタフェース（公式）](https://developer.mozilla.org/ja/docs/Web/API/URL?s=09)
+- [URLインタフェース](https://github.com/azu/url-cheatsheet?s=09)
 
 ### file management
 - [publicDirにおいたファイルを画面からダウンロードする](https://reactgo.com/react-download-file-on-button-click/)

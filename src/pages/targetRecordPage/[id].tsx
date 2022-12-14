@@ -67,7 +67,6 @@ const TargetRecord: NextPage = (props: any) => {
         )
     }
 
-
     // 追加部分
     // タイトル・概要・詳細に関するフォームルールを取得
     const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
@@ -78,17 +77,12 @@ const TargetRecord: NextPage = (props: any) => {
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
     // // 入力完了の画面表示を制御
     const [update, setUpdate] = useState(false);
-    // // URLからドメイン取得
-    const [host, setHost] = useState('');
-    useEffect(() => {
-        setHost(window.location.href.split('/targetRecordPage')[0]);
-    }, []);
-    // gitHubRepository一覧取得
+    // URLからドメイン取得
+    const parsedUrl = new URL(window.location.href);
     const { data, error } = useSWR(
-        `${host}/api/githubRepos`,
+        `${parsedUrl.origin}/api/githubRepos`,
         fetcher
     );
-
 
     // データ確認用のメソッド
     const checkData = () => {
@@ -103,7 +97,6 @@ const TargetRecord: NextPage = (props: any) => {
             setValue('reference', info.refs)
         }
     }
-
 
     // 入力内容送信
     const sendRegisterInfo = () => {

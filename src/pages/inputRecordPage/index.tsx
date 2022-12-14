@@ -16,6 +16,7 @@ import ReferencePart from '../../components/ReferencePart';
 import MainPart from '../../components/MainPart';
 import FileOperatePart from '../../components/FileOperatePart';
 import SentPart from '../../components/SentPart';
+import { fetcher } from '../../hooks/fetcher';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -25,21 +26,12 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const fetcher = (url: string) =>
-    fetch(url).then(async (res) => {
-        return res.json();
-    });
-
 // 記録追加確認
 const InputRecordPage: NextPage = () => {
-    // URLからドメイン取得
-    const [host, setHost] = useState('');
-    useEffect(() => {
-        setHost(window.location.href.split('/inputRecordPage')[0]);
-    }, []);
     // gitHubRepository一覧取得
+    const parsedUrl = new URL(window.location.href);
     const { data, error } = useSWR(
-        `${host}/api/githubRepos`,
+        `${parsedUrl.origin}/api/githubRepos`,
         fetcher
     );
 
@@ -81,8 +73,6 @@ const InputRecordPage: NextPage = () => {
             .then((res) => res.json())
             .then(console.info).catch(console.error);
 
-        //githubのプルダウンが初期化できない・・・(22/12/04) 
-        // SentPartで送信完了表示から遷移したら初期化できているぞ(22/12/08)
         reset();
         setValueUseMarkdown('');
         setFinished(true);
@@ -108,7 +98,7 @@ const InputRecordPage: NextPage = () => {
                     return (
                         <>
                             <CommonDrawer />
-                            <Container fixed>
+                            <Container maxWidth='md'>
                                 {/* メタ情報の設定 */}
                                 {/* ページ見出し */}
                                 <CommonMeta title={'記録追加'} />
