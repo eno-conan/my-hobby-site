@@ -67,6 +67,7 @@ const TargetRecord: NextPage = (props: any) => {
         )
     }
 
+
     // 追加部分
     // タイトル・概要・詳細に関するフォームルールを取得
     const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
@@ -77,15 +78,19 @@ const TargetRecord: NextPage = (props: any) => {
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
     // // 入力完了の画面表示を制御
     const [update, setUpdate] = useState(false);
-    // URLからドメイン取得
-    const parsedUrl = new URL(window.location.href);
+    // // URLからドメイン取得
+    const [host, setHost] = useState('');
+    useEffect(() => {
+        setHost(new URL(window.location.href).host);
+    }, []);
     const { data, error } = useSWR(
-        `${parsedUrl.origin}/api/githubRepos`,
+        `${host}/api/githubRepos`,
         fetcher
     );
 
-    // 内容確認と更新の切り替え
-    const switchViewAndWrite = () => {
+
+    // データ確認用のメソッド
+    const checkData = () => {
         if (update) {
             setUpdate(false)
         } else {
@@ -99,6 +104,7 @@ const TargetRecord: NextPage = (props: any) => {
             setValue('reference', info.refs)
         }
     }
+
 
     // 入力内容送信
     const sendRegisterInfo = () => {
@@ -124,7 +130,7 @@ const TargetRecord: NextPage = (props: any) => {
         const headers = {
             'Accept': 'application/json'
         };
-        // 送信して一覧画面に遷移（遷移時に更新が成功したことを伝える）
+        // 送信
         fetch(`/api/record/${info.id}`, { method, headers, body })
             .then((res) => {
                 if (!res.ok) {
@@ -134,9 +140,8 @@ const TargetRecord: NextPage = (props: any) => {
                 Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateSuccess' } }, '/searchRecordPage');
             }
             ).catch(console.error);
-        // 一覧画面に遷移（遷移時に更新が成功したことを伝える）
-        // Router.push({ pathname: '/searchRecordPage', query: { name: 'UpdateSuccess' } }, '/searchRecordPage');
     }
+    // 追加部分
 
     return (
         <>
@@ -148,7 +153,7 @@ const TargetRecord: NextPage = (props: any) => {
                 </Stack>
                 <Grid container spacing={2} justifyContent='center' alignItems='center'>
                     <Stack spacing={2} pt={4}>
-                        <button onClick={switchViewAndWrite}>更新画面に切り替え</button>
+                        <button onClick={checkData}>更新画面に切り替え</button>
                     </Stack>
                 </Grid>
 

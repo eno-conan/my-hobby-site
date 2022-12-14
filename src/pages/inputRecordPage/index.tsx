@@ -29,9 +29,12 @@ const Item = styled(Paper)(({ theme }) => ({
 // 記録追加確認
 const InputRecordPage: NextPage = () => {
     // gitHubRepository一覧取得
-    const parsedUrl = new URL(window.location.href);
+    const [host, setHost] = useState('');
+    useEffect(() => {
+        setHost(new URL(window.location.href).host);
+    }, []);
     const { data, error } = useSWR(
-        `${parsedUrl.origin}/api/githubRepos`,
+        `${host}/api/githubRepos`,
         fetcher
     );
 
