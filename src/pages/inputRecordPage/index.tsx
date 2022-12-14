@@ -17,6 +17,8 @@ import MainPart from '../../components/MainPart';
 import FileOperatePart from '../../components/FileOperatePart';
 import SentPart from '../../components/SentPart';
 import { fetcher } from '../../hooks/fetcher';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import MaterialLink from '@mui/material/Link';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,7 +33,7 @@ const InputRecordPage: NextPage = () => {
     // gitHubRepository一覧取得
     const [host, setHost] = useState('');
     useEffect(() => {
-        setHost(new URL(window.location.href).host);
+        setHost(new URL(window.location.href).origin);
     }, []);
     const { data, error } = useSWR(
         `${host}/api/githubRepos`,
@@ -100,12 +102,26 @@ const InputRecordPage: NextPage = () => {
                     // 未送信の場合はフォーム表示
                     return (
                         <>
-                            <CommonDrawer />
+                            {/* <CommonDrawer /> */}
                             <Container maxWidth='md'>
                                 {/* メタ情報の設定 */}
-                                {/* ページ見出し */}
                                 <CommonMeta title={'記録追加'} />
+                                <Stack pt={4}>
+                                    <Breadcrumbs aria-label="breadcrumb">
+                                        <MaterialLink underline="hover" color="inherit" href="/">
+                                            Top
+                                        </MaterialLink>
+                                        <MaterialLink
+                                            underline="hover"
+                                            color="inherit"
+                                            href="/inputRecordPage"
+                                        >
+                                            Input-Record
+                                        </MaterialLink>
+                                    </Breadcrumbs>
+                                </Stack>
                                 {/* フォントサイズと見出しかどうかの引数設定して、FieldNamePartで統一できないか */}
+                                {/* ページ見出し */}
                                 <CommonHeadline headLine='記録追加' />
                                 {/* ファイルアップロード・ダウンロード機能 */}
                                 <FileOperatePart setValue={setValue} />

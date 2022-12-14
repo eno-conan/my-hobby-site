@@ -7,7 +7,7 @@ import {
     MuiThemeProvider,
     Table,
     TableBody, TableCell,
-    TableContainer, Typography
+    TableContainer,
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import CommonDrawer from '../../components/CommonDrawer'
@@ -25,7 +25,8 @@ import { useRowSelect } from '../../hooks/useRowSelect'
 import LoadingPart from '../../components/LoadingPart'
 import { useRouter } from 'next/router';
 import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 
 const theme = createTheme({
     palette: {
@@ -154,9 +155,23 @@ const searchRecordPage: NextPage = () => {
 
     return (
         <>
-            <CommonDrawer />
-            <CommonMeta title={"記録検索"} />
+            {/* <CommonDrawer /> */}
             <Container maxWidth="md">
+                <Stack pt={4}>
+                    <Breadcrumbs aria-label="breadcrumb">
+                        <Link underline="hover" color="inherit" href="/">
+                            Top
+                        </Link>
+                        <Link
+                            underline="hover"
+                            color="inherit"
+                            href="/searchRecordPage"
+                        >
+                            Search-Record
+                        </Link>
+                    </Breadcrumbs>
+                </Stack>
+                <CommonMeta title={"記録検索"} />
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録検索' />
                     {router.query.status && router.query.status.length > 0 ? (
