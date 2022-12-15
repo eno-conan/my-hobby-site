@@ -72,10 +72,11 @@ export default async function handler(
                 detail: jsonBody.detail,
                 finished: jsonBody.finished,
             }
-            // console.log(createRecordParams)
             const record = await prismaRecordCreate(createRecordParams);
 
-            res.status(200).json(jsonBody);
+            // idを返す
+            res.setHeader('id', record.id);
+            res.status(200).json(record.id);
             break;
         default:
             res.setHeader('Allow', ['GET', 'POST']);

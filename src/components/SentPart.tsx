@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import { CircularProgress, Container, Grid } from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
@@ -23,7 +24,14 @@ const SentPart = ({ setFinished }: Props) => {
                         送信完了しました
                     </b>
                     <div className={styles.nextaction}>
-                        <div onClick={reInputRecord}>続けて入力する</div>
+                        <Button onClick={reInputRecord}>
+                            <div className={styles.nextaction}>
+                                詳細を確認する
+                            </div>
+                        </Button>
+                    </div>
+                    <div className={styles.nextaction}>
+                        <Link href="/inputRecordPage">続けて入力する</Link>
                     </div>
                     <div className={styles.nextaction}>
                         <Link href="/searchRecordPage">一覧を表示する</Link>

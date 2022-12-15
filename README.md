@@ -42,6 +42,7 @@ https://mui.com/material-ui/icons/
 - [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)
 - [POSTデータ登録(axios)](https://qiita.com/kaikusakari/items/1da54c021c19a03df5b2)
 - [fetchのエラーハンドリング](https://zenn.dev/junki555/articles/4ab67fc78ce64c)
+- [fetchの戻り値を取得する](https://ja.javascript.info/fetch)
 
 ### Zod
 - [Zodユースケース](https://zenn.dev/kaz_z/articles/how-to-use-zod)

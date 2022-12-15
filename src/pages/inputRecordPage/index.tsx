@@ -9,7 +9,6 @@ import CommonHeadline from '../../components/CommonHeadline';
 import inputRecordForm from '../../hooks/inputRecordForm';
 import CommonMeta from '../../components/CommonMeta';
 import useSWR from 'swr';
-import CommonDrawer from '../../components/CommonDrawer';
 import { useFieldArray } from "react-hook-form"
 import LoadingPart from '../../components/LoadingPart';
 import ReferencePart from '../../components/ReferencePart';
@@ -19,6 +18,7 @@ import SentPart from '../../components/SentPart';
 import { fetcher } from '../../hooks/fetcher';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import MaterialLink from '@mui/material/Link';
+import Router from "next/router";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -51,7 +51,7 @@ const InputRecordPage: NextPage = () => {
     const [finished, setFinished] = useState(false)
 
     // 入力内容送信
-    const sendRegisterInfo = () => {
+    const sendRegisterInfo = async () => {
         // 詳細情報はtextかmarkdownで設定値を切替
         let detailInfo: string = '';
         if (writeMarkdown) {
@@ -74,13 +74,22 @@ const InputRecordPage: NextPage = () => {
             'Accept': 'application/json'
         };
         // 送信
-        fetch(`/api/record`, { method, headers, body })
-            .then((res) => res.json())
-            .then(console.info).catch(console.error);
+        let response = await fetch(`/api/record`, { method, headers, body })
 
-        reset();
-        setValueUseMarkdown('');
-        setFinished(true);
+        let maxId: number = 0;
+        if (response.ok) {
+            // レスポンスの本文を取得(後述)
+            maxId = await response.json();
+        }
+
+        Router.push({
+            pathname: `/targetRecordPage/${maxId}`,
+            query: {
+                id: maxId,
+                host: host,
+                fromView: 'inputRecord'
+            }
+        }, `/targetRecordPage/${maxId}`);
     }
 
     // ローディング中の表示

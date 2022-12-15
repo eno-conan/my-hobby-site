@@ -1,7 +1,6 @@
 import { Container, Grid } from '@material-ui/core';
 import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react'
-import CommonDrawer from '../../components/CommonDrawer';
 import CommonMeta from '../../components/CommonMeta';
 import { Stack } from '@mui/material'
 import CommonHeadline from '../../components/CommonHeadline';
@@ -18,6 +17,7 @@ import { fetcher } from '../../hooks/fetcher';
 import Router from "next/router";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import MaterialLink from '@mui/material/Link';
+import SentPart from '../../components/SentPart';
 
 function ErrorHandling() {
     return (
@@ -61,6 +61,7 @@ const TargetRecord: NextPage = (props: any) => {
     const [update, setUpdate] = useState(false);
     // // URLからドメイン取得
     const [host, setHost] = useState('');
+    const [finished, setFinished] = useState(true);
     useEffect(() => {
         setHost(new URL(window.location.href).origin);
     }, []);
@@ -189,7 +190,13 @@ const TargetRecord: NextPage = (props: any) => {
             }
             ).catch(console.error);
     }
-    // 追加部分
+
+    // 入力画面から遷移した場合は、送信完了を表示
+    if (props.fromView == 'inputRecord' && finished) {
+        return (
+            <SentPart setFinished={setFinished} />
+        )
+    }
 
     return (
         <>
@@ -249,11 +256,12 @@ const TargetRecord: NextPage = (props: any) => {
 export default TargetRecord
 
 //サーバーサイドレンダリング
-export async function getServerSideProps(context: { query: { id: any, host: any }; }) {
+export async function getServerSideProps(context: { query: { id: any, host: any, fromView: string }; }) {
     //対象記録のID
     const targetId = context.query.id;
     // ホストを取得（fetchが絶対パスのため）
     const hostName = context.query.host;
+    const pageName = context.query.fromView;
     const method = 'GET';
     const headers = {
         'Accept': 'application/json'
@@ -270,6 +278,7 @@ export async function getServerSideProps(context: { query: { id: any, host: any 
     return {
         props: {
             recordInfo: await response.json(),
+            fromView: pageName
         }
     }
 }

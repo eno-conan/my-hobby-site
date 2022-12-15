@@ -10,7 +10,6 @@ import {
     TableContainer,
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import CommonDrawer from '../../components/CommonDrawer'
 import CommonHeadline from '../../components/CommonHeadline'
 import CommonMeta from '../../components/CommonMeta'
 import Paper from '@mui/material/Paper';
@@ -138,7 +137,8 @@ const searchRecordPage: NextPage = () => {
                 pathname: `/targetRecordPage/${selectedRowIds[0]}`,
                 query: {
                     id: selectedRowIds[0],
-                    host: window.location.href.split('/searchRecordPage')[0]
+                    host: window.location.href.split('/searchRecordPage')[0],
+                    fromView: 'searchRecord'
                 }
             }, `/targetRecordPage/${selectedRowIds[0]}`);
         } else {
