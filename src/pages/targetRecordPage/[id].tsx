@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import CommonMeta from '../../components/CommonMeta';
 import { Stack } from '@mui/material'
 import CommonHeadline from '../../components/CommonHeadline';
-import styles from '../../styles/Home.module.css'
 import Link from 'next/link';
 import MuiLink from "@material-ui/core/Link";
 import inputRecordForm from '../../hooks/inputRecordForm';
@@ -15,25 +14,13 @@ import Button from '@mui/material/Button';
 import useSWR from 'swr';
 import { fetcher } from '../../hooks/fetcher';
 import Router from "next/router";
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import MaterialLink from '@mui/material/Link';
 import SentPart from '../../components/SentPart';
 import sendRecord from '../../hooks/sendRecord';
+import ErrorHandling from '../../components/ErrorHandling';
+import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 
-function ErrorHandling() {
-    return (
-        <>
-            <main className={styles.main}>
-                <h1>
-                    予期せぬエラーが発生しました
-                </h1>
-                <h1 className={styles.nextaction}>
-                    <Link href="/searchRecordPage">記録一覧に戻る</Link>
-                </h1>
-            </main>
-        </>
-    )
-}
+// パンくずリストのための階層配列
+const subDirArr = ['searchRecordPage', 'targetRecordPage']
 
 const TargetRecord: NextPage = (props: any) => {
     const [recordData, setRecordData] = useState<any>();
@@ -52,7 +39,7 @@ const TargetRecord: NextPage = (props: any) => {
 
     // 追加部分
     // タイトル・概要・詳細に関するフォームルールを取得
-    const { control, register, handleSubmit, setValue, getValues, errors, reset, setFocus } = inputRecordForm();
+    const { control, register, handleSubmit, setValue, getValues, errors } = inputRecordForm();
     const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
     // text/markdownの状態管理
     const [writeMarkdown, setWriteMarkdown] = React.useState(false);
@@ -195,28 +182,11 @@ const TargetRecord: NextPage = (props: any) => {
 
     return (
         <>
-            {/* <CommonDrawer /> */}
             <CommonMeta title={"記録詳細"} />
             <Container maxWidth='md'>
                 <Stack pt={4}>
-                    <Breadcrumbs aria-label="breadcrumb">
-                        <MaterialLink underline="hover" color="inherit" href="/">
-                            Top
-                        </MaterialLink>
-                        <MaterialLink
-                            underline="hover"
-                            color="inherit"
-                            href="/searchRecordPage"
-                        >
-                            Search-Record
-                        </MaterialLink>
-                        <MaterialLink
-                            underline="hover"
-                            color="inherit"
-                        >
-                            Detail(Here)
-                        </MaterialLink>
-                    </Breadcrumbs>
+                    {/* パンくずリスト */}
+                    <CommonBreadcrumbs subDirArr={subDirArr} />
                 </Stack>
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録詳細' />

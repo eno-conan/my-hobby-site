@@ -39,9 +39,7 @@ const inputRecordForm = () => {
         handleSubmit,
         getValues,
         setValue,
-        errors,
-        reset,
-        setFocus
+        errors
     }
 }
 

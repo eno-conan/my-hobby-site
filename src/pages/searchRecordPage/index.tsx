@@ -24,8 +24,7 @@ import { useRowSelect } from '../../hooks/useRowSelect'
 import LoadingPart from '../../components/LoadingPart'
 import { useRouter } from 'next/router';
 import Snackbar from "@material-ui/core/Snackbar";
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 
 const theme = createTheme({
     palette: {
@@ -54,18 +53,18 @@ const headCells: HeadCell[] = [
     // { id: 'updated_at', label: 'updated_at' },
 ]
 
+// パンくずリストのための階層配列
+const subDirArr = ['searchRecordPage']
+
 // 記録検索画面の作成
 const searchRecordPage: NextPage = () => {
     // 更新処理が完了したときに、メッセージを表示したい
     const router = useRouter();
-    console.log(router.query.name)
 
     // 取得データを設定
     const {
         originalRecords,
         originalRecordCount,
-        isLoading: isLoadingRecords,
-        refetch: refetchRecords,
     } = useRecord();
     if (originalRecords) {
         originalRecordsSample = originalRecords;
@@ -158,18 +157,8 @@ const searchRecordPage: NextPage = () => {
             {/* <CommonDrawer /> */}
             <Container maxWidth="md">
                 <Stack pt={4}>
-                    <Breadcrumbs aria-label="breadcrumb">
-                        <Link underline="hover" color="inherit" href="/">
-                            Top
-                        </Link>
-                        <Link
-                            underline="hover"
-                            color="inherit"
-                            href="/searchRecordPage"
-                        >
-                            Search-Record
-                        </Link>
-                    </Breadcrumbs>
+                    {/* パンくずリスト */}
+                    <CommonBreadcrumbs subDirArr={subDirArr} />
                 </Stack>
                 <CommonMeta title={"記録検索"} />
                 <Stack spacing={2} pb={4}>
