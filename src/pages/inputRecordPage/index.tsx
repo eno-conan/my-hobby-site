@@ -19,6 +19,7 @@ import { fetcher } from '../../hooks/fetcher';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import MaterialLink from '@mui/material/Link';
 import Router from "next/router";
+import sendRecord from '../../hooks/sendRecord';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -68,18 +69,14 @@ const InputRecordPage: NextPage = () => {
             finished: false,
             refs: getValues().reference
         };
-        const method = 'POST';
-        const body = JSON.stringify(sendInfo);
-        const headers = {
-            'Accept': 'application/json'
-        };
-        // 送信
-        let response = await fetch(`/api/record`, { method, headers, body })
+
+        // 送信し、Responseを受け取る
+        const response = await sendRecord(sendInfo);
 
         let maxId: number = 0;
         if (response.ok) {
             // レスポンスの本文を取得(後述)
-            maxId = await response.json();
+            maxId = await (await response).json();
         }
 
         Router.push({

@@ -18,6 +18,7 @@ import Router from "next/router";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import MaterialLink from '@mui/material/Link';
 import SentPart from '../../components/SentPart';
+import sendRecord from '../../hooks/sendRecord';
 
 function ErrorHandling() {
     return (
@@ -160,7 +161,7 @@ const TargetRecord: NextPage = (props: any) => {
     }
 
     // 入力内容送信
-    const sendRegisterInfo = () => {
+    const sendRegisterInfo = async () => {
         // 詳細情報はtextかmarkdownで設定値を切替
         const detailInfo: string = writeMarkdown ? valueUseMarkdown : getValues().detail;
 
@@ -174,21 +175,15 @@ const TargetRecord: NextPage = (props: any) => {
             finished: false,
             refs: getValues().reference
         };
-        const method = 'POST';
-        const body = JSON.stringify(sendInfo);
-        const headers = {
-            'Accept': 'application/json'
-        };
-        // 送信
-        fetch(`/api/record/${info.id}`, { method, headers, body })
-            .then((res) => {
-                if (!res.ok) {
-                    console.log(res.status)
-                    Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateFailed' } }, '/searchRecordPage');
-                }
-                Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateSuccess' } }, '/searchRecordPage');
-            }
-            ).catch(console.error);
+        // 送信し、Responseを受け取る
+        const response = await sendRecord(sendInfo);
+
+        if (!response.ok) {
+            Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateFailed' } }, '/searchRecordPage');
+        } else {
+            Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateSuccess' } }, '/searchRecordPage');
+        }
+
     }
 
     // 入力画面から遷移した場合は、送信完了を表示
