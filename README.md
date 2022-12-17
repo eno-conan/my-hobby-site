@@ -18,6 +18,7 @@ https://mui.com/material-ui/icons/
 - [22/12/11：API Reference/ next/router](https://zenn.dev/unreact/articles/nextjs-next-router#%E3%81%93%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
 - [getServerSidePropsのエラーハンドリング](https://zenn.dev/takepepe/articles/nextjs-error-handling)
 - [22/12/13:Router.pushしたときに値を遷移先に渡す方法](https://stackoverflow.com/questions/55182529/next-js-router-push-with-state)
+- [22/12/17:Rクエリパラメータを渡しつつ遷移先のURLには表示させない方法](https://zenn.dev/pk_yakkun/articles/39dbcac61d569b)
 
 ### Material UI
 - [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
@@ -37,12 +38,14 @@ https://mui.com/material-ui/icons/
 - [デザインの勉強になりそう](https://m2.material.io/design/layout/responsive-layout-grid.html#grid-customization)
 - [22/12/12:Next.jsとMaterial-UIのLinkを併用する方法](https://omkz.net/nextjs-mu-link/)
 - [22/12/14：SnackBar](https://mui.com/material-ui/api/snackbar/)
+- [22/12/17：RHFの各メソッドについて](https://qiita.com/NozomuTsuruta/items/60d15d97eeef71993f06)
 
 ### HTTP
 - [POSTデータ登録(fetch)](https://qiita.com/legokichi/items/801e88462eb5c84af97d)
 - [POSTデータ登録(axios)](https://qiita.com/kaikusakari/items/1da54c021c19a03df5b2)
 - [fetchのエラーハンドリング](https://zenn.dev/junki555/articles/4ab67fc78ce64c)
 - [fetchの戻り値を取得する](https://ja.javascript.info/fetch)
+- [22/12/17：SWRの仕組みについて（他ページも参考になりそうなものあり）](https://swr.vercel.app/docs/advanced/understanding)
 
 ### Zod
 - [Zodユースケース](https://zenn.dev/kaz_z/articles/how-to-use-zod)
@@ -82,6 +85,7 @@ https://mui.com/material-ui/icons/
 - [URLインタフェース](https://github.com/azu/url-cheatsheet?s=09)
 - [折れ線グラフ表示](https://zenn.dev/rinda_1994/articles/7e04702247f3e2)
 - [リアルタイムグラフ](https://zenn.dev/micronn/articles/3d00abe9696e64)
+- [22/12/17：Bundleサイズを抑える工夫](https://zenn.dev/yuku/articles/2f4b05fce10def)
 
 
 ### file management

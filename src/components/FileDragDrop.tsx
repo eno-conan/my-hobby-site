@@ -62,10 +62,10 @@ const FileDragDrop = ({ setValue }: Props) => {
             reader.readAsText(file);
             reader.onload = function () {
                 if (reader.result) {
-                    let wholeInfoArr: string[] = reader.result!.toString().split('_Description_\r\n');
-                    const titleInfo = wholeInfoArr[0].replace('_Title_\r\n', '').trim();
-                    const descriptionInfo = wholeInfoArr[1].split('_Detail_\r\n')[0].trim();
-                    const detailInfo = wholeInfoArr[1].split('_Detail_\r\n')[1].trim();
+                    let wholeInfoArr: string[] = reader.result!.toString().split('_Description_\n');
+                    const titleInfo = wholeInfoArr[0].replace('_Title_\n', '').trim();
+                    const descriptionInfo = wholeInfoArr[1].split('_Detail_\n')[0].trim();
+                    const detailInfo = wholeInfoArr[1].split('_Detail_\n')[1].trim();
                     // ファイルの内容をフォームに反映
                     setValue('title', titleInfo);
                     setValue('description', descriptionInfo);
