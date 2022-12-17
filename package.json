@@ -23,6 +23,7 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",
     "@prisma/client": "^4.7.1",
+    "@react-pdf/renderer": "^3.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/highlight.js": "^10.1.0",
     "@types/jest": "^29.2.3",

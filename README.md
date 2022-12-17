@@ -75,7 +75,12 @@ https://mui.com/material-ui/icons/
 - [Next.js + react-markdownでローカルのmarkdownをSSG](https://zenn.dev/asazutaiga/articles/be2a8a5f428a38)
 - [markdownの入力](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82)
 - [職務経歴書：mdからpdfへ](https://zenn.dev/ryo_kawamata/articles/resume-on-github)
+- [職務経歴書：mdからpdfへ](https://zenn.dev/ryo_kawamata/articles/resume-on-github)
 
+### React-PDF
+- [22/12/18：公式ドキュメント](https://react-pdf.org/repl)
+- [22/12/18：作成してみた1](https://zenn.dev/furai_mountain/articles/5195f0820ea382)
+- [22/12/18：作成してみた2](https://qiita.com/kashimuuuuu/items/0d249be6bcea834c473c)
 
 ### others
 - [22/12/04:表示ページのパスを取得1](https://www.delftstack.com/ja/howto/react/react-get-current-url/)
