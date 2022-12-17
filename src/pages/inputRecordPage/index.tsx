@@ -45,8 +45,8 @@ const InputRecordPage: NextPage = () => {
     // タイトル・概要・詳細に関するフォームルールを取得
     const { control, register, handleSubmit, setValue, getValues, errors } = inputRecordForm();
     const { fields, append, remove } = useFieldArray({ control, name: 'reference' });
-    // text/markdownの状態管理
-    const [writeMarkdown, setWriteMarkdown] = React.useState(false);
+    // // text/markdownの状態管理
+    // const [writeMarkdown, setWriteMarkdown] = React.useState(false);
     // markDownを使用した場合の値を保持
     const [valueUseMarkdown, setValueUseMarkdown] = useState('');
 
@@ -54,7 +54,7 @@ const InputRecordPage: NextPage = () => {
     const sendRegisterInfo = async () => {
         // 詳細情報はtextかmarkdownで設定値を切替
         let detailInfo: string = '';
-        if (writeMarkdown) {
+        if (valueUseMarkdown) {
             detailInfo = valueUseMarkdown;
         } else {
             detailInfo = getValues().detail
@@ -112,13 +112,13 @@ const InputRecordPage: NextPage = () => {
                 <Divider />
                 {/* 主な事項を記載する箇所 */}
                 <MainPart
-                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} setWriteMarkdown={setWriteMarkdown} data={data} />
+                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} data={data} />
                 {/* 参照リンクの記載箇所 */}
                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                 {/* 送信 */}
                 <Stack direction='row' justifyContent='right' pb={4}>
                     <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>
-                        Create Record
+                        記録作成
                     </Button>
                 </Stack>
             </Container>
