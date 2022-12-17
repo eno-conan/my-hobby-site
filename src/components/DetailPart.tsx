@@ -1,20 +1,20 @@
-import { Box, FormControlLabel, FormGroup, Switch } from '@mui/material'
+import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2';
 import React, { useState } from 'react'
 import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form';
 import { RecordForm } from '../hooks/inputRecordForm';
 import DetailMarkdownPart from './DetailMarkdownPart';
-import FieldNamePart from './FieldNamePart';
 import TextPart from './TextPart';
 
 interface Props {
     register: UseFormRegister<RecordForm>;
     errors: Partial<FieldErrorsImpl<RecordForm>>
+    valueUseMarkdown: string;
     setValueUseMarkdown: React.Dispatch<
         React.SetStateAction<string>>;
 }
 
-const DetailPart = ({ register, errors, setValueUseMarkdown }: Props) => {
+const DetailPart = ({ register, errors, valueUseMarkdown, setValueUseMarkdown }: Props) => {
     // TextとMarkDownの切り替え
     const [flg, setFlg] = useState(false);
     // 切り替え
@@ -38,7 +38,7 @@ const DetailPart = ({ register, errors, setValueUseMarkdown }: Props) => {
             {flg ?
                 <>
                     <Grid2 xs={12} md={12}>
-                        <DetailMarkdownPart setValueUseMarkdown={setValueUseMarkdown} />
+                        <DetailMarkdownPart valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
                     </Grid2>
                 </>
                 :

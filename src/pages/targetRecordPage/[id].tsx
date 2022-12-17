@@ -157,7 +157,7 @@ const TargetRecord: NextPage = (props: any) => {
             <>
                 {/* 主な事項を記載する箇所 */}
                 <MainPart
-                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} data={data} />
+                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} data={data} />
                 {/* 参照リンクの記載箇所 */}
                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                 {/* 送信 */}

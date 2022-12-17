@@ -10,12 +10,13 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false }
 
 
 interface Props {
+    valueUseMarkdown: string;
     setValueUseMarkdown: React.Dispatch<
         React.SetStateAction<string>
     >;
 }
 
-const DetailMarkdownPart = (props: Props) => {
+const DetailMarkdownPart = ({ valueUseMarkdown, setValueUseMarkdown }: Props) => {
     // ハイライトの設定
     marked.setOptions({
         highlight: (code: any, lang: any) => {
@@ -28,15 +29,15 @@ const DetailMarkdownPart = (props: Props) => {
     const onChange = (text: any) => {
         setMarkdownValue(text);
         // 送信情報に設定
-        props.setValueUseMarkdown(text);
+        setValueUseMarkdown(text);
     };
 
     return (
         <div>
-            <SimpleMDE onChange={(text) => onChange(text)} />
+            <SimpleMDE onChange={(text) => onChange(text)} value={valueUseMarkdown} />
             <h3>プレビュー</h3>
             <div id="body" >
-                <span dangerouslySetInnerHTML={{ __html: xss(marked(markdownValue)) }} />
+                <span dangerouslySetInnerHTML={{ __html: xss(marked(valueUseMarkdown)) }} />
             </div>
             <hr />
         </div>

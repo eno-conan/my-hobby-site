@@ -3,7 +3,7 @@ import { REFER_LINK_DISPLAY_VALUE } from '../consts/inputField'
 import { Box, TextField } from '@material-ui/core'
 import Button from '@mui/material/Button';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import { Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 import { ErrorMessage } from '@hookform/error-message';
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';

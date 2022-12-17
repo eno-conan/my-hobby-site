@@ -2,24 +2,23 @@ import React from 'react'
 import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, GITHUB_REPO_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../consts/inputField'
 import DetailPart from './DetailPart'
 import TextPart from './TextPart'
-import { Box, FormControlLabel, FormGroup, Switch } from '@mui/material'
+import { Box } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2';
-import { MenuItem, TextField } from '@material-ui/core'
 import { RecordForm } from '../hooks/inputRecordForm'
 import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form'
-import { ErrorMessage } from '@hookform/error-message'
 import FieldNamePart from './FieldNamePart'
 import PulldownPart from './PulldownPart'
 
 interface Props {
     register: UseFormRegister<RecordForm>;
     errors: Partial<FieldErrorsImpl<RecordForm>>
+    valueUseMarkdown: string;
     setValueUseMarkdown: React.Dispatch<
         React.SetStateAction<string>>;
     data: any;
 }
 
-const MainPart = ({ register, errors, setValueUseMarkdown, data }: Props) => {
+const MainPart = ({ register, errors, valueUseMarkdown, setValueUseMarkdown, data }: Props) => {
 
     return (
         <>
@@ -38,7 +37,7 @@ const MainPart = ({ register, errors, setValueUseMarkdown, data }: Props) => {
                 <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} />
                 <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} />
                 <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
-                <DetailPart register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} />
+                <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
             </Grid2>
         </>
     )

@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import { Stack, } from '@mui/material';
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CommonHeadline from '../../components/CommonHeadline';
 import inputRecordForm from '../../hooks/inputRecordForm';
 import CommonMeta from '../../components/CommonMeta';
@@ -112,7 +112,7 @@ const InputRecordPage: NextPage = () => {
                 <Divider />
                 {/* 主な事項を記載する箇所 */}
                 <MainPart
-                    register={register} errors={errors} setValueUseMarkdown={setValueUseMarkdown} data={data} />
+                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} data={data} />
                 {/* 参照リンクの記載箇所 */}
                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                 {/* 送信 */}
