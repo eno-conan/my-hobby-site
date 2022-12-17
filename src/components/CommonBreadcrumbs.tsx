@@ -8,24 +8,23 @@ interface Props {
 
 const CommonBreadcrumbs = ({ subDirArr }: Props) => {
     return (
-        <>
-            <Breadcrumbs aria-label="breadcrumb">
-                <MaterialLink underline="hover" color="inherit" href="/">
-                    Top
-                </MaterialLink>
-                {subDirArr.map((ele, idx) => {
-                    // 最下層は自身のページなのでリンク機能はなし
-                    if (idx + 1 == subDirArr.length) {
-                        return (
+        <Breadcrumbs aria-label="breadcrumb">
+            <MaterialLink underline="hover" color="inherit" href="/">
+                Top
+            </MaterialLink>
+            {subDirArr.map((ele, idx) => (
+                // 最下層は自身のページなのでリンク機能はなし
+                <div key={idx}>
+                    {idx + 1 == subDirArr.length ?
+                        (
                             <>
                                 <MaterialLink underline="hover" color="inherit">
                                     {ele}
                                 </MaterialLink>
                             </>
                         )
-                    }
-                    else {
-                        return (
+                        :
+                        (
                             <>
                                 <MaterialLink underline="hover" color="inherit" href={`/${ele}`}>
                                     {ele}
@@ -33,10 +32,10 @@ const CommonBreadcrumbs = ({ subDirArr }: Props) => {
                             </>
                         )
                     }
-                }
-                )}
-            </Breadcrumbs>
-        </>
+                </div>
+            )
+            )}
+        </Breadcrumbs>
     )
 }
 

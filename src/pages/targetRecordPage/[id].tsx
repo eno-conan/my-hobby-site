@@ -18,6 +18,8 @@ import SentPart from '../../components/SentPart';
 import sendRecord from '../../hooks/sendRecord';
 import ErrorHandling from '../../components/ErrorHandling';
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
+import { marked } from "marked";
+import xss from "xss";
 
 // パンくずリストのための階層配列
 const subDirArr = ['searchRecordPage', 'targetRecordPage']
@@ -58,6 +60,7 @@ const TargetRecord: NextPage = (props: any) => {
 
     // データ確認用のメソッド
     const checkData = () => {
+        console.log(getValues());
         if (update) {
             setUpdate(false)
         } else {
@@ -67,7 +70,7 @@ const TargetRecord: NextPage = (props: any) => {
             setValue('githubRepo', info.githubRepo)
             setValue('detail', info.detail)
             // マークダウン記述に備えて内容を設定しておく
-            // setValueUseMarkdown(info.detail)
+            setValueUseMarkdown(info.detail)
             // この1行だけでは何も表示されない
             setValue('reference', info.refs)
         }
@@ -92,6 +95,27 @@ const TargetRecord: NextPage = (props: any) => {
         )
     }
 
+    // 項目ごとの表示構成
+    const viewItemForDetail = (itemLabel: string, item: string, markdownFlg: boolean) => {
+        return (
+            <>
+                <Grid item xs={4}>{itemLabel}</Grid>
+                {markdownFlg ?
+                    (
+                        <>
+                            <Grid item xs={8}>
+                                <span dangerouslySetInnerHTML={{ __html: xss(marked(item)) }} />
+                            </Grid>
+                        </>
+                    )
+                    :
+                    (
+                        <><Grid item xs={8}>{arrangeFormat(item)}</Grid></>
+                    )}
+            </>
+        )
+    }
+
     // 詳細表示
     const recordDetailView = () => {
         return (
@@ -101,7 +125,7 @@ const TargetRecord: NextPage = (props: any) => {
                     {viewItem('Title', info.title)}
                     {viewItem('Description', info.description)}
                     {viewItem('githubRepo', info.githubRepo)}
-                    {viewItem('Detail', info.detail)}
+                    {viewItemForDetail('Detail', info.detail, true)}
                     {viewItem('Finished', info.finished)}
                     <Grid item xs={12}><h1>Links</h1></Grid>
                     {info.refs.length > 0 ?
@@ -184,14 +208,16 @@ const TargetRecord: NextPage = (props: any) => {
             <Container maxWidth='md'>
                 <Stack pt={4}>
                     {/* パンくずリスト */}
-                    <CommonBreadcrumbs subDirArr={subDirArr} />
+                    <>
+                        <CommonBreadcrumbs subDirArr={subDirArr} />
+                    </>
                 </Stack>
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録詳細' />
                 </Stack>
                 <Grid container spacing={2} justifyContent='center' alignItems='center'>
                     <Stack spacing={2} pt={4}>
-                        <button onClick={checkData}>更新画面に切り替え</button>
+                        <button onClick={checkData}>詳細表示/更新 切り替え</button>
                     </Stack>
                 </Grid>
 
