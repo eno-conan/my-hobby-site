@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Bar, Line, Radar } from 'react-chartjs-2';
 import { Chart, registerables } from "chart.js"
 import { Container } from '@material-ui/core';
@@ -6,35 +6,47 @@ import { Stack, } from '@mui/material';
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import CommonMeta from '../../components/CommonMeta';
 import CommonHeadline from '../../components/CommonHeadline';
+import useRecord from '../../hooks/useRecord';
 
 Chart.register(...registerables)
+
+const options: {} = {
+    maintainAspectRatio: false,
+    responsive: false,
+}
 
 // パンくずリストのための階層配列
 const subDirArr = ['chartPage']
 
+// グラフのラベル
+const labels: string[] = []
+// データ情報
+const countData: number[] = []
+
 const index = () => {
-    const labels = [
-        "小学生",
-        "中学生",
-        "高校生",
-        "大学生",
-        "20代前半",
-        "20代後半",
-    ]
-    const data = {
+    // 取得データを設定
+    const {
+        originalRecords,
+    } = useRecord(`/api/recordChart`);
+
+    if (originalRecords) {
+        originalRecords.map((cntData) => {
+            labels.push(cntData.createdDate)
+            countData.push(cntData.count)
+        })
+        console.log(labels)
+    }
+    const chartData = {
         labels: labels,
         datasets: [
             {
                 label: "記録数",
-                data: [40, 60, 70, 40, 50, 80],
+                data: countData,
                 borderColor: "rgb(75, 192, 192)",
             },
         ],
     }
-    const options: {} = {
-        maintainAspectRatio: false,
-        responsive: false,
-    }
+
     return (
         <>
             <Container maxWidth='md'>
@@ -45,7 +57,14 @@ const index = () => {
                     <CommonBreadcrumbs subDirArr={subDirArr} />
                 </Stack>
                 <CommonHeadline headLine='記録数チャート' />
-                <Line height={200} width={400} data={data} options={options} />
+                {originalRecords && originalRecords.length > 0 ?
+                    (
+                        <>
+                            <Line height={400} width={800} data={chartData} options={options} />
+                        </>
+                    )
+                    :
+                    (<></>)}
             </Container>
         </>
     )

@@ -65,7 +65,7 @@ const searchRecordPage: NextPage = () => {
     const {
         originalRecords,
         originalRecordCount,
-    } = useRecord();
+    } = useRecord(`/api/record`);
     if (originalRecords) {
         originalRecordsSample = originalRecords;
     }

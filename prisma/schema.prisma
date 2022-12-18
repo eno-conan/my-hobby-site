@@ -16,6 +16,7 @@ model Record {
   detail      String  @db.LongText
   finished    Boolean @default(false)
   createdAt  DateTime? @default(now())
+  createdAtDate  String @default("")
   updatedAt  DateTime? @default(now())
 }
 

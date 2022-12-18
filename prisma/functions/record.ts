@@ -19,6 +19,7 @@ export const prismaRecordsFindMany = async (): Promise<any[]> => {
     return records;
 };
 
+// ある記事に関する情報を取得する
 export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
     const checkedRecord = await prisma.record.findMany({
         where: {
@@ -28,6 +29,15 @@ export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
     return checkedRecord;
 };
 
+export const prismaRecordsGroupByDay = async (): Promise<any[]> => {
+    const records = await prisma.record.groupBy({
+        by: ['createdAtDate'],
+        _count: {
+            id: true,
+        },
+    });
+    return records;
+};
 
 
 /* 記録を新規保存 */

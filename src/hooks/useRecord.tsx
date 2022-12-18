@@ -3,9 +3,9 @@ import useSWR from 'swr';
 import { Record } from '../../types';
 import { fetcher } from './fetcher';
 
-const useRecord = () => {
-    const { data, error, mutate } = useSWR<Record[]>(
-        `/api/record`,
+const useRecord = (path: string) => {
+    const { data, error, mutate } = useSWR<any[]>(
+        path,
         fetcher,
     );
 

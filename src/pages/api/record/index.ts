@@ -1,31 +1,6 @@
-import { Record } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prismaRecordCreate, prismaRecordFindOne, prismaRecordsFindMany } from '../../../../prisma/functions/record';
 import { prismaRecordRefsCreate } from '../../../../prisma/functions/recordRef';
-
-/**
- * 記録についてテーブルに追加などを行うAPI
- * 
- * [POST]/api/record
- * 
- * @returns 実行結果
- */
-export async function registerData(): Promise<any> {
-    // const targetUrl = 'https://api.github.com/user/repos';
-    // const apiKey = process.env.GITHUB_API_KEY!
-    // const response = await fetch(targetUrl, {
-    //     method: 'GET',
-    //     headers: {
-    //         'Authorization': apiKey
-    //     }
-    // });
-    // const jsonData = await response.json();
-    // return jsonData.map((art: any) => {
-    //     return {
-    //         reponame: art.full_name
-    //     }
-    // });
-}
 
 /**
  * Next.js の API 定義
@@ -71,6 +46,7 @@ export default async function handler(
                 githubRepo: jsonBody.githubRepo,
                 detail: jsonBody.detail,
                 finished: jsonBody.finished,
+                createdAtDate: new Date().toLocaleDateString()
             }
             const record = await prismaRecordCreate(createRecordParams);
 
