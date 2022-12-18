@@ -9,11 +9,41 @@ import CommonHeadline from '../../components/CommonHeadline';
 import useRecord from '../../hooks/useRecord';
 import { NextPage } from 'next';
 
+// チャートの設定
 Chart.register(...registerables)
 
 const options: {} = {
-    maintainAspectRatio: false,
-    responsive: false,
+    plugins: {  // 'legend' now within object 'plugins {}'
+        legend: {
+            labels: {
+                color: "green",  // not 'fontColor:' anymore
+                font: {
+                    size: 14 // 'size' now within object 'font {}'
+                }
+            }
+        },
+        scales: {                          // 軸設定
+            xAxes: [                           // Ｘ軸設定
+                {
+                    scaleLabel: {                 // 軸ラベル
+                        display: true,                // 表示設定
+                        labelString: '横軸ラベル',    // ラベル
+                        fontColor: "red",             // 文字の色
+                        fontSize: 16                  // フォントサイズ
+                    },
+                    gridLines: {                   // 補助線
+                        color: "rgba(255, 0, 0, 0.2)", // 補助線の色
+                    },
+                    ticks: {                      // 目盛り
+                        fontColor: "red",             // 目盛りの色
+                        fontSize: 14                  // フォントサイズ
+                    }
+                }
+            ],
+        },
+    },
+    maintainAspectRatio: true,
+    responsive: true,
 }
 
 // パンくずリストのための階層配列
@@ -25,6 +55,7 @@ const labels: string[] = []
 const countData: number[] = []
 // 対象月の情報設定
 let targetYearMonth: string = '';
+
 const chartPage: NextPage = () => {
     // データ取得
     const {
@@ -37,7 +68,8 @@ const chartPage: NextPage = () => {
             if (idx == 0) {
                 targetYearMonth = cntData.targetYearMonth
             }
-            labels.push(cntData.createdDate)
+            // yyyy/、部分はカット
+            labels.push(cntData.createdDate.substring(5))
             countData.push(cntData.count)
         })
     }
@@ -48,7 +80,7 @@ const chartPage: NextPage = () => {
             {
                 label: "記録数",
                 data: countData,
-                borderColor: "rgb(75, 192, 192)",
+                borderColor: "rgb(80, 192, 80)",
             },
         ],
     }
@@ -69,6 +101,7 @@ const chartPage: NextPage = () => {
                     )
                     :
                     (<>
+                        {/* データがない場合は、ないことを示す */}
                         <Stack pt={4}>
                             今月の記録データがありません
                         </Stack>
