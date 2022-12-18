@@ -29,12 +29,21 @@ export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
     return checkedRecord;
 };
 
-export const prismaRecordsGroupByDay = async (): Promise<any[]> => {
+// 当月のデータを取得
+export const prismaRecordsGroupByDay = async (yearMonth: string): Promise<any[]> => {
     const records = await prisma.record.groupBy({
         by: ['createdAtDate'],
         _count: {
             id: true,
         },
+        where: {
+            createdAtDate: {
+                startsWith: yearMonth
+            }
+        },
+        orderBy: {
+            createdAtDate: Prisma.SortOrder.asc
+        }
     });
     return records;
 };

@@ -7,6 +7,7 @@ import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import CommonMeta from '../../components/CommonMeta';
 import CommonHeadline from '../../components/CommonHeadline';
 import useRecord from '../../hooks/useRecord';
+import { NextPage } from 'next';
 
 Chart.register(...registerables)
 
@@ -22,20 +23,25 @@ const subDirArr = ['chartPage']
 const labels: string[] = []
 // データ情報
 const countData: number[] = []
-
-const index = () => {
-    // 取得データを設定
+// 対象月の情報設定
+let targetYearMonth: string = '';
+const chartPage: NextPage = () => {
+    // データ取得
     const {
         originalRecords,
     } = useRecord(`/api/recordChart`);
 
+    // データがある場合に設定
     if (originalRecords) {
-        originalRecords.map((cntData) => {
+        originalRecords.map((cntData, idx) => {
+            if (idx == 0) {
+                targetYearMonth = cntData.targetYearMonth
+            }
             labels.push(cntData.createdDate)
             countData.push(cntData.count)
         })
-        console.log(labels)
     }
+    // 表示データの設定
     const chartData = {
         labels: labels,
         datasets: [
@@ -56,18 +62,22 @@ const index = () => {
                     {/* パンくずリスト */}
                     <CommonBreadcrumbs subDirArr={subDirArr} />
                 </Stack>
-                <CommonHeadline headLine='記録数チャート' />
+                <CommonHeadline headLine={`記録数グラフ(${targetYearMonth})`} />
                 {originalRecords && originalRecords.length > 0 ?
                     (
-                        <>
-                            <Line height={400} width={800} data={chartData} options={options} />
-                        </>
+                        <><Line height={400} width={1000} data={chartData} options={options} /></>
                     )
                     :
-                    (<></>)}
+                    (<>
+                        <Stack pt={4}>
+                            今月の記録データがありません
+                        </Stack>
+                    </>
+                    )
+                }
             </Container>
         </>
     )
 }
 
-export default index
+export default chartPage

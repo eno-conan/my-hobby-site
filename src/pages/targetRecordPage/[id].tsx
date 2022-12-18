@@ -60,7 +60,6 @@ const TargetRecord: NextPage = (props: any) => {
 
     // データ確認用のメソッド
     const checkData = () => {
-        console.log(getValues());
         if (update) {
             setUpdate(false)
         } else {

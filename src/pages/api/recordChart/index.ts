@@ -4,6 +4,7 @@ import { prismaRecordsGroupByDay } from '../../../../prisma/functions/record';
 interface IResRecord {
     count: number;
     createdDate: string
+    targetYearMonth?: string
 }
 
 /**
@@ -21,10 +22,17 @@ export default async function handler(
     switch (method) {
         case 'GET':
             // 日付ごとの記録数を取得
-            const records = await prismaRecordsGroupByDay();
+            const currentDate = new Date().toLocaleDateString();
+            // 当月分のデータを取得
+            const currentYearMonth = currentDate.match(/20\d{2,4}\/\d{2}/);
+            const records = await prismaRecordsGroupByDay(currentYearMonth![0]);
             const resRecords: IResRecord[] = [];
-            records.map((rcd) => {
+            records.map((rcd, idx) => {
                 const resObj: IResRecord = { count: 0, createdDate: '' }
+                // 1件目のみ、対象月を設定
+                if (idx == 0) {
+                    resObj.targetYearMonth = currentYearMonth![0]
+                }
                 resObj.count = rcd._count.id
                 resObj.createdDate = rcd.createdAtDate
                 resRecords.push(resObj);
