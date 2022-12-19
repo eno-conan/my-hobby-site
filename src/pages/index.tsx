@@ -22,7 +22,10 @@ export default function Home() {
           <Link href="/searchRecordPage">Records List Page</Link>
         </h1>
         <h1 className={styles.nextaction}>
-          <Link href="/chartPage">Line Chart(Coding...)</Link>
+          <Link href="/chartPage">Line Chart</Link>
+        </h1>
+        <h1 className={styles.nextaction}>
+          <Link href="/resumePage">PDF(Coding...)</Link>
         </h1>
 
         <p className={styles.description}>

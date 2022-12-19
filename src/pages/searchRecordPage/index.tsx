@@ -13,7 +13,7 @@ import {
     TableContainer,
     TextField,
 } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CommonHeadline from '../../components/CommonHeadline'
 import CommonMeta from '../../components/CommonMeta'
 import Paper from '@mui/material/Paper';
@@ -28,6 +28,7 @@ import LoadingPart from '../../components/LoadingPart'
 import { useRouter } from 'next/router';
 import Snackbar from "@material-ui/core/Snackbar";
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
+import { DESCRIPTION_DISPLAY_VALUE, FINISHED_STATUS_VALUE, GITHUB_REPO_DISPLAY_VALUE, LAST_UPDATED_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
 
 const theme = createTheme({
     palette: {
@@ -38,11 +39,11 @@ const theme = createTheme({
 let originalRecordsSample: any[] = []
 
 const headCells: HeadCell[] = [
-    { id: 'title', label: 'title' },
-    { id: 'description', label: 'description' },
-    { id: 'githubRepo', label: 'githubRepo' },
-    { id: 'finished', label: 'finished' },
-    // { id: 'updated_at', label: 'updated_at' },
+    { id: 'title', label: TITLE_DISPLAY_VALUE.split('(')[0] },
+    { id: 'description', label: DESCRIPTION_DISPLAY_VALUE.split('(')[0] },
+    { id: 'githubRepo', label: GITHUB_REPO_DISPLAY_VALUE.split('(')[0] },
+    { id: 'finished', label: FINISHED_STATUS_VALUE },
+    { id: 'updated_at', label: LAST_UPDATED_DISPLAY_VALUE },
 ]
 
 // パンくずリストのための階層配列
@@ -58,7 +59,6 @@ const searchRecordPage: NextPage = () => {
         originalRecords,
         originalRecordCount,
     } = useRecord(`/api/record`);
-
     const {
         selectedRowIds,
         isSelected,
@@ -151,25 +151,19 @@ const searchRecordPage: NextPage = () => {
     const recordCheckOperate = () => {
         return (<>
             <Grid container spacing={2}>
-                <Grid xs={12}>
-                    <Box pb={2}>
-                        {/* Failed prop type: The prop `xs` of `Grid` must be used on `item`. */}
-                        <span style={{ marginRight: "5px" }}>検索条件</span>
+                <Grid item xs={4}>
+                    <Box pt={1}>
+                        <Button variant="contained" onClick={checkRecord} fullWidth={false} >詳細確認</Button>
                     </Box>
                 </Grid>
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <Box pb={2}>
                         <TextField id="outlined-basic" variant="outlined" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
                     </Box>
                 </Grid>
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <Box pt={1}>
                         <Button variant="contained" onClick={search} fullWidth={false} >検索</Button>
-                    </Box>
-                </Grid>
-                <Grid xs={3}>
-                    <Box pt={1}>
-                        <Button variant="contained" onClick={checkRecord} fullWidth={false} >詳細確認</Button>
                     </Box>
                 </Grid>
             </Grid>
@@ -202,6 +196,7 @@ const searchRecordPage: NextPage = () => {
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
                                         <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                        <TableCell>{row.updatedAt}</TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -230,6 +225,7 @@ const searchRecordPage: NextPage = () => {
                                             <TableCell>{row.description}</TableCell>
                                             <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
                                             <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                            <TableCell>{row.updatedAt}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -292,7 +288,6 @@ const searchRecordPage: NextPage = () => {
 
     return (
         <>
-            {/* <CommonDrawer /> */}
             <Container maxWidth="md">
                 <Stack pt={4}>
                     {/* パンくずリスト */}

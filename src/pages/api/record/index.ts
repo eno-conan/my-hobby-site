@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prismaRecordCreate, prismaRecordFindOne, prismaRecordFindOneByTitle, prismaRecordsFindMany } from '../../../../prisma/functions/record';
+import { prismaRecordCreate, prismaRecordFindOneByTitle, prismaRecordsFindMany } from '../../../../prisma/functions/record';
 import { prismaRecordRefsCreate } from '../../../../prisma/functions/recordRef';
 
 /**
@@ -23,6 +23,10 @@ export default async function handler(
             } else {
                 records = await prismaRecordsFindMany();
             }
+            // 2022-12-11T03:32:18.117Z から2022/12/19に形式変更して返す
+            records.map((rcd) => {
+                rcd.updatedAt = rcd.updatedAt.toLocaleDateString();
+            })
             res.status(200).json(records);
             break;
 
@@ -31,7 +35,6 @@ export default async function handler(
             const jsonBody = JSON.parse(body)
             // const params = JSON.parse(body) as Omit<Record, 'id'>;
             //recordテーブルへの登録内容設定 
-
             const cnt: number = (await prismaRecordsFindMany()).length + 1;
 
             // recordRefへの登録
@@ -42,7 +45,7 @@ export default async function handler(
                 for (let info of links) {
                     createRecordRefsParams.linkTitle = info.linkTitle
                     createRecordRefsParams.linkUrl = info.linkUrl
-                    const recordRefs = await prismaRecordRefsCreate(createRecordRefsParams);
+                    await prismaRecordRefsCreate(createRecordRefsParams);
                 }
             }
 

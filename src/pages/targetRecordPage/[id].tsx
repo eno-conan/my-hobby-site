@@ -1,4 +1,4 @@
-import { Container, Grid } from '@material-ui/core';
+import { Box, Container, Grid } from '@material-ui/core';
 import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react'
 import CommonMeta from '../../components/CommonMeta';
@@ -20,6 +20,9 @@ import ErrorHandling from '../../components/ErrorHandling';
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import { marked } from "marked";
 import xss from "xss";
+import Grid2 from '@mui/material/Unstable_Grid2';
+import { FormControlLabel, FormGroup, Switch } from '@mui/material'
+import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, FINISHED_STATUS_VALUE, GITHUB_REPO_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, NO_REFER_LINK_DISPLAY_VALUE, REFER_LINK_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
 
 // パンくずリストのための階層配列
 const subDirArr = ['searchRecordPage', 'targetRecordPage']
@@ -88,7 +91,8 @@ const TargetRecord: NextPage = (props: any) => {
     const viewItem = (itemLabel: string, item: string | boolean) => {
         return (
             <>
-                <Grid item xs={4}>{itemLabel}</Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={3}>{itemLabel}</Grid>
                 <Grid item xs={8}>{arrangeFormat(item)}</Grid>
             </>
         )
@@ -98,7 +102,8 @@ const TargetRecord: NextPage = (props: any) => {
     const viewItemForDetail = (itemLabel: string, item: string, markdownFlg: boolean) => {
         return (
             <>
-                <Grid item xs={4}>{itemLabel}</Grid>
+                <Grid item xs={1}></Grid>
+                <Grid item xs={3}>{itemLabel}</Grid>
                 {markdownFlg ?
                     (
                         <>
@@ -119,21 +124,31 @@ const TargetRecord: NextPage = (props: any) => {
     const recordDetailView = () => {
         return (
             <>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}><h1>Main</h1></Grid>
-                    {viewItem('Title', info.title)}
-                    {viewItem('Description', info.description)}
-                    {viewItem('githubRepo', info.githubRepo)}
-                    {viewItemForDetail('Detail', info.detail, true)}
-                    {viewItem('Finished', info.finished)}
-                    <Grid item xs={12}><h1>Links</h1></Grid>
+                <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                        <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
+                            <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
+                        </Box>
+                    </Grid>
+                    {viewItem(TITLE_DISPLAY_VALUE.split('(')[0], info.title)}
+                    {viewItem(DESCRIPTION_DISPLAY_VALUE.split('(')[0], info.description)}
+                    {viewItem(GITHUB_REPO_DISPLAY_VALUE.split('(')[0], info.githubRepo)}
+                    {viewItemForDetail(DETAIL_DISPLAY_VALUE, info.detail, true)}
+                    {viewItem(FINISHED_STATUS_VALUE, info.finished)}
+                    <Grid item xs={12}>
+                        <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
+                            <h3>{REFER_LINK_DISPLAY_VALUE}</h3>
+                        </Box>
+                    </Grid>
                     {info.refs.length > 0 ?
                         (<>
-                            <Grid item xs={4}><h3>LinkTitle</h3></Grid>
-                            <Grid item xs={8}><h3>LinkUrl</h3></Grid>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}><h3>リンク名</h3></Grid>
+                            <Grid item xs={8}><h3>URL</h3></Grid>
                             {info.refs.map((ref: any) => (
                                 <>
-                                    <Grid item xs={4}>{ref.linkTitle}</Grid>
+                                    <Grid item xs={1}></Grid>
+                                    <Grid item xs={3}>{ref.linkTitle}</Grid>
                                     <Grid item xs={8}>
                                         <Link href={ref.linkUrl} passHref>
                                             <MuiLink target="_blank" rel="noopener noreferrer">
@@ -145,7 +160,9 @@ const TargetRecord: NextPage = (props: any) => {
                             ))}
                         </>)
                         :
-                        (<><Grid item xs={4}>No Refs</Grid></>)}
+                        (<><Grid item xs={1}></Grid>
+                            <Grid item xs={4}>{NO_REFER_LINK_DISPLAY_VALUE}</Grid>
+                        </>)}
                 </Grid>
             </>)
     }
@@ -214,12 +231,14 @@ const TargetRecord: NextPage = (props: any) => {
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録詳細' />
                 </Stack>
-                <Grid container spacing={2} justifyContent='center' alignItems='center'>
-                    <Stack spacing={2} pt={4}>
-                        <button onClick={checkData}>詳細表示/更新 切り替え</button>
-                    </Stack>
-                </Grid>
-
+                <Grid2 xs={12} md={12}>
+                    <FormGroup row>
+                        <FormControlLabel
+                            control={<Switch onClick={checkData} color='success' />}
+                            label='詳細表示 / 更新 切り替え'
+                        />
+                    </FormGroup>
+                </Grid2>
                 {(() => {
                     if (!update) {
                         // 詳細表示

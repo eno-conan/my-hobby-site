@@ -11,7 +11,7 @@ export const prismaRecordsFindMany = async (): Promise<any[]> => {
             detail: false,
             finished: true,
             createdAt: false,
-            updatedAt: false
+            updatedAt: true
         },
         orderBy: { updatedAt: Prisma.SortOrder.desc }
     }
@@ -33,7 +33,9 @@ export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
 export const prismaRecordFindOneByTitle = async (condition: string): Promise<Record[]> => {
     const records = await prisma.record.findMany({
         where: {
-            title: condition,
+            title: {
+                contains: condition,
+            }
         }
     });
     return records;
