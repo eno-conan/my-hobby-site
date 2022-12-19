@@ -186,10 +186,10 @@ const TargetRecord: NextPage = (props: any) => {
         // 送信し、Responseを受け取る
         const response = await sendRecord(sendInfo);
 
-        if (!response.ok) {
-            Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateFailed' } }, '/searchRecordPage');
-        } else {
+        if (response.ok) {
             Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateSuccess' } }, '/searchRecordPage');
+        } else {
+            Router.push({ pathname: '/searchRecordPage', query: { status: 'UpdateFailed' } }, '/searchRecordPage');
         }
 
     }

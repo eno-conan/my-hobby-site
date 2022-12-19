@@ -29,6 +29,16 @@ export const prismaRecordFindOne = async (id: any): Promise<Record[]> => {
     return checkedRecord;
 };
 
+// ある記事に関する情報を取得する
+export const prismaRecordFindOneByTitle = async (condition: string): Promise<Record[]> => {
+    const records = await prisma.record.findMany({
+        where: {
+            title: condition,
+        }
+    });
+    return records;
+};
+
 // 当月のデータを取得
 export const prismaRecordsGroupByDay = async (yearMonth: string): Promise<any[]> => {
     const records = await prisma.record.groupBy({

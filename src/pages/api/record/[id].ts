@@ -57,10 +57,8 @@ export default async function handler(
                     if (existResult.length > 0) {
                         createRecordRefsParams.linkTitle = existResult[0].linkTitle
                         createRecordRefsParams.linkUrl = existResult[0].linkUrl
-                        // console.log(existResult[0].id)
                         await prismaRecordRefsUpdate(Number(existResult[0].id), createRecordRefsParams);
                     } else {
-                        // console.log(originalInfo.id)
                         await prismaRecordRefsDelete(Number(originalInfo.id));
                     }
                 }
@@ -77,6 +75,7 @@ export default async function handler(
                 updatedAt: new Date()
             }
             // 記録更新
+            console.log(`Update Target RecordId:${jsonBody.id}`);
             const record = await prismaRecordUpdate(Number(jsonBody.id), createRecordParams);
             res.status(200).json(jsonBody);
             break;

@@ -1,19 +1,19 @@
 
 // データ送信
-const sendRecord = async (sendInfo: any, id?: any) => {
-
+const sendRecord = async (sendInfo: any) => {
     const method = 'POST';
     const body = JSON.stringify(sendInfo);
     const headers = {
         'Accept': 'application/json'
     };
-    // 送信
-    if (id) {
-        const recordId = Number(id);
-        // 更新時
+    // 新規の場合：idの値なし
+    // 更新の場合：idの値あり
+    if (sendInfo.id) {
+        const recordId = Number(sendInfo.id);
+        // 更新
         return await fetch(`/api/record/${recordId}`, { method, headers, body })
     } else {
-        // 新規登録時
+        // 新規登録
         return await fetch(`/api/record`, { method, headers, body })
     }
 }

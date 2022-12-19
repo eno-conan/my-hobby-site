@@ -20,7 +20,8 @@ https://mui.com/material-ui/icons/
 - [22/12/11：API Reference/ next/router](https://zenn.dev/unreact/articles/nextjs-next-router#%E3%81%93%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
 - [getServerSidePropsのエラーハンドリング](https://zenn.dev/takepepe/articles/nextjs-error-handling)
 - [22/12/13:Router.pushしたときに値を遷移先に渡す方法](https://stackoverflow.com/questions/55182529/next-js-router-push-with-state)
-- [22/12/17:Rクエリパラメータを渡しつつ遷移先のURLには表示させない方法](https://zenn.dev/pk_yakkun/articles/39dbcac61d569b)
+- [22/12/17:クエリパラメータを渡しつつ遷移先のURLには表示させない方法](https://zenn.dev/pk_yakkun/articles/39dbcac61d569b)
+- [22/12/19:Next.jsのrouter.pushとrouter.replaceの違い](https://qiita.com/ke_na/items/ee6a6edd24847c616b62#%E5%90%91%E3%81%84%E3%81%A6%E3%81%84%E3%82%8B%E4%BD%BF%E3%81%84%E6%96%B9)
 
 ### Material UI
 - [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)

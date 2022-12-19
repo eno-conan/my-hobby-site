@@ -1,13 +1,17 @@
 import {
+    Box,
+    Button,
     Checkbox,
     Container,
     createMuiTheme,
     createTheme,
     Divider,
+    Grid,
     MuiThemeProvider,
     Table,
     TableBody, TableCell,
     TableContainer,
+    TextField,
 } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import CommonHeadline from '../../components/CommonHeadline'
@@ -17,7 +21,6 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { NextPage } from 'next'
 import useRecord from '../../hooks/useRecord'
-import { Record } from '../../../types'
 import { Alert, Stack } from '@mui/material'
 import { HeadCell, SelectableTableHead } from '../../components/SelectableTableHead'
 import { useRowSelect } from '../../hooks/useRowSelect'
@@ -32,18 +35,7 @@ const theme = createTheme({
     },
 });
 
-let originalRecordsSample: any[] = [
-    {
-        id: 13,
-        title: 'プルダウンの初期値',
-        description: 'プルダウンの初期値確認',
-        githubRepo: '',
-        detail: '',
-        finished: false,
-        createdAt: '',
-        updatedAt: ''
-    }
-]
+let originalRecordsSample: any[] = []
 
 const headCells: HeadCell[] = [
     { id: 'title', label: 'title' },
@@ -62,13 +54,11 @@ const searchRecordPage: NextPage = () => {
     const router = useRouter();
 
     // 取得データを設定
-    const {
+    let {
         originalRecords,
         originalRecordCount,
     } = useRecord(`/api/record`);
-    if (originalRecords) {
-        originalRecordsSample = originalRecords;
-    }
+
     const {
         selectedRowIds,
         isSelected,
@@ -82,7 +72,7 @@ const searchRecordPage: NextPage = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [inputValue, setInputValue] = useState("");
     const [recordCount, setRecordCount] = useState(originalRecordCount);
-    const [showRecords, setShowRecords] = useState<any>();
+    const [showRecords, setShowRecords] = useState<any>(originalRecordsSample);
 
     // ページ更新
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -96,38 +86,27 @@ const searchRecordPage: NextPage = () => {
     };
 
     // 検索機能
-    const search = (value: string) => {
-        if (value !== "") {
-            const filteredList = originalRecords!.filter((rcd: Record) =>
-                Object.values(rcd).some(
-                    (info: any) => (
-                        info.toString().toUpperCase().indexOf(value.toString().toUpperCase()) !== -1
-                    )
-                )
-            );
-            setRecordCount(filteredList.length);
-            setShowRecords(filteredList);
-            return;
+    const search = async () => {
+        const method = 'GET';
+        const headers = {
+            'Accept': 'application/json'
+        };
+        try {
+            const hostName = window.location.href.split('/searchRecordPage')[0];
+            // 結果格納用の変数定義
+            let response = await fetch(`${hostName}/api/record/?condition=${inputValue}`, { method, headers });
+            let filteredData;
+            if (response.ok) {
+                // フィルタリング後のデータを画面に表示
+                filteredData = await (await response).json();
+                setShowRecords(filteredData);
+                setRecordCount(filteredData.length);
+            }
+        } catch (err: any) {
+            // エラーハンドリング
+            console.log(err)
         }
-        setRecordCount(originalRecordCount);
-        setShowRecords(originalRecords);
-        return;
     };
-
-    // 入力文字の更新実施
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-        search(e.target.value);
-    };
-
-    // 未完了・完了の文言を設定
-    const arrangeViewContent = (finished: Boolean) => {
-        if (finished) {
-            return 'Finished'
-        } else {
-            return '-'
-        }
-    }
 
     // 詳細画面へ遷移
     const checkRecord = () => {
@@ -142,6 +121,165 @@ const searchRecordPage: NextPage = () => {
             }, `/targetRecordPage/${selectedRowIds[0]}`);
         } else {
             alert('詳細表示する場合は、1件のみ選択')
+        }
+    }
+
+    // 更新結果を画面に表示
+    const messageUpdateResult = () => {
+        return (<>
+            {router.query.status && router.query.status.length > 0 ? (
+                <>
+                    <Snackbar
+                        open={true}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    >
+                        {/* 記事の更新について、成功・失敗でメッセージを切り替え */}
+                        {router.query.status == 'UpdateSuccess' ?
+                            (<><Alert severity="success">記事の更新が完了しました</Alert></>)
+                            :
+                            (<><Alert severity="error">記事の更新に失敗しました</Alert></>)
+                        }
+                    </Snackbar>
+                </>
+            ) : (
+                <></>
+            )}
+        </>)
+    }
+
+    // レコードの検索・詳細確認の操作を行う部分
+    const recordCheckOperate = () => {
+        return (<>
+            <Grid container spacing={2}>
+                <Grid xs={12}>
+                    <Box pb={2}>
+                        {/* Failed prop type: The prop `xs` of `Grid` must be used on `item`. */}
+                        <span style={{ marginRight: "5px" }}>検索条件</span>
+                    </Box>
+                </Grid>
+                <Grid xs={3}>
+                    <Box pb={2}>
+                        <TextField id="outlined-basic" variant="outlined" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
+                    </Box>
+                </Grid>
+                <Grid xs={3}>
+                    <Box pt={1}>
+                        <Button variant="contained" onClick={search} fullWidth={false} >検索</Button>
+                    </Box>
+                </Grid>
+                <Grid xs={3}>
+                    <Box pt={1}>
+                        <Button variant="contained" onClick={checkRecord} fullWidth={false} >詳細確認</Button>
+                    </Box>
+                </Grid>
+            </Grid>
+        </>)
+    }
+
+    // テーブルのBody部分を表示
+    const tableBody = () => {
+        return (<>
+            {(() => {
+                if (showRecords.length > 0) {
+                    return (<>
+                        {showRecords
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row: any) => {
+                                const isItemSelected = isSelected(row.id);
+                                return (
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        key={row.id}
+                                        onClick={() => toggleSelected(row.id)}
+                                        selected={isItemSelected}
+                                    >
+                                        <TableCell padding="checkbox">
+                                            <Checkbox checked={isItemSelected} />
+                                        </TableCell>
+                                        <TableCell>{row.title}</TableCell>
+                                        <TableCell>{row.description}</TableCell>
+                                        <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
+                                        <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                    </>
+                    );
+                } else {
+                    return (
+                        <>
+                            {originalRecords && originalRecords
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row: any) => {
+                                    const isItemSelected = isSelected(row.id);
+                                    return (
+                                        <TableRow
+                                            hover
+                                            role="checkbox"
+                                            tabIndex={-1}
+                                            key={row.id}
+                                            onClick={() => toggleSelected(row.id)}
+                                            selected={isItemSelected}
+                                        >
+                                            <TableCell padding="checkbox">
+                                                <Checkbox checked={isItemSelected} />
+                                            </TableCell>
+                                            <TableCell>{row.title}</TableCell>
+                                            <TableCell>{row.description}</TableCell>
+                                            <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
+                                            <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                        </>
+                    );
+                }
+            })()}
+        </>)
+    }
+
+    {/* テーブルのページング機能 */ }
+    const tablePagingSetting = () => {
+        return (<> {(() => {
+            if (showRecords.length > 0) {
+                return (
+                    <>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={recordCount}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </>
+                );
+            } else {
+                return (
+                    <>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={originalRecordCount}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        /></>
+                );
+            }
+        })()}</>)
+    }
+
+    // 未完了・完了の文言を設定
+    const arrangeViewContent = (finished: Boolean) => {
+        if (finished) {
+            return 'Finished'
+        } else {
+            return '-'
         }
     }
 
@@ -163,31 +301,11 @@ const searchRecordPage: NextPage = () => {
                 <CommonMeta title={"記録検索"} />
                 <Stack spacing={2} pb={4}>
                     <CommonHeadline headLine='記録検索' />
-                    {router.query.status && router.query.status.length > 0 ? (
-                        <>
-                            <Snackbar
-                                open={true}
-                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                            >
-                                {/* 記事の更新について、成功・失敗でメッセージを切り替え */}
-                                {router.query.status == 'UpdateSuccess' ?
-                                    (<><Alert severity="success">記事の更新が完了しました</Alert></>)
-                                    :
-                                    (<><Alert severity="error">記事の更新に失敗しました</Alert></>)
-                                }
-                            </Snackbar>
-                        </>
-                    ) : (
-                        <></>
-                    )}
-                    <div>
-                        <span style={{ marginRight: "5px" }}>条件</span>
-                        <input type="text" value={inputValue} onChange={handleChange} />
-                    </div>
+                    {/* 詳細画面における更新後の、更新結果を画面表示 */}
+                    {messageUpdateResult()}
                 </Stack>
-                {/* buttonので事案を変えつつ、左端に寄せた状態にしたい */}
-                {/* <Button variant="contained" onClick={checkRecord} fullWidth={false} >詳細確認</Button> */}
-                <button onClick={checkRecord} >詳細確認</button>
+                {/* レコードの検索・詳細確認の操作を行う部分 */}
+                {recordCheckOperate()}
             </Container>
             <Divider />
             <Container fixed>
@@ -201,83 +319,12 @@ const searchRecordPage: NextPage = () => {
                                 indeterminate={isIndeterminate}
                             />
                             <TableBody>
-                                {(() => {
-                                    if (inputValue) {
-                                        return (<>
-                                            {showRecords
-                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                .map((row: any) => {
-                                                    const isItemSelected = isSelected(row.id);
-                                                    return (
-                                                        <TableRow
-                                                            hover
-                                                            role="checkbox"
-                                                            tabIndex={-1}
-                                                            key={row.id}
-                                                            onClick={() => toggleSelected(row.id)}
-                                                            selected={isItemSelected}
-                                                        >
-                                                            <TableCell padding="checkbox">
-                                                                <Checkbox checked={isItemSelected} />
-                                                            </TableCell>
-                                                            <TableCell>{row.title}</TableCell>
-                                                            <TableCell>{row.description}</TableCell>
-                                                            <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
-                                                            <TableCell>{arrangeViewContent(row.finished)}</TableCell>
-                                                        </TableRow>
-                                                    );
-                                                })}
-                                        </>
-                                        );
-                                    } else {
-                                        return (<>
-                                            {originalRecordsSample
-                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                .map((row) => {
-                                                    const isItemSelected = isSelected(row.id);
-                                                    return (
-                                                        <TableRow
-                                                            hover
-                                                            role="checkbox"
-                                                            tabIndex={-1}
-                                                            key={row.id}
-                                                            onClick={() => toggleSelected(row.id)}
-                                                            selected={isItemSelected}
-                                                        >
-                                                            <TableCell padding="checkbox">
-                                                                <Checkbox checked={isItemSelected} />
-                                                            </TableCell>
-                                                            <TableCell>{row.title}</TableCell>
-                                                            <TableCell>{row.description}</TableCell>
-                                                            <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
-                                                            <TableCell>{arrangeViewContent(row.finished)}</TableCell>
-                                                            {/* <TableCell>{row.updatedAt}</TableCell> */}
-                                                            {/* .toLocaleString('en-US') */}
-                                                        </TableRow>
-                                                    );
-                                                })}
-                                        </>
-                                        );
-                                    }
-                                })()}
+                                {/* テーブルのBody部分を表示 */}
+                                {tableBody()}
                             </TableBody>
                         </Table>
-                        <TablePagination
-                            rowsPerPageOptions={[10, 25, 100]}
-                            component="div"
-                            count={originalRecordCount}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                        // labelDisplayedRows={({ from, to, page }) => {
-                        //     return `Page: ${page + 1}`;
-                        // }}
-                        />
-                        {/* <Box>
-                    <Typography>selectedRowIds</Typography>
-                    <Typography>{JSON.stringify(selectedRowIds)}</Typography>
-                </Box> */}
+                        {/* テーブルのページング機能 */}
+                        {tablePagingSetting()}
                     </TableContainer>
                 </MuiThemeProvider>
             </Container>

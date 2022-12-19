@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prismaRecordCreate, prismaRecordFindOne, prismaRecordsFindMany } from '../../../../prisma/functions/record';
+import { prismaRecordCreate, prismaRecordFindOne, prismaRecordFindOneByTitle, prismaRecordsFindMany } from '../../../../prisma/functions/record';
 import { prismaRecordRefsCreate } from '../../../../prisma/functions/recordRef';
 
 /**
@@ -12,11 +12,17 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    const { method, body } = req;
+    const { method, body, query } = req;
 
     switch (method) {
         case 'GET':
-            const records = await prismaRecordsFindMany();
+            let records;
+            // 条件が入力されている場合は、絞って取得
+            if (query.condition) {
+                records = await prismaRecordFindOneByTitle(query.condition.toString());
+            } else {
+                records = await prismaRecordsFindMany();
+            }
             res.status(200).json(records);
             break;
 
