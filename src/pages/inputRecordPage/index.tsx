@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { Container, Divider } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -11,17 +11,13 @@ import CommonMeta from '../../components/CommonMeta';
 import useSWR from 'swr';
 import { useFieldArray } from "react-hook-form"
 import LoadingPart from '../../components/LoadingPart';
+import ReferencePart from '../../components/ReferencePart';
+import MainPart from '../../components/MainPart';
+import FileOperatePart from '../../components/FileOperatePart';
 import { fetcher } from '../../hooks/fetcher';
 import Router from "next/router";
 import sendRecord from '../../hooks/sendRecord';
-import dynamic from 'next/dynamic';
-
-// Listコンポーネントはサイズが大きく初期表示の遅延の原因になるものと想定
-const FileOperatePart = dynamic(() => import("../../components/FileOperatePart"));
-const MainPart = dynamic(() => import("../../components/MainPart"));
-const ReferencePart = dynamic(() => import("../../components/ReferencePart"));
-const CommonBreadcrumbs = dynamic(() => import("../../components/CommonBreadcrumbs"));
-
+import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -113,10 +109,10 @@ const InputRecordPage: NextPage = () => {
                 <FileOperatePart setValue={setValue} />
                 <Divider />
                 {/* 主な事項を記載する箇所 */}
-                <MainPart
-                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} data={data} />
+                {/* <MainPart
+                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} data={data} /> */}
                 {/* 参照リンクの記載箇所 */}
-                <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
+                {/* <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} /> */}
                 {/* 送信 */}
                 <Stack direction='row' justifyContent='right' pb={4}>
                     <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>

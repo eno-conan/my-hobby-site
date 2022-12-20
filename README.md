@@ -22,6 +22,9 @@ https://mui.com/material-ui/icons/
 - [22/12/13:Router.pushしたときに値を遷移先に渡す方法](https://stackoverflow.com/questions/55182529/next-js-router-push-with-state)
 - [22/12/17:クエリパラメータを渡しつつ遷移先のURLには表示させない方法](https://zenn.dev/pk_yakkun/articles/39dbcac61d569b)
 - [22/12/19:Next.jsのrouter.pushとrouter.replaceの違い](https://qiita.com/ke_na/items/ee6a6edd24847c616b62#%E5%90%91%E3%81%84%E3%81%A6%E3%81%84%E3%82%8B%E4%BD%BF%E3%81%84%E6%96%B9)
+- [22/12/20:Dynamic Importについて1](https://nishinatoshiharu.com/overview-next-dynamic-import/#dynamic_import)
+- [22/12/20:Dynamic Importについて1](https://tech.012grp.co.jp/entry/next_dynamicImport)
+- [22/12/20:Advanced Features/Dynamic Import](https://zenn.dev/unreact/articles/nextjs-advanced-features-dynamic-import-jp)
 
 ### Material UI
 - [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
@@ -99,6 +102,11 @@ https://mui.com/material-ui/icons/
 ### file management
 - [publicDirにおいたファイルを画面からダウンロードする](https://reactgo.com/react-download-file-on-button-click/)
 - [アップロードしたファイルの中身を取得したい](https://ja.javascript.info/file)
+
+### Performance
+- [22/12/20:lightHouse導入](https://qiita.com/AkiUnleash/items/d8255e91bf67ebbb069f)
+- [22/12/20:様々なツール](https://zenn.dev/shimabukuromeg/articles/9a9ac2006f0efd#%E7%92%B0%E5%A2%83)
+
 
 ### aws
 - [ドラッグ&ドロップでファイルアップロード](https://zenn.dev/jinwatanabe/articles/66c712e44661d9#aws-sdk)
