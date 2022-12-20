@@ -1,6 +1,7 @@
 import { Console } from 'console';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prismaRecordsGroupByDay } from '../../../../prisma/functions/record';
+import { getDateInfo } from '../../../hooks/getDateInfo';
 
 interface IResRecord {
     count: number;
@@ -23,19 +24,14 @@ export default async function handler(
     switch (method) {
         case 'GET':
             // 日付ごとの記録数を取得
-            const currentDate = new Date();
-            const year = currentDate.getFullYear().toString();
-            const month = (currentDate.getMonth() + 1).toString();
-            // const currentYearMonth = currentDate.match(/20\d{2,4}\/\d{2}/);
-            // const yearMonth = currentDate.substring(0, 7);
-            const yearMonth = year + '/' + month;
-            const records = await prismaRecordsGroupByDay(yearMonth);
+            const dateInfo = getDateInfo(1);
+            const records = await prismaRecordsGroupByDay(dateInfo!);
             let resRecords: IResRecord[] = [];
             records.map((rcd, idx) => {
                 const resObj: IResRecord = { count: 0, createdDate: '' }
                 // 1件目のみ、対象月を設定
                 if (idx == 0) {
-                    resObj.targetYearMonth = yearMonth
+                    resObj.targetYearMonth = `(${dateInfo})`
                 }
                 resObj.count = rcd._count.id
                 resObj.createdDate = rcd.createdAtDate

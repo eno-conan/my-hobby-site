@@ -8,6 +8,7 @@ import CommonMeta from '../../components/CommonMeta';
 import CommonHeadline from '../../components/CommonHeadline';
 import useRecord from '../../hooks/useRecord';
 import { NextPage } from 'next';
+import LoadingPart from '../../components/LoadingPart';
 
 // チャートの設定
 Chart.register(...registerables)
@@ -57,14 +58,21 @@ const countData: number[] = []
 let targetYearMonth: string = '';
 
 const chartPage: NextPage = () => {
+    console.log(new Date().toDateString());  //Wed Dec 21 2022
+    console.log(new Date().toISOString()); //2022-12-20T23:28:49.785Z
+    console.log(new Date().toLocaleDateString());//2022/12/21
+    console.log(new Date().toLocaleString());//2022/12/21 8:28:49
+    console.log(new Date().toLocaleTimeString());//8:28:49
+    console.log(new Date().toString());//Wed Dec 21 2022 08:28:49 GMT+0900 (日本標準時)
+    console.log(new Date().toTimeString());//08:28:49 GMT+0900 (日本標準時)
+    console.log(new Date().toUTCString());//Tue, 20 Dec 2022 23:28:49 GMT
     // データ取得
     const {
         originalRecords,
     } = useRecord(`/api/recordChart`);
 
     // データがある場合に設定
-    if (originalRecords) {
-        console.log(originalRecords);
+    if (originalRecords && originalRecords.length > 0) {
         originalRecords.map((cntData, idx) => {
             if (idx == 0) {
                 targetYearMonth = cntData.targetYearMonth
@@ -86,6 +94,13 @@ const chartPage: NextPage = () => {
         ],
     }
 
+    if (!originalRecords) {
+        return (
+            <LoadingPart />
+        );
+    }
+
+
     return (
         <>
             <Container maxWidth='md'>
@@ -95,10 +110,10 @@ const chartPage: NextPage = () => {
                     {/* パンくずリスト */}
                     <CommonBreadcrumbs subDirArr={subDirArr} />
                 </Stack>
-                <CommonHeadline headLine={`記録数グラフ(${targetYearMonth})`} />
+                <CommonHeadline headLine={`記録数グラフ${targetYearMonth}`} />
                 {originalRecords && originalRecords.length > 0 ?
                     (
-                        <><Line height={400} width={1000} data={chartData} options={options} /></>
+                        <><Line height={400} width={800} data={chartData} options={options} /></>
                     )
                     :
                     (<>

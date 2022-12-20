@@ -5,6 +5,6 @@ export const GITHUB_REPO_DISPLAY_VALUE = 'Githubリポジトリ(未選択可)';
 export const DETAIL_DISPLAY_VALUE = '詳細';
 export const FINISHED_STATUS_VALUE = '完了/未完了';
 export const MAIN_ITEM_DISPLAY_VALUE = '主要項目';
-export const LAST_UPDATED_DISPLAY_VALUE = '主要項目';
+export const LAST_UPDATED_DISPLAY_VALUE = '最終更新日';
 export const REFER_LINK_DISPLAY_VALUE = '参照リンク';
 export const NO_REFER_LINK_DISPLAY_VALUE = '参照リンクなし';

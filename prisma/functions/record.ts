@@ -7,8 +7,8 @@ export const prismaRecordsFindMany = async (): Promise<any[]> => {
             id: true,
             title: true,
             description: true,
-            githubRepo: true,
-            detail: false,
+            githubRepo: false,
+            detail: true,
             finished: true,
             createdAt: false,
             updatedAt: true

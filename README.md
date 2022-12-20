@@ -99,6 +99,8 @@ https://mui.com/material-ui/icons/
 - [22/12/18：Chart.js label color](https://stackoverflow.com/questions/37292423/chart-js-label-color)
 - [22/12/18：Chart.js 軸ラベル等の設定](http://www.kogures.com/hitoshi/javascript/chartjs/scale-label.html)
 - [22/12/18：日時表示がクライアントサイド、サーバサイドで異なる](https://www.gaji.jp/blog/2021/02/12/6569/)
+- [22/12/21：JavaScript における Date のタイムゾーンの挙動と対策](https://zenn.dev/dragontaro/articles/1fec905b14fde7)
+- [22/12/21：日本時間を取得したいgetTimezoneOffset()を用いる例、date-fns-timezoneを使う例](https://nju33.com/notes/javascript/articles/%E6%97%A5%E6%9C%AC%E6%99%82%E9%96%93%E3%82%92%E5%8F%96%E5%BE%97)
 
 ### file management
 - [publicDirにおいたファイルを画面からダウンロードする](https://reactgo.com/react-download-file-on-button-click/)

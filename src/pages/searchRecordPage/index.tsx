@@ -28,7 +28,7 @@ import LoadingPart from '../../components/LoadingPart'
 import { useRouter } from 'next/router';
 import Snackbar from "@material-ui/core/Snackbar";
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
-import { DESCRIPTION_DISPLAY_VALUE, FINISHED_STATUS_VALUE, GITHUB_REPO_DISPLAY_VALUE, LAST_UPDATED_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
+import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, FINISHED_STATUS_VALUE, LAST_UPDATED_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
 
 const theme = createTheme({
     palette: {
@@ -41,7 +41,7 @@ let originalRecordsSample: any[] = []
 const headCells: HeadCell[] = [
     { id: 'title', label: TITLE_DISPLAY_VALUE.split('(')[0] },
     { id: 'description', label: DESCRIPTION_DISPLAY_VALUE.split('(')[0] },
-    { id: 'githubRepo', label: GITHUB_REPO_DISPLAY_VALUE.split('(')[0] },
+    { id: 'detail', label: DETAIL_DISPLAY_VALUE },
     { id: 'finished', label: FINISHED_STATUS_VALUE },
     { id: 'updated_at', label: LAST_UPDATED_DISPLAY_VALUE },
 ]
@@ -194,8 +194,8 @@ const searchRecordPage: NextPage = () => {
                                         </TableCell>
                                         <TableCell>{row.title}</TableCell>
                                         <TableCell>{row.description}</TableCell>
-                                        <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
-                                        <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                        <TableCell>{arrangeDetail(row.detail)}</TableCell>
+                                        <TableCell>{arrangeFinishedStatus(row.finished)}</TableCell>
                                         <TableCell>{row.updatedAt}</TableCell>
                                     </TableRow>
                                 );
@@ -223,8 +223,8 @@ const searchRecordPage: NextPage = () => {
                                             </TableCell>
                                             <TableCell>{row.title}</TableCell>
                                             <TableCell>{row.description}</TableCell>
-                                            <TableCell>{arrangeViewContent(row.githubRepo)}</TableCell>
-                                            <TableCell>{arrangeViewContent(row.finished)}</TableCell>
+                                            <TableCell>{arrangeDetail(row.detail)}</TableCell>
+                                            <TableCell>{arrangeFinishedStatus(row.finished)}</TableCell>
                                             <TableCell>{row.updatedAt}</TableCell>
                                         </TableRow>
                                     );
@@ -234,6 +234,26 @@ const searchRecordPage: NextPage = () => {
                 }
             })()}
         </>)
+    }
+
+    // 未完了・完了の文言を設定
+    const arrangeFinishedStatus = (finished: Boolean) => {
+        if (finished) {
+            return 'Finished';
+        } else {
+            return '-';
+        }
+    }
+
+    // 詳細の文言を設定
+    const arrangeDetail = (detail: string) => {
+        if (!detail) {
+            return '-';
+        } else if (detail.length < 20) {
+            return detail;
+        } else {
+            return detail.substring(0, 21) + '...';
+        }
     }
 
     {/* テーブルのページング機能 */ }
@@ -268,15 +288,6 @@ const searchRecordPage: NextPage = () => {
                 );
             }
         })()}</>)
-    }
-
-    // 未完了・完了の文言を設定
-    const arrangeViewContent = (finished: Boolean) => {
-        if (finished) {
-            return 'Finished'
-        } else {
-            return '-'
-        }
     }
 
     // ローディング中の表示

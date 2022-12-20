@@ -1,6 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prismaRecordCreate, prismaRecordFindOneByTitle, prismaRecordsFindMany } from '../../../../prisma/functions/record';
 import { prismaRecordRefsCreate } from '../../../../prisma/functions/recordRef';
+import { getDateInfo } from '../../../hooks/getDateInfo';
+import { formatToTimeZone } from 'date-fns-timezone';
+import { FORMAT, TIME_ZONE_TOKYO } from '../../../consts/setting';
 
 /**
  * Next.js の API 定義
@@ -25,7 +28,7 @@ export default async function handler(
             }
             // 2022-12-11T03:32:18.117Z から2022/12/19に形式変更して返す
             records.map((rcd) => {
-                rcd.updatedAt = rcd.updatedAt.toLocaleDateString();
+                rcd.updatedAt = formatToTimeZone(rcd.updatedAt, FORMAT, { timeZone: TIME_ZONE_TOKYO }).split(' ')[0];
             })
             res.status(200).json(records);
             break;
@@ -49,17 +52,14 @@ export default async function handler(
                 }
             }
 
-            const currentDate = new Date();
-            const year = currentDate.getFullYear().toString();
-            const month = (currentDate.getMonth() + 1).toString();
-            const day = (currentDate.getDay() + 1).toString();
+            const dateInfo = getDateInfo(2);
             const createRecordParams: any = {
                 title: jsonBody.title,
                 description: jsonBody.description,
                 githubRepo: jsonBody.githubRepo,
                 detail: jsonBody.detail,
                 finished: jsonBody.finished,
-                createdAtDate: year + '/' + month + '/' + day
+                createdAtDate: dateInfo!
             }
             const record = await prismaRecordCreate(createRecordParams);
 
