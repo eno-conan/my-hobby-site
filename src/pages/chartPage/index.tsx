@@ -62,11 +62,6 @@ const chartPage: NextPage = () => {
         originalRecords,
     } = useRecord(`/api/recordChart`);
 
-    const currentDate = new Date().toLocaleDateString();
-    console.log(currentDate)
-    const yearMonth = currentDate.substring(0, 7);
-    console.log(yearMonth)
-
     // データがある場合に設定
     if (originalRecords) {
         console.log(originalRecords);

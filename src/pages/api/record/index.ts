@@ -49,13 +49,17 @@ export default async function handler(
                 }
             }
 
+            const currentDate = new Date();
+            const year = currentDate.getFullYear().toString();
+            const month = (currentDate.getMonth() + 1).toString();
+            const day = (currentDate.getDay() + 1).toString();
             const createRecordParams: any = {
                 title: jsonBody.title,
                 description: jsonBody.description,
                 githubRepo: jsonBody.githubRepo,
                 detail: jsonBody.detail,
                 finished: jsonBody.finished,
-                createdAtDate: new Date().toLocaleDateString()
+                createdAtDate: year + '/' + month + '/' + day
             }
             const record = await prismaRecordCreate(createRecordParams);
 

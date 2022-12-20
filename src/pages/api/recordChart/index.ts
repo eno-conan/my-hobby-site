@@ -23,10 +23,12 @@ export default async function handler(
     switch (method) {
         case 'GET':
             // 日付ごとの記録数を取得
-            const currentDate = new Date().toLocaleDateString();
+            const currentDate = new Date();
+            const year = currentDate.getFullYear().toString();
+            const month = (currentDate.getMonth() + 1).toString();
             // const currentYearMonth = currentDate.match(/20\d{2,4}\/\d{2}/);
-            const yearMonth = currentDate.substring(0, 7);
-            console.log(yearMonth)
+            // const yearMonth = currentDate.substring(0, 7);
+            const yearMonth = year + '/' + month;
             const records = await prismaRecordsGroupByDay(yearMonth);
             let resRecords: IResRecord[] = [];
             records.map((rcd, idx) => {
