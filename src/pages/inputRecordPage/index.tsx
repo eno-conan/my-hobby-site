@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { Container, Divider } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -11,13 +11,17 @@ import CommonMeta from '../../components/CommonMeta';
 import useSWR from 'swr';
 import { useFieldArray } from "react-hook-form"
 import LoadingPart from '../../components/LoadingPart';
-import ReferencePart from '../../components/ReferencePart';
-import MainPart from '../../components/MainPart';
-import FileOperatePart from '../../components/FileOperatePart';
 import { fetcher } from '../../hooks/fetcher';
 import Router from "next/router";
 import sendRecord from '../../hooks/sendRecord';
-import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
+import dynamic from 'next/dynamic';
+
+// Listコンポーネントはサイズが大きく初期表示の遅延の原因になるものと想定
+const FileOperatePart = dynamic(() => import("../../components/FileOperatePart"));
+const MainPart = dynamic(() => import("../../components/MainPart"));
+const ReferencePart = dynamic(() => import("../../components/ReferencePart"));
+const CommonBreadcrumbs = dynamic(() => import("../../components/CommonBreadcrumbs"));
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

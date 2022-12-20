@@ -8,8 +8,6 @@ import Link from 'next/link';
 import MuiLink from "@material-ui/core/Link";
 import inputRecordForm from '../../hooks/inputRecordForm';
 import { useFieldArray } from 'react-hook-form';
-import MainPart from '../../components/MainPart';
-import ReferencePart from '../../components/ReferencePart';
 import Button from '@mui/material/Button';
 import useSWR from 'swr';
 import { fetcher } from '../../hooks/fetcher';
@@ -17,12 +15,17 @@ import Router from "next/router";
 import SentPart from '../../components/SentPart';
 import sendRecord from '../../hooks/sendRecord';
 import ErrorHandling from '../../components/ErrorHandling';
-import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import { marked } from "marked";
 import xss from "xss";
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, FINISHED_STATUS_VALUE, GITHUB_REPO_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, NO_REFER_LINK_DISPLAY_VALUE, REFER_LINK_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
+import dynamic from 'next/dynamic';
+// Listコンポーネントはサイズが大きく初期表示の遅延の原因になるものと想定
+const MainPart = dynamic(() => import("../../components/MainPart"));
+const ReferencePart = dynamic(() => import("../../components/ReferencePart"));
+const CommonBreadcrumbs = dynamic(() => import("../../components/CommonBreadcrumbs"));
+
 
 // パンくずリストのための階層配列
 const subDirArr = ['searchRecordPage', 'targetRecordPage']
