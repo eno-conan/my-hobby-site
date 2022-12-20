@@ -56,10 +56,10 @@ const TargetRecord: NextPage = (props: any) => {
     useEffect(() => {
         setHost(new URL(window.location.href).origin);
     }, []);
-    const { data, error } = useSWR(
-        `${host}/api/githubRepos`,
-        fetcher
-    );
+    // const { data, error } = useSWR(
+    //     `${host}/api/githubRepos`,
+    //     fetcher
+    // );
 
     // データ確認用のメソッド
     const checkData = () => {
@@ -69,7 +69,7 @@ const TargetRecord: NextPage = (props: any) => {
             setUpdate(true)
             setValue('title', info.title)
             setValue('description', info.description)
-            setValue('githubRepo', info.githubRepo)
+            // setValue('githubRepo', info.githubRepo)
             setValue('detail', info.detail)
             // マークダウン記述に備えて内容を設定しておく
             setValueUseMarkdown(info.detail)
@@ -173,7 +173,7 @@ const TargetRecord: NextPage = (props: any) => {
             <>
                 {/* 主な事項を記載する箇所 */}
                 <MainPart
-                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} data={data} />
+                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
                 {/* 参照リンクの記載箇所 */}
                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                 {/* 送信 */}
@@ -195,7 +195,7 @@ const TargetRecord: NextPage = (props: any) => {
             id: info.id,
             title: getValues().title,
             description: getValues().description,
-            githubRepo: getValues().githubRepo,
+            githubRepo: '',
             detail: detailInfo,
             finished: false,
             refs: getValues().reference

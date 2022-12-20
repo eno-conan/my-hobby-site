@@ -1,5 +1,5 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { Container, Divider } from '@material-ui/core'
+import { NextPage } from 'next';
+import { Box, Container, Divider } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { experimentalStyled as styled } from '@mui/material/styles';
@@ -8,16 +8,23 @@ import React, { useEffect, useState } from 'react'
 import CommonHeadline from '../../components/CommonHeadline';
 import inputRecordForm from '../../hooks/inputRecordForm';
 import CommonMeta from '../../components/CommonMeta';
-import useSWR from 'swr';
 import { useFieldArray } from "react-hook-form"
 import LoadingPart from '../../components/LoadingPart';
 import ReferencePart from '../../components/ReferencePart';
-import MainPart from '../../components/MainPart';
-import FileOperatePart from '../../components/FileOperatePart';
-import { fetcher } from '../../hooks/fetcher';
 import Router from "next/router";
 import sendRecord from '../../hooks/sendRecord';
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
+import FieldNamePart from '../../components/FieldNamePart';
+import TextPart from '../../components/TextPart';
+import Grid2 from '@mui/material/Unstable_Grid2';
+import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
+import DetailPart from '../../components/DetailPart';
+import FileTemplateDownload from '../../components/FileTemplateDownload';
+import FileDragDrop from '../../components/FileDragDrop';
+// import useSWR from 'swr';
+// import MainPart from '../../components/MainPart';
+// import FileOperatePart from '../../components/FileOperatePart';
+// import { fetcher } from '../../hooks/fetcher';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -37,10 +44,10 @@ const InputRecordPage: NextPage = () => {
     useEffect(() => {
         setHost(new URL(window.location.href).origin);
     }, []);
-    const { data, error } = useSWR(
-        `${host}/api/githubRepos`,
-        fetcher
-    );
+    // const { data, error } = useSWR(
+    //     `${host}/api/githubRepos`,
+    //     fetcher
+    // );
 
     // タイトル・概要・詳細に関するフォームルールを取得
     const { control, register, handleSubmit, setValue, getValues, errors } = inputRecordForm();
@@ -61,7 +68,7 @@ const InputRecordPage: NextPage = () => {
         const sendInfo = {
             title: getValues().title,
             description: getValues().description,
-            githubRepo: getValues().githubRepo,
+            githubRepo: '',
             detail: detailInfo,
             finished: false,
             refs: getValues().reference
@@ -87,7 +94,7 @@ const InputRecordPage: NextPage = () => {
     }
 
     // ローディング中の表示
-    if (!data) {
+    if (!host) {
         return (
             <LoadingPart />
         );
@@ -106,13 +113,32 @@ const InputRecordPage: NextPage = () => {
                 {/* ページ見出し */}
                 <CommonHeadline headLine='記録追加' />
                 {/* ファイルアップロード・ダウンロード機能 */}
-                <FileOperatePart setValue={setValue} />
+                {/* <FileOperatePart setValue={setValue} /> */}
+                <FileTemplateDownload />
+                <FileDragDrop setValue={setValue} />
                 <Divider />
                 {/* 主な事項を記載する箇所 */}
                 {/* <MainPart
-                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} data={data} /> */}
+                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} /> */}
+                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
+                    <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
+                </Box>
+                <Grid2 container spacing={2} paddingLeft={4}>
+                    {/*題名・概要 */}
+                    <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
+                    <TextPart
+                        register={register} errors={errors} label={'title'} />
+                    <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
+                    <TextPart
+                        register={register} errors={errors} label={'description'} />
+                    {/* リポジトリ・詳細 */}
+                    {/* <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} /> */}
+                    {/* <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} /> */}
+                    <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
+                    <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
+                </Grid2>
                 {/* 参照リンクの記載箇所 */}
-                {/* <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} /> */}
+                <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                 {/* 送信 */}
                 <Stack direction='row' justifyContent='right' pb={4}>
                     <Button variant='contained' color='success' onClick={handleSubmit(d => sendRegisterInfo())}>

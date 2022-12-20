@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Bar, Line, Radar } from 'react-chartjs-2';
+import React from 'react'
+import { Line, } from 'react-chartjs-2';
 import { Chart, registerables } from "chart.js"
 import { Container } from '@material-ui/core';
-import { Stack, } from '@mui/material';
+import { Stack } from '@mui/material';
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import CommonMeta from '../../components/CommonMeta';
 import CommonHeadline from '../../components/CommonHeadline';
@@ -62,8 +62,14 @@ const chartPage: NextPage = () => {
         originalRecords,
     } = useRecord(`/api/recordChart`);
 
+    const currentDate = new Date().toLocaleDateString();
+    console.log(currentDate)
+    const yearMonth = currentDate.substring(0, 7);
+    console.log(yearMonth)
+
     // データがある場合に設定
     if (originalRecords) {
+        console.log(originalRecords);
         originalRecords.map((cntData, idx) => {
             if (idx == 0) {
                 targetYearMonth = cntData.targetYearMonth

@@ -306,6 +306,8 @@ const searchRecordPage: NextPage = () => {
             <Container fixed>
                 <MuiThemeProvider theme={theme}>
                     <TableContainer component={Paper}>
+                        {/* テーブルのページング機能 */}
+                        {tablePagingSetting()}
                         <Table>
                             <SelectableTableHead
                                 onSelectAllClick={toggleSelectedAll}
@@ -318,8 +320,6 @@ const searchRecordPage: NextPage = () => {
                                 {tableBody()}
                             </TableBody>
                         </Table>
-                        {/* テーブルのページング機能 */}
-                        {tablePagingSetting()}
                     </TableContainer>
                 </MuiThemeProvider>
             </Container>

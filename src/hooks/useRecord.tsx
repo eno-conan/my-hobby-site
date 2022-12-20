@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import useSWR from 'swr';
-import { Record } from '../../types';
 import { fetcher } from './fetcher';
 
 const useRecord = (path: string) => {

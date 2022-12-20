@@ -2,10 +2,11 @@ import React from 'react'
 import Head from 'next/head'
 
 // ページのタイトル（chromeタブの文言などを設定）
-const CommonMeta = ({ title = "Photo Application", description = "This is Photo Application!!!!" }) => {
+const CommonMeta = ({ title = "Eno Record App", description = "Eno Record App" }) => {
     return (
         <Head>
             <title>{title}</title>
+            <meta name="description" content={description} />
             <meta property="description" content={description} />
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />

@@ -15,10 +15,10 @@ interface Props {
     valueUseMarkdown: string;
     setValueUseMarkdown: React.Dispatch<
         React.SetStateAction<string>>;
-    data: any;
+    // data: any;
 }
 
-const MainPart = ({ register, errors, valueUseMarkdown, setValueUseMarkdown, data }: Props) => {
+const MainPart = ({ register, errors, valueUseMarkdown, setValueUseMarkdown }: Props) => {
 
     return (
         <>
@@ -34,8 +34,8 @@ const MainPart = ({ register, errors, valueUseMarkdown, setValueUseMarkdown, dat
                 <TextPart
                     register={register} errors={errors} label={'description'} />
                 {/* リポジトリ・詳細 */}
-                <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} />
-                <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} />
+                {/* <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} /> */}
+                {/* <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} /> */}
                 <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
                 <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
             </Grid2>
