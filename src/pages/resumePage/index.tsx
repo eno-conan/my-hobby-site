@@ -7,7 +7,9 @@ import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import CommonHeadline from '../../components/CommonHeadline';
 // import MyDoc from '../../components/MyDoc';
 import dynamic from "next/dynamic";
-const MyDoc = dynamic(() => import('../../components/MyDoc'));
+import loadable from '@loadable/component'
+// const MyDoc = dynamic(() => import('../../components/MyDoc'));
+const MyDoc = loadable(() => import('../../components/MyDoc'));
 
 // パンくずリストのための階層配列
 const subDirArr = ['resumePage']
