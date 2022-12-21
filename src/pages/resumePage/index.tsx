@@ -8,9 +8,9 @@ import CommonHeadline from '../../components/CommonHeadline';
 // import MyDoc from '../../components/MyDoc';
 import dynamic from "next/dynamic";
 import loadable from '@loadable/component'
-// const MyDoc = dynamic(() => import('../../components/MyDoc'));
+const MyDoc = dynamic(() => import('../../components/MyDoc'));
 // const MyDoc = loadable(() => import('../../components/MyDoc'));
-const MyDoc = lazy(() => import('../../components/MyDoc'));
+// const MyDoc = lazy(() => import('../../components/MyDoc'));
 const renderLoader = () => <p>Loading</p>;
 
 // パンくずリストのための階層配列
@@ -42,9 +42,9 @@ const ResumePage: NextPage = () => {
                         {/* <PDFDownloadLink document={<MyDoc />} fileName="test1.pdf">
                             {({ loading }) => (loading ? 'Loading document...' : 'クリックでPDFダウンロード')}
                         </PDFDownloadLink> */}
-                        <Suspense fallback={renderLoader()}>
-                            <MyDoc />
-                        </Suspense>
+                        {/* <Suspense fallback={renderLoader()}> */}
+                        <MyDoc />
+                        {/* </Suspense> */}
                     </Container>
                 </>
             )}
