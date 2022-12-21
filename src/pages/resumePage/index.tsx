@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import React, { useEffect, useState, lazy } from 'react'
+import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { Container } from '@material-ui/core';
 import { Stack } from '@mui/material';
 import CommonMeta from '../../components/CommonMeta';
@@ -11,6 +11,7 @@ import loadable from '@loadable/component'
 // const MyDoc = dynamic(() => import('../../components/MyDoc'));
 // const MyDoc = loadable(() => import('../../components/MyDoc'));
 const MyDoc = lazy(() => import('../../components/MyDoc'));
+const renderLoader = () => <p>Loading</p>;
 
 // パンくずリストのための階層配列
 const subDirArr = ['resumePage']
@@ -41,7 +42,9 @@ const ResumePage: NextPage = () => {
                         {/* <PDFDownloadLink document={<MyDoc />} fileName="test1.pdf">
                             {({ loading }) => (loading ? 'Loading document...' : 'クリックでPDFダウンロード')}
                         </PDFDownloadLink> */}
-                        <MyDoc />
+                        <Suspense fallback={renderLoader()}>
+                            <MyDoc />
+                        </Suspense>
                     </Container>
                 </>
             )}
