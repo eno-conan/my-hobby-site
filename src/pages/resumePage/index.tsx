@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy } from 'react'
 import { Container } from '@material-ui/core';
 import { Stack } from '@mui/material';
 import CommonMeta from '../../components/CommonMeta';
@@ -9,7 +9,8 @@ import CommonHeadline from '../../components/CommonHeadline';
 import dynamic from "next/dynamic";
 import loadable from '@loadable/component'
 // const MyDoc = dynamic(() => import('../../components/MyDoc'));
-const MyDoc = loadable(() => import('../../components/MyDoc'));
+// const MyDoc = loadable(() => import('../../components/MyDoc'));
+const MyDoc = lazy(() => import('../../components/MyDoc'));
 
 // パンくずリストのための階層配列
 const subDirArr = ['resumePage']
