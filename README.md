@@ -88,6 +88,13 @@ https://mui.com/material-ui/icons/
 - [22/12/18：作成してみた1](https://zenn.dev/furai_mountain/articles/5195f0820ea382)
 - [22/12/18：作成してみた2](https://qiita.com/kashimuuuuu/items/0d249be6bcea834c473c)
 
+### playWright
+- [22/12/25：testIdを設定する方法](https://www.codementor.io/@jesselangford472/testing-material-ui-forms-with-react-testing-library-1hkfj1yqap)
+- [22/12/25：チェックボックスにチェックする方法](https://testersdock.com/checkbox-playwright/)
+- [22/12/25：表示されている文言と比較する方法](https://www.cresco.co.jp/blog/entry/14335/)
+- [22/12/25：遷移先のURL確認をしたい](https://www.cresco.co.jp/blog/entry/20355/)
+- [22/12/25：遷移先のURL確認で正規表現を使いたい](https://www.programsbuzz.com/article/verify-url-playwright#regex-interface)
+
 ### others
 - [realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
 - [リンクを別タブで開く(Next13で挙動が変わったらしい)](https://qiita.com/syu_ikeda/items/86f6ad0ddfe8c5e1686b)

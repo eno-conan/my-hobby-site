@@ -14,6 +14,7 @@ const config: PlaywrightTestConfig = {
     outputDir: './playwright/test-results',
     // 'github' for GitHub Actions CI to generate annotations, plus a concise 'dot'
     // default 'list' when running locally
+    workers: 2,
     reporter: process.env.CI ? 'github' : 'list',
     use: {
         ...devices['Desktop Chrome'],

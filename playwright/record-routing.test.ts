@@ -1,35 +1,35 @@
 import { test, expect } from '@playwright/test';
 
 test('go to /', async ({ page }) => {
-  await page.goto('/');
+    await page.goto('/');
 
-  await page.waitForSelector(`text=Select Page`);
-  await page.waitForSelector(`text=Records List Page`);
-  await page.waitForSelector(`text=Line Chart`);
+    await page.waitForSelector(`text=Select Page`);
+    await page.waitForSelector(`text=Records List Page`);
+    await page.waitForSelector(`text=Line Chart`);
 });
 
 test('go to /inputRecordPage', async ({ page }) => {
-  await page.goto('/inputRecordPage');
+    await page.goto('/inputRecordPage');
 
-  await page.waitForSelector(`text=記録追加`);
+    await page.waitForSelector(`text=記録追加`);
 });
 
 test('go to /searchRecordPage', async ({ page }) => {
-  await page.goto('/searchRecordPage');
+    await page.goto('/searchRecordPage');
 
-  await page.waitForSelector(`text=記録検索`);
+    await page.waitForSelector(`text=記録検索`);
 });
 
-test('go to /targetRecordPage/1', async ({ page }) => {
-  const res = await page.goto('/targetRecordPage/1');
+test('go to /targetRecordPage/XXX FailCase', async ({ page }) => {
+    const res = await page.goto('/targetRecordPage/XXXXX');
 
-  await page.waitForSelector(`text=予期せぬエラーが発生しました`);
-  expect(res?.status()).toBe(200);
+    await page.waitForSelector(`text=予期せぬエラーが発生しました`);
+    expect(res?.status()).toBe(200);
 });
 
 test('test 404', async ({ page }) => {
-  const res = await page.goto('/post/not-found');
-  expect(res?.status()).toBe(404);
+    const res = await page.goto('/post/not-found');
+    expect(res?.status()).toBe(404);
 });
 
 // test('add a post', async ({ page, browser }) => {

@@ -190,7 +190,7 @@ const searchRecordPage: NextPage = () => {
                                         selected={isItemSelected}
                                     >
                                         <TableCell padding="checkbox">
-                                            <Checkbox checked={isItemSelected} />
+                                            <Checkbox checked={isItemSelected} data-testid="account-delete-confirm" />
                                         </TableCell>
                                         <TableCell>{row.title}</TableCell>
                                         <TableCell>{row.description}</TableCell>
