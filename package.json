@@ -9,8 +9,9 @@
     "lint": "next lint",
     "test": "jest -i --passWithNoTests",
     "studio": "npx prisma studio",
-    "vercel-build": "npx prisma generate && npx prisma db push && next build",
-    "prisma:generate": "prisma generate"
+    "vercel-build": "npx prisma generate && npx prisma db push && next build && npx playwright test",
+    "prisma:generate": "prisma generate",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.218.0",
@@ -73,6 +74,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.29.1",
     "@types/loadable__component": "^5.13.4",
     "@types/next": "^9.0.0",
     "@types/nprogress": "^0.2.0",
