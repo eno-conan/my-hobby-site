@@ -158,12 +158,12 @@ const searchRecordPage: NextPage = () => {
                 </Grid>
                 <Grid item xs={3}>
                     <Box pb={2}>
-                        <TextField id="outlined-basic" variant="outlined" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
+                        <TextField data-testid="search" placeholder='条件' id="outlined-basic" variant="outlined" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
                     </Box>
                 </Grid>
                 <Grid item xs={3}>
                     <Box pt={1}>
-                        <Button variant="contained" onClick={search} fullWidth={false} >検索</Button>
+                        <Button data-testid="send" variant="contained" onClick={search} fullWidth={false}>送信</Button>
                     </Box>
                 </Grid>
             </Grid>
@@ -190,9 +190,9 @@ const searchRecordPage: NextPage = () => {
                                         selected={isItemSelected}
                                     >
                                         <TableCell padding="checkbox">
-                                            <Checkbox checked={isItemSelected} data-testid="account-delete-confirm" />
+                                            <Checkbox checked={isItemSelected} data-testid="check-record" />
                                         </TableCell>
-                                        <TableCell>{row.title}</TableCell>
+                                        <TableCell title={row.title} id={row.title}>{row.title}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{arrangeDetail(row.detail)}</TableCell>
                                         <TableCell>{arrangeFinishedStatus(row.finished)}</TableCell>
@@ -219,9 +219,9 @@ const searchRecordPage: NextPage = () => {
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
-                                                <Checkbox checked={isItemSelected} />
+                                                <Checkbox checked={isItemSelected} data-testid="check-record" />
                                             </TableCell>
-                                            <TableCell>{row.title}</TableCell>
+                                            <TableCell title={row.title} id={row.title}>{row.title}</TableCell>
                                             <TableCell>{row.description}</TableCell>
                                             <TableCell>{arrangeDetail(row.detail)}</TableCell>
                                             <TableCell>{arrangeFinishedStatus(row.finished)}</TableCell>

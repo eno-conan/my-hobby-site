@@ -72,6 +72,7 @@ https://mui.com/material-ui/icons/
 - [22/12/10：単体試験](https://www.prisma.io/docs/guides/testing/unit-testing)
 - [22/12/11：prisma、orderBy](https://www.howtographql.com/typescript-helix/10-filtering-pagination-and-sorting/)
 - [22/12/11：orderByを使ったときに、型に関するエラーがでた](https://github.com/prisma/prisma/issues/11104)
+- [22/12/25：Object literal may only specify known properties, and 'x' does not exist in type (prisma)](https://stackoverflow.com/questions/74461808/object-literal-may-only-specify-known-properties-and-x-does-not-exist-in-type)
 
 ### markdown
 - [入力とプレビュー：22/12/04](https://qiita.com/t_okkan/items/0a3318f90ee6c4468f82#%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%80%E3%82%A6%[…]l%E3%81%AB%E5%A4%89%E6%8F%9B%E3%81%99%E3%82%8B)→これが一番よかった
@@ -94,6 +95,7 @@ https://mui.com/material-ui/icons/
 - [22/12/25：表示されている文言と比較する方法](https://www.cresco.co.jp/blog/entry/14335/)
 - [22/12/25：遷移先のURL確認をしたい](https://www.cresco.co.jp/blog/entry/20355/)
 - [22/12/25：遷移先のURL確認で正規表現を使いたい](https://www.programsbuzz.com/article/verify-url-playwright#regex-interface)
+- [22/12/25：idから値を取得する](https://github.com/microsoft/playwright/discussions/15198)
 
 ### others
 - [realTimeSearch](https://yutaro-blog.net/2022/03/21/react-search/#index_id0)
