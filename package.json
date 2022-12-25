@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test": "jest -i --passWithNoTests",
     "studio": "npx prisma studio",
-    "vercel-build": "npx prisma generate && npx prisma db push && next build && npx playwright test",
+    "vercel-build": "npx prisma generate && npx prisma db push && next build && npx playwright install && npx playwright test",
     "prisma:generate": "prisma generate",
     "test:e2e": "playwright test"
   },
