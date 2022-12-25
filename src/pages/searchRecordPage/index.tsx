@@ -158,7 +158,7 @@ const searchRecordPage: NextPage = () => {
                 </Grid>
                 <Grid item xs={3}>
                     <Box pb={2}>
-                        <TextField data-testid="search" placeholder='条件' id="outlined-basic" variant="outlined" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
+                        <TextField data-testid="search" label='条件' placeholder='条件' variant="outlined" value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
                     </Box>
                 </Grid>
                 <Grid item xs={3}>
