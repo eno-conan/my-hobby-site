@@ -25,6 +25,7 @@ https://mui.com/material-ui/icons/
 - [22/12/20:Dynamic Importについて1](https://nishinatoshiharu.com/overview-next-dynamic-import/#dynamic_import)
 - [22/12/20:Dynamic Importについて1](https://tech.012grp.co.jp/entry/next_dynamicImport)
 - [22/12/20:Advanced Features/Dynamic Import](https://zenn.dev/unreact/articles/nextjs-advanced-features-dynamic-import-jp)
+- [22/12/29:export default とexport constの違い](https://qiita.com/toknr/items/9b32ce5a9f61af3bb6b4)
 
 ### Material UI
 - [Headerを共通化](https://www.to-r.net/media/next-meta-tags/)
@@ -53,6 +54,9 @@ https://mui.com/material-ui/icons/
 - [fetchのエラーハンドリング](https://zenn.dev/junki555/articles/4ab67fc78ce64c)
 - [fetchの戻り値を取得する](https://ja.javascript.info/fetch)
 - [22/12/17：SWRの仕組みについて（他ページも参考になりそうなものあり）](https://swr.vercel.app/docs/advanced/understanding)
+
+### msw
+- [mockServerの定義](https://github.com/mswjs/msw/issues/1227)
 
 ### Zod
 - [Zodユースケース](https://zenn.dev/kaz_z/articles/how-to-use-zod)
