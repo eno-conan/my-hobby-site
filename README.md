@@ -93,6 +93,9 @@ https://mui.com/material-ui/icons/
 - [22/12/18：作成してみた1](https://zenn.dev/furai_mountain/articles/5195f0820ea382)
 - [22/12/18：作成してみた2](https://qiita.com/kashimuuuuu/items/0d249be6bcea834c473c)
 
+### vitest
+- [22/12/29：Viteを利用したテストツールVitestの利用を始める](https://qiita.com/KokiSakano/items/f23e979004f72d70165e)
+
 ### playWright
 - [22/12/25：testIdを設定する方法](https://www.codementor.io/@jesselangford472/testing-material-ui-forms-with-react-testing-library-1hkfj1yqap)
 - [22/12/25：チェックボックスにチェックする方法](https://testersdock.com/checkbox-playwright/)
