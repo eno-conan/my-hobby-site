@@ -75,7 +75,7 @@
   "devDependencies": {
     "@playwright/test": "^1.29.1",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^12.1.2",
     "@types/loadable__component": "^5.13.4",
     "@types/next": "^9.0.0",
     "@types/nprogress": "^0.2.0",
