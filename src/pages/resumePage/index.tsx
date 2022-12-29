@@ -5,8 +5,9 @@ import { Stack } from '@mui/material';
 import CommonMeta from '../../components/CommonMeta';
 import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import CommonHeadline from '../../components/CommonHeadline';
+import MyDoc from '../../components/MyDoc';
 import dynamic from "next/dynamic";
-const MyDoc = dynamic(() => import('../../components/MyDoc'));
+// const MyDoc = dynamic(() => import('../../components/MyDoc'));
 
 // パンくずリストのための階層配列
 const subDirArr = ['resumePage']
