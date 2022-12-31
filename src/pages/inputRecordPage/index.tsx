@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Box, Container, Divider } from '@material-ui/core'
+import { Box, Container, Divider, Grid } from '@material-ui/core'
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { experimentalStyled as styled } from '@mui/material/styles';
@@ -21,8 +21,8 @@ import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALU
 import DetailPart from '../../components/DetailPart';
 import FileTemplateDownload from '../../components/FileTemplateDownload';
 import FileDragDrop from '../../components/FileDragDrop';
+import { ErrorMessage } from '@hookform/error-message';
 // import useSWR from 'swr';
-// import FileOperatePart from '../../components/FileOperatePart';
 // import { fetcher } from '../../hooks/fetcher';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -99,41 +99,69 @@ const InputRecordPage: NextPage = () => {
         );
     }
 
+    // タイトル・概要・詳細記載箇所
+    const titleDescriptionDetailArea = () => {
+        return (
+            <>
+                <Grid2 container spacing={2} paddingLeft={4}>
+                    <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
+                    <Grid2 xs={12} md={12}>
+                        {/*題名・概要 */}
+                        <TextPart
+                            register={register} label={'title'} />
+                        <Box sx={{ bgcolor: 'error.main', borderRadius: 2 }}>
+                            <ErrorMessage errors={errors} name={'title'} />
+                        </Box>
+                    </Grid2>
+                    <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
+                    <Grid2 xs={12} md={12}>
+                        <TextPart
+                            register={register} label={'description'} />
+                        <Box sx={{ bgcolor: 'error.main', borderRadius: 2 }}>
+                            <ErrorMessage errors={errors} name={'description'} />
+                        </Box>
+                    </Grid2>
+                    {/* リポジトリ */}
+                    {/* <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} /> */}
+                    {/* <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} /> */}
+                    {/* 詳細 */}
+                    <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
+                    <Grid2 xs={12} md={12}>
+                        <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
+                    </Grid2>
+                </Grid2>
+            </>
+        )
+    }
+
+    {/* ファイルアップロード・ダウンロード機能 */ }
+    const fileUploadDownloadArea = () => {
+        return (
+            <>
+                <FileTemplateDownload />
+                <FileDragDrop setValue={setValue} />
+            </>
+        )
+    }
+
     return (
         <>
             <Container maxWidth='md'>
                 {/* メタ情報の設定 */}
                 <CommonMeta title={'記録追加'} />
+                {/* パンくずリスト */}
                 <Stack pt={4}>
-                    {/* パンくずリスト */}
                     <CommonBreadcrumbs subDirArr={subDirArr} />
                 </Stack>
-                {/* フォントサイズと見出しかどうかの引数設定して、FieldNamePartで統一できないか */}
                 {/* ページ見出し */}
                 <CommonHeadline headLine='記録追加' />
-                {/* ファイルアップロード・ダウンロード機能 */}
-                {/* <FileOperatePart setValue={setValue} /> */}
-                <FileTemplateDownload />
-                <FileDragDrop setValue={setValue} />
+                {fileUploadDownloadArea()}
                 <Divider />
-                {/* 主な事項を記載する箇所 */}
+                {/* 主要項目記載 */}
                 <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
                     <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
                 </Box>
-                <Grid2 container spacing={2} paddingLeft={4}>
-                    {/*題名・概要 */}
-                    <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
-                    <TextPart
-                        register={register} errors={errors} label={'title'} />
-                    <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
-                    <TextPart
-                        register={register} errors={errors} label={'description'} />
-                    {/* リポジトリ・詳細 */}
-                    {/* <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} /> */}
-                    {/* <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} /> */}
-                    <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
-                    <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
-                </Grid2>
+                {titleDescriptionDetailArea()}
                 {/* 参照リンクの記載箇所 */}
                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                 {/* 送信 */}

@@ -8,31 +8,26 @@ import { ErrorMessage } from '@hookform/error-message';
 
 interface Props {
     register: UseFormRegister<RecordForm>;
-    errors: Partial<FieldErrorsImpl<RecordForm>>
+    // errors: Partial<FieldErrorsImpl<RecordForm>>;
     label: any;
 }
 
 
-const TextPart = ({ register, errors, label }: Props) => {
+const TextPart = ({ register, label }: Props) => {
 
     return (
         <>
-            <Grid2 xs={12} md={12}>
-                <Box component='span'>
-                    <TextField
-                        variant='outlined'
-                        fullWidth
-                        id={label}
-                        multiline
-                        // label={label}
-                        {...register(label)}
-                    >
-                    </TextField>
-                </Box>
-                <Box sx={{ bgcolor: 'error.main', borderRadius: 2 }}>
-                    <ErrorMessage errors={errors} name={label} />
-                </Box>
-            </Grid2>
+            <Box component='span'>
+                <TextField
+                    variant='outlined'
+                    fullWidth
+                    id={label}
+                    multiline
+                    // label={label}
+                    {...register(label)}
+                >
+                </TextField>
+            </Box>
         </>
     );
 }

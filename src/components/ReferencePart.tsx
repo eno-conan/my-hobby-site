@@ -26,7 +26,7 @@ const ReferencePart = ({ register, errors, fields, append, remove }: Props) => {
                 <Grid2 xs={5} alignItems='left'>
                     <Box component='span'>
                         <TextField
-                            label='linkTitle'
+                            // label='linkTitle'
                             variant='outlined'
                             fullWidth
                             {...register(`reference.${index}.linkTitle`)} />
@@ -36,7 +36,7 @@ const ReferencePart = ({ register, errors, fields, append, remove }: Props) => {
                 <Grid2 xs={6} alignItems='left'>
                     <Box component='span'>
                         <TextField
-                            label='linkUrl'
+                            // label='linkUrl'
                             variant='outlined'
                             fullWidth
                             {...register(`reference.${index}.linkUrl`)} />

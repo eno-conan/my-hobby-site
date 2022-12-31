@@ -6,7 +6,7 @@ const RefInfo = z.object({
     linkTitle: z.string().max(200),
     linkUrl: z.string().max(200),
 })
-const schema = z.object({
+export const schema = z.object({
     title: z.string().min(1, '最低1文字は入力してください').max(100, '最大100文字です'),
     description: z.string().min(1, '最低1文字は入力してください').max(300, '最大300文字です'),
     githubRepo: z.string().max(100).or(z.literal('')),
@@ -28,7 +28,7 @@ export interface RecordForm {
 }
 
 const inputRecordForm = () => {
-    const { register, handleSubmit, getValues, setValue, formState: { errors }, control, reset, setFocus } = useForm<RecordForm>({
+    const { register, handleSubmit, getValues, setValue, formState: { errors }, control } = useForm<RecordForm>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: { title: '', description: '', githubRepo: '', detail: '', reference: [] },

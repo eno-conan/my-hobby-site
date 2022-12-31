@@ -44,7 +44,7 @@ const DetailPart = ({ register, errors, valueUseMarkdown, setValueUseMarkdown }:
                 :
                 <>
                     <TextPart
-                        register={register} errors={errors} label={'detail'} />
+                        register={register} label={'detail'} />
                 </>
             }
         </>
