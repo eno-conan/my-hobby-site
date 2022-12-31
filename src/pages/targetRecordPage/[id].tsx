@@ -8,11 +8,9 @@ import Link from 'next/link';
 import MuiLink from "@material-ui/core/Link";
 import inputRecordForm from '../../hooks/inputRecordForm';
 import { useFieldArray } from 'react-hook-form';
-import MainPart from '../../components/MainPart';
 import ReferencePart from '../../components/ReferencePart';
 import Button from '@mui/material/Button';
 import useSWR from 'swr';
-import { fetcher } from '../../hooks/fetcher';
 import Router from "next/router";
 import SentPart from '../../components/SentPart';
 import sendRecord from '../../hooks/sendRecord';
@@ -23,6 +21,9 @@ import xss from "xss";
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, FINISHED_STATUS_VALUE, GITHUB_REPO_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, NO_REFER_LINK_DISPLAY_VALUE, REFER_LINK_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
+import FieldNamePart from '../../components/FieldNamePart';
+import TextPart from '../../components/TextPart';
+import DetailPart from '../../components/DetailPart';
 
 // パンくずリストのための階層配列
 const subDirArr = ['searchRecordPage', 'targetRecordPage']
@@ -172,8 +173,23 @@ const TargetRecord: NextPage = (props: any) => {
         return (
             <>
                 {/* 主な事項を記載する箇所 */}
-                <MainPart
-                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
+                <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
+                    <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
+                </Box>
+                <Grid2 container spacing={2} paddingLeft={4}>
+                    {/*題名・概要 */}
+                    <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
+                    <TextPart
+                        register={register} errors={errors} label={'title'} />
+                    <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
+                    <TextPart
+                        register={register} errors={errors} label={'description'} />
+                    {/* リポジトリ・詳細 */}
+                    {/* <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} /> */}
+                    {/* <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} /> */}
+                    <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
+                    <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
+                </Grid2>
                 {/* 参照リンクの記載箇所 */}
                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />
                 {/* 送信 */}

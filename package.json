@@ -11,8 +11,8 @@
     "vercel-build": "npx prisma generate && npx prisma db push && next build",
     "vercel-build-test-e2e": "npx prisma generate && npx prisma db push && next build && npx playwright install && npx playwright test",
     "prisma:generate": "prisma generate",
-    "test": "jest -i --passWithNoTests",
-    "vitest": "vitest -w --coverage",
+    "test:jest": "jest -i --passWithNoTests",
+    "test:vitest": "vitest -w --coverage",
     "test:e2e": "playwright test"
   },
   "dependencies": {

@@ -8,8 +8,28 @@ import LoadingPart from "./LoadingPart";
 //     CircularProgress: jest.fn(() => <div>HELLOOOOOO</div>),
 // }));
 
+// vi.mock('@mui/material', async () => {
+//     const actual = await vi.importActual("@mui/material")
+//     return {
+//         // ...actual,
+//         Container: vi.fn(() => <div>Container</div>),
+//         Grid: vi.fn(() => <div>Grid</div>),
+//         CircularProgress: vi.fn(() => <div>CircularProgress</div>),
+//     }
+// });
+
+{/* <body>
+  <div>
+    <div>
+      <div>
+        Container
+      </div>
+    </div>
+  </div>
+</body> */}
+
 describe("LoadingPart Component Test", () => {
-    it("render and init literal", () => {
+    it("初期表示", () => {
         render(<LoadingPart />);
         expect(screen.getByText("Loading...")).toBeInTheDocument();
         // expect(screen.getByText('HELLOOOOOO')).toBeInTheDocument();

@@ -22,7 +22,6 @@ import DetailPart from '../../components/DetailPart';
 import FileTemplateDownload from '../../components/FileTemplateDownload';
 import FileDragDrop from '../../components/FileDragDrop';
 // import useSWR from 'swr';
-// import MainPart from '../../components/MainPart';
 // import FileOperatePart from '../../components/FileOperatePart';
 // import { fetcher } from '../../hooks/fetcher';
 
@@ -118,8 +117,6 @@ const InputRecordPage: NextPage = () => {
                 <FileDragDrop setValue={setValue} />
                 <Divider />
                 {/* 主な事項を記載する箇所 */}
-                {/* <MainPart
-                    register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} /> */}
                 <Box sx={{ color: 'primary.success', pl: 2 }} fontSize={20}>
                     <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
                 </Box>
