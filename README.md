@@ -95,6 +95,7 @@ https://mui.com/material-ui/icons/
 
 ### vitest
 - [22/12/29：Viteを利用したテストツールVitestの利用を始める](https://qiita.com/KokiSakano/items/f23e979004f72d70165e)
+- [22/12/31：SetStateActionをどのようにMock化けるするか](https://kumaaaaa.com/react-testing/)
 
 ### playWright
 - [22/12/25：testIdを設定する方法](https://www.codementor.io/@jesselangford472/testing-material-ui-forms-with-react-testing-library-1hkfj1yqap)
