@@ -25,13 +25,13 @@ vi.mock('@mui/material', async () => {
 
 describe("TextPart Component Test", () => {
     test.todo('setFinished SetStateAction should be mock')
-    const props = {
-        register: vi.fn(),
-        errors: vi.fn(),
-        label: 'Test',
-    }
-    it("初期表示", () => {
-        render(<TextPart register={props.register} label={props.label} />);
-        expect(screen.getByText("送信完了しました")).toBeInTheDocument();
-    });
+    // const props = {
+    //     register: vi.fn(),
+    //     errors: vi.fn(),
+    //     label: 'Test',
+    // }
+    // it("初期表示", () => {
+    //     render(<TextPart register={props.register} label={props.label} />);
+    //     expect(screen.getByText("送信完了しました")).toBeInTheDocument();
+    // });
 });
