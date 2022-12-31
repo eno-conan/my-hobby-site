@@ -24,6 +24,7 @@ import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, FINISHED_STATUS_VALUE,
 import FieldNamePart from '../../components/FieldNamePart';
 import TextPart from '../../components/TextPart';
 import DetailPart from '../../components/DetailPart';
+import { ErrorMessage } from '@hookform/error-message';
 
 // パンくずリストのための階層配列
 const subDirArr = ['searchRecordPage', 'targetRecordPage']
@@ -179,14 +180,22 @@ const TargetRecord: NextPage = (props: any) => {
                 <Grid2 container spacing={2} paddingLeft={4}>
                     {/*題名・概要 */}
                     <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
-                    <TextPart
-                        register={register} errors={errors} label={'title'} />
+                    <Grid2 xs={12} md={12}>
+                        {/*題名・概要 */}
+                        <TextPart
+                            register={register} label={'title'} />
+                        <Box sx={{ bgcolor: 'error.main', borderRadius: 2 }}>
+                            <ErrorMessage errors={errors} name={'title'} />
+                        </Box>
+                    </Grid2>
                     <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
-                    <TextPart
-                        register={register} errors={errors} label={'description'} />
-                    {/* リポジトリ・詳細 */}
-                    {/* <FieldNamePart fieldName={GITHUB_REPO_DISPLAY_VALUE} /> */}
-                    {/* <PulldownPart label={'githubRepo'} register={register} errors={errors} data={data} /> */}
+                    <Grid2 xs={12} md={12}>
+                        <TextPart
+                            register={register} label={'description'} />
+                        <Box sx={{ bgcolor: 'error.main', borderRadius: 2 }}>
+                            <ErrorMessage errors={errors} name={'description'} />
+                        </Box>
+                    </Grid2>
                     <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
                     <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
                 </Grid2>
