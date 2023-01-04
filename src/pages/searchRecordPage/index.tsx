@@ -39,8 +39,8 @@ const theme = createTheme({
 let originalRecordsSample: any[] = []
 
 const headCells: HeadCell[] = [
-    { id: 'title', label: TITLE_DISPLAY_VALUE.split('(')[0] },
-    { id: 'description', label: DESCRIPTION_DISPLAY_VALUE.split('(')[0] },
+    { id: 'title', label: TITLE_DISPLAY_VALUE },
+    { id: 'description', label: DESCRIPTION_DISPLAY_VALUE },
     { id: 'detail', label: DETAIL_DISPLAY_VALUE },
     { id: 'finished', label: FINISHED_STATUS_VALUE },
     { id: 'updated_at', label: LAST_UPDATED_DISPLAY_VALUE },

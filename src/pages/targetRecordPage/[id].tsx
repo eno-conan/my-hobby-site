@@ -20,7 +20,7 @@ import { marked } from "marked";
 import xss from "xss";
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { FormControlLabel, FormGroup, Switch } from '@mui/material'
-import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, FINISHED_STATUS_VALUE, GITHUB_REPO_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, NO_REFER_LINK_DISPLAY_VALUE, REFER_LINK_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
+import { DESCRIPTION_DISPLAY_VALUE, DESCRIPTION_LITERAL_LENGTH, DETAIL_DISPLAY_VALUE, FINISHED_STATUS_VALUE, GITHUB_REPO_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, NO_REFER_LINK_DISPLAY_VALUE, REFER_LINK_DISPLAY_VALUE, TITLE_DISPLAY_VALUE, TITLE_LITERAL_LENGTH } from '../../consts/inputField';
 import FieldNamePart from '../../components/FieldNamePart';
 import TextPart from '../../components/TextPart';
 import DetailPart from '../../components/DetailPart';
@@ -132,7 +132,7 @@ const TargetRecord: NextPage = (props: any) => {
                             <h3>{MAIN_ITEM_DISPLAY_VALUE}</h3>
                         </Box>
                     </Grid>
-                    {viewItem(TITLE_DISPLAY_VALUE.split('(')[0], info.title)}
+                    {viewItem(TITLE_DISPLAY_VALUE, info.title)}
                     {viewItem(DESCRIPTION_DISPLAY_VALUE.split('(')[0], info.description)}
                     {viewItem(GITHUB_REPO_DISPLAY_VALUE.split('(')[0], info.githubRepo)}
                     {viewItemForDetail(DETAIL_DISPLAY_VALUE, info.detail, true)}
@@ -179,7 +179,7 @@ const TargetRecord: NextPage = (props: any) => {
                 </Box>
                 <Grid2 container spacing={2} paddingLeft={4}>
                     {/*題名・概要 */}
-                    <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
+                    <FieldNamePart fieldName={`${TITLE_DISPLAY_VALUE}${TITLE_LITERAL_LENGTH}`} />
                     <Grid2 xs={12} md={12}>
                         {/*題名・概要 */}
                         <TextPart
@@ -188,7 +188,7 @@ const TargetRecord: NextPage = (props: any) => {
                             <ErrorMessage errors={errors} name={'title'} />
                         </Box>
                     </Grid2>
-                    <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
+                    <FieldNamePart fieldName={`${TITLE_DISPLAY_VALUE}${DESCRIPTION_LITERAL_LENGTH}`} />
                     <Grid2 xs={12} md={12}>
                         <TextPart
                             register={register} label={'description'} />
@@ -197,7 +197,9 @@ const TargetRecord: NextPage = (props: any) => {
                         </Box>
                     </Grid2>
                     <FieldNamePart fieldName={DETAIL_DISPLAY_VALUE} />
-                    <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
+                    <Grid2 xs={12} md={12}>
+                        <DetailPart register={register} errors={errors} valueUseMarkdown={valueUseMarkdown} setValueUseMarkdown={setValueUseMarkdown} />
+                    </Grid2>
                 </Grid2>
                 {/* 参照リンクの記載箇所 */}
                 <ReferencePart register={register} errors={errors} fields={fields} append={append} remove={remove} />

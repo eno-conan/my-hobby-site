@@ -17,7 +17,7 @@ import CommonBreadcrumbs from '../../components/CommonBreadcrumbs';
 import FieldNamePart from '../../components/FieldNamePart';
 import TextPart from '../../components/TextPart';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import { DESCRIPTION_DISPLAY_VALUE, DETAIL_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, TITLE_DISPLAY_VALUE } from '../../consts/inputField';
+import { DESCRIPTION_DISPLAY_VALUE, DESCRIPTION_LITERAL_LENGTH, DETAIL_DISPLAY_VALUE, MAIN_ITEM_DISPLAY_VALUE, TITLE_DISPLAY_VALUE, TITLE_LITERAL_LENGTH } from '../../consts/inputField';
 import DetailPart from '../../components/DetailPart';
 import FileTemplateDownload from '../../components/FileTemplateDownload';
 import FileDragDrop from '../../components/FileDragDrop';
@@ -104,7 +104,7 @@ const InputRecordPage: NextPage = () => {
         return (
             <>
                 <Grid2 container spacing={2} paddingLeft={4}>
-                    <FieldNamePart fieldName={TITLE_DISPLAY_VALUE} />
+                    <FieldNamePart fieldName={`${TITLE_DISPLAY_VALUE}${TITLE_LITERAL_LENGTH}`} />
                     <Grid2 xs={12} md={12}>
                         {/*題名・概要 */}
                         <TextPart
@@ -113,7 +113,7 @@ const InputRecordPage: NextPage = () => {
                             <ErrorMessage errors={errors} name={'title'} />
                         </Box>
                     </Grid2>
-                    <FieldNamePart fieldName={DESCRIPTION_DISPLAY_VALUE} />
+                    <FieldNamePart fieldName={`${DESCRIPTION_DISPLAY_VALUE}${DESCRIPTION_LITERAL_LENGTH}`} />
                     <Grid2 xs={12} md={12}>
                         <TextPart
                             register={register} label={'description'} />
