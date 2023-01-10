@@ -1,8 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Credentials } from "aws-sdk";
-import { Upload } from "@aws-sdk/lib-storage";
-import { S3Client } from "@aws-sdk/client-s3";
 import { useForm, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { Box, Grid } from '@material-ui/core'
 import Grid2 from '@mui/material/Unstable_Grid2';
