@@ -5,6 +5,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 https://mui.com/material-ui/icons/
 - [ESLintを無視(next.config.jsに記載)](https://nextjs.org/docs/api-reference/next.config.js/ignoring-eslint)
 - [react-form-errorMessage表示](https://react-hook-form.com/api/useformstate/errormessage)
+- [23/01/10：devdependency vs dependency](https://prograshi.com/framework/nodejs/dependencies-and-devdependencies-in-package-json/)
 
 ### React・Next
 - [1度だけ変更されるstateにはuseStateよりuseReducerを使う](https://zenn.dev/spacemarket/articles/9eb80496fa5fe6?s=09)
