@@ -16,8 +16,6 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.218.0",
-    "@aws-sdk/lib-storage": "^3.218.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@hookform/error-message": "^2.0.1",
@@ -35,12 +33,9 @@
     "@types/react": "17.0.2",
     "@types/react-dom": "17.0.2",
     "@types/styled-components": "^5.1.26",
-    "aws-sdk": "^2.1265.0",
     "axios": "^1.2.0",
     "date-fns-timezone": "^0.1.4",
     "easymde": "^2.18.0",
-    "eslint": "8.28.0",
-    "eslint-config-next": "13.0.5",
     "highlight.js": "^11.7.0",
     "marked": "^4.2.3",
     "material-table-next": "^1.1.10",
@@ -91,6 +86,8 @@
     "prisma": "^4.8.0",
     "ts-jest": "^29.0.3",
     "vitest": "^0.26.2",
-    "whatwg-fetch": "^3.6.2"
+    "whatwg-fetch": "^3.6.2",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5"
   }
 }

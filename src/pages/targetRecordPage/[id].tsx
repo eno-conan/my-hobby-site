@@ -188,7 +188,7 @@ const TargetRecord: NextPage = (props: any) => {
                             <ErrorMessage errors={errors} name={'title'} />
                         </Box>
                     </Grid2>
-                    <FieldNamePart fieldName={`${TITLE_DISPLAY_VALUE}${DESCRIPTION_LITERAL_LENGTH}`} />
+                    <FieldNamePart fieldName={`${DESCRIPTION_DISPLAY_VALUE}${DESCRIPTION_LITERAL_LENGTH}`} />
                     <Grid2 xs={12} md={12}>
                         <TextPart
                             register={register} label={'description'} />
